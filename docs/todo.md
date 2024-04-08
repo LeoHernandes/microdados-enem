@@ -1,5 +1,5 @@
 ## Pesquisa
-- [ ] Ler `ENEM - Procedimentos de Análise`
+- [x] Ler `ENEM - Procedimentos de Análise`
 - [ ] Ler `ENEM - Entenda a sua nota`
 - [ ] Ler `A Brief History of Item Response Theory`
 - [ ] Ler `The Basics of Item Response Thoery`
