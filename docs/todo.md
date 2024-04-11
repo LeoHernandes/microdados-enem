@@ -5,6 +5,8 @@
 - [ ] Ler `The Basics of Item Response Thoery`
 - [ ] Pesquisar sobre `Bilog-MG`
 - [ ] Analisar ferramenta criada pelo mestrando Jorge Luiz Dias de Frias
+  - [ ] Ler o artigo sobre a ferramenta
+  - [ ] Conseguir acesso à ferramenta
 
 ## Implementação
 - [ ] Organizar dados em SQLServer
