@@ -46,3 +46,17 @@ O novo ENEM (a partir de 2009) tem o objetivo de ser uma forma de ingresso em fa
 Sobre o método da TRI, a proficiência do aluno está na mesma escala que a dificuldade do item, portanto é possível compará-las quase que diretamente. O aluno inicia com sua proficiência no valor de 500 e enfrenta um teste no qual as questões já possuem uma dificuldade. Espera-se que o aluno acerte todas as questões de dificuldade abaixo de sua proficiência, ou seja, mesmo que o aluno acerte várias questões difíceis, ele precisa acertar as fáceis primeiro para elevar sua proficiência. Isso não quer dizer é possível perder nota ao acertar uma questão difícil ao acaso, mas ela não valerá tanto dependendo do traço latente do aluno naquele momento. O teste sempre tenta maximizar a proficiência do aluno frente aos acertos e erros que cometeu na prova.
 
 Simplificando, existem dois tipos de comportamentos de corpos escolares perante os resultados do ENEM, os quais o INEP divulga como a média simples dos alunos numa determinada área de conhecimento. Há escolas que usam a nota média unicamente para publicidade, juntamente com uma pressão da sociedade para descobrir as melhores instituições para seus filhos estudarem, o que comprova a existência de uma visão distorcido de como o ENEM funciona e do significado das notas. Entretanto, há escolas que desejam analisar os dados individualmente para entender quais as áreas que estão ficando defasadas no ensino, planejando dessa forma melhorias pontuais nos processos pedagógicos.
+
+O foco do trabalho foram alunos do Rio de Janeiro do Colégio Israelita Brasileiro A. Liessin, que pode ser identificado pelo número do estabelecimento no **Educacenso**. O objetivo pedagógico na análise dos dados era, para cada área do conhecimento: 
+
+- Verificar o desempenho de cada aluno
+- Verificar quais questões foram acertadas
+- Como reagiram os 
+alunos frente às habilidades que foram apresentadas nas provas
+- Como foi o 
+aproveitamento em redação
+- Como os alunos se distribuíram em relação às suas notas
+
+Com isso em mãos, o professor deseja entender quais área devem ser fortalecidas no colégio, comparar diferentes turmas do terceiro ano dentro do Colégio Israelita e seu desempenho perante os dados do estado do Rio de Janeiro para avaliar a efetividade de diferentes estratégias pedagógicas.
+
+Esse escopo do trabalho facilita o tratamento dos dados, uma vez que o arquivo com apenas os dados do Estado do RJ é muito menos custoso para processar se comparado com o arquivo original.
