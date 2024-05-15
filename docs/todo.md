@@ -7,5 +7,5 @@
 - [ ] Definir escopo
 - [ ] Pesquisa de requisitos com professores
 - [ ] Organizar dados
-  - [ ] Compreender melhor formato dos dados
-  - [ ] Estudar forma eficiente de carregar os dados
+  - [x] Compreender melhor formato dos dados
+  - [ ] Analisar viabilidade do uso de `sqlite`
