@@ -1,11 +1,7 @@
 ## Pesquisa
-- [x] Ler `ENEM - Procedimentos de Análise`
-- [x] Ler `ENEM - Entenda a sua nota`
-- [x] Analisar ferramenta criada pelo mestrando Jorge Luiz Dias de Frias
-
-## Implementação
-- [ ] Definir escopo
-- [ ] Pesquisa de requisitos com professores
-- [ ] Organizar dados
-  - [ ] Compreender melhor formato dos dados
-  - [ ] Estudar forma eficiente de carregar os dados
+- [ ] Requisitos de acordo com professores
+  1. Alguma ideia que já tenha? Caso contrário, segue roteiro de perguntas
+  2. Como os dados afetam a forma de ensino? O que poderia mudar na metologia pedagógica de acordo com os dados?
+  3. A ferramenta também seria útil para os alunos, os dados precisariam sempre ser apresentados por intermédio de um professor?  
+  4. Faria alguma diferença ter dados demográficos (idade, gêneri...) no aplicativo?
+  5. Faria alguma diferença significativa ter uma sinopse (análise estatística) geral do enem no aplicativo? 

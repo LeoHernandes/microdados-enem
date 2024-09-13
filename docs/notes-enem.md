@@ -51,10 +51,8 @@ O foco do trabalho foram alunos do Rio de Janeiro do Colégio Israelita Brasilei
 
 - Verificar o desempenho de cada aluno
 - Verificar quais questões foram acertadas
-- Como reagiram os 
-alunos frente às habilidades que foram apresentadas nas provas
-- Como foi o 
-aproveitamento em redação
+- Como reagiram os alunos frente às habilidades que foram apresentadas nas provas
+- Como foi o aproveitamento em redação
 - Como os alunos se distribuíram em relação às suas notas
 
 Com isso em mãos, o professor deseja entender quais área devem ser fortalecidas no colégio, comparar diferentes turmas do terceiro ano dentro do Colégio Israelita e seu desempenho perante os dados do estado do Rio de Janeiro para avaliar a efetividade de diferentes estratégias pedagógicas.
