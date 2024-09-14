@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microdados.Enem.API", "Core\Microdados.Enem.API.csproj", "{9F8A6700-2C01-482D-ADEA-094ED6008A64}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{6CDBC892-87F4-4FA0-8535-F6A382814405}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,9 +14,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9F8A6700-2C01-482D-ADEA-094ED6008A64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F8A6700-2C01-482D-ADEA-094ED6008A64}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F8A6700-2C01-482D-ADEA-094ED6008A64}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F8A6700-2C01-482D-ADEA-094ED6008A64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CDBC892-87F4-4FA0-8535-F6A382814405}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CDBC892-87F4-4FA0-8535-F6A382814405}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CDBC892-87F4-4FA0-8535-F6A382814405}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CDBC892-87F4-4FA0-8535-F6A382814405}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

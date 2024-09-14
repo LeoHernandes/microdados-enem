@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Microdados.Enem.API.DbData
+namespace Core.DbData
 {
 
     public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)

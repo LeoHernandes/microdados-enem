@@ -1,4 +1,4 @@
-using Microdados.Enem.API.DbData;
+using Core.DbData;
 using Microsoft.EntityFrameworkCore;
 
 internal class Program
@@ -10,10 +10,12 @@ internal class Program
         builder.Services.AddControllers();
         builder.Services.AddCors();
 
-        builder.Services.AddDbContext<AppDbContext>((provider, options) =>
+        builder.Services.AddDbContext<AppDbContext>(options =>
         {
-            options.UseSqlite("Data Source={/home/leo/git/microdados-enem/test.db}"); // <-- get this from env (options)
+            options.UseSqlite("Data Source=/home/leo/git/microdados-enem/Microdados.Enem.Api/Database/test.db;Mode=ReadWrite;"); // <-- get this from env (options)
         });
+
+        // builder.Services.AddSqlite
 
         var app = builder.Build();
 
