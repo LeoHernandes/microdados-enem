@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Microdados.Enem.Api.Core.Controllers
+namespace Microdados.Enem.Api.Controllers
 {
     [ApiController]
     public class HealthController : ControllerBase
