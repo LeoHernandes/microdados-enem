@@ -15,8 +15,6 @@ internal class Program
             options.UseSqlite("Data Source=/home/leo/git/microdados-enem/Microdados.Enem.Api/Database/test.db;Mode=ReadWrite;"); // <-- get this from env (options)
         });
 
-        // builder.Services.AddSqlite
-
         var app = builder.Build();
 
         app.UseRouting();

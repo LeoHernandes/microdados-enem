@@ -5,7 +5,10 @@ namespace Core.DbData
         public int ParticipanteId { get; set; }
         public bool Treineiro { get; set; }
         public string Municipio { get; set; } = default!;
-        public int ProvaId { get; set; }
+        public int ProvaIdCH { get; set; }
+        public int ProvaIdCN { get; set; }
+        public int ProvaIdLC { get; set; }
+        public int ProvaIdMT { get; set; }
         public int StatusCH { get; set; }
         public int StatusCN { get; set; }
         public int StatusLC { get; set; }
@@ -26,6 +29,10 @@ namespace Core.DbData
         public float NotaRECompetencia4 { get; set; }
         public float NotaRECompetencia5 { get; set; }
 
-        public Item Item { get; set; } = default!;
+        public Prova ProvaCH { get; set; } = default!;
+        public Prova ProvaCN { get; set; } = default!;
+        public Prova ProvaLC { get; set; } = default!;
+        public Prova ProvaMT { get; set; } = default!;
+
     }
 }
