@@ -18,7 +18,7 @@ namespace Core.Controllers
                 Gabarito = 'A',
                 HabilidadeId = 1,
                 ParamAcaso = 0.5,
-                ParamDescricao = 0.5,
+                ParamDiscriminacao = 0.5,
                 ParamDificuldade = 0.5,
                 ProvaId = 1,
             };
