@@ -1,11 +1,62 @@
-﻿using Core.DbData;
+﻿using System.Globalization;
+using Core.DbData;
+using CsvHelper;
+using CsvHelper.Configuration;
+using Microsoft.EntityFrameworkCore;
 
-internal class Program
+namespace DatabaseSetup
 {
-    private static void Main(string[] args)
+    public class ItemMap : ClassMap<Item>
     {
-        Console.WriteLine("Hello, World!");
-        var foo = new Item { };
-        System.Console.WriteLine(foo.ItemId);
+        public ItemMap()
+        {
+            Map(m => m.ItemId).Name("CO_ITEM");
+            Map(m => m.ProvaId).Name("CO_PROVA");
+            Map(m => m.HabilidadeId).Name("CO_HABILIDADE");
+            Map(m => m.ParamDiscriminacao).Name("NU_PARAM_A");
+            Map(m => m.ParamDificuldade).Name("NU_PARAM_B");
+            Map(m => m.ParamAcaso).Name("NU_PARAM_C");
+            Map(m => m.FoiAbandonado).Name("IN_ITEM_ABAN");
+            Map(m => m.Gabarito).Name("TX_GABARITO");
+
+        }
+    }
+
+    public class AppDbContext : DbContext
+    {
+        public DbSet<Item> Itens { get; set; }
+        public DbSet<Prova> Provas { get; set; }
+        public DbSet<Participante> Participantes { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder options) =>
+            options.UseSqlite(
+                "Data Source=/home/leo/git/microdados-enem/Microdados.Enem.Api/Database/test.db;Mode=ReadWrite;" // <-- get this from env (options)
+            );
+    }
+
+    internal class Program
+    {
+        private static void Main(string[] args)
+        {
+
+            CsvConfiguration csvHelperConfig = new(CultureInfo.InvariantCulture)
+            {
+                Delimiter = ";"
+            };
+
+            using AppDbContext dbContext = new();
+            using StreamReader reader = new("./ITENS_PROVA_2023.csv");
+            using CsvReader csv = new(reader, csvHelperConfig);
+            {
+                csv.Context.RegisterClassMap<ItemMap>();
+                IEnumerable<Item>? items = csv.GetRecords<Item>();
+                Console.WriteLine(items.Count());
+                foreach (var item in items)
+                {
+                    dbContext.Add(item);
+                }
+                dbContext.SaveChanges();
+            }
+        }
     }
 }
