@@ -29,19 +29,19 @@ namespace Core.DbData
                 entity.HasKey(p => p.ParticipanteId);
 
                 entity.HasOne(part => part.ProvaCH)
-                    .WithMany(prova => prova.Participantes)
+                    .WithMany(prova => prova.ParticipantesCH)
                     .HasForeignKey(part => part.ProvaIdCH);
 
                 entity.HasOne(part => part.ProvaCN)
-                    .WithMany(prova => prova.Participantes)
+                    .WithMany(prova => prova.ParticipantesCN)
                     .HasForeignKey(part => part.ProvaIdCN);
 
                 entity.HasOne(part => part.ProvaLC)
-                    .WithMany(prova => prova.Participantes)
+                    .WithMany(prova => prova.ParticipantesLC)
                     .HasForeignKey(part => part.ProvaIdLC);
 
                 entity.HasOne(part => part.ProvaMT)
-                    .WithMany(prova => prova.Participantes)
+                    .WithMany(prova => prova.ParticipantesMT)
                     .HasForeignKey(part => part.ProvaIdMT);
             });
         }
