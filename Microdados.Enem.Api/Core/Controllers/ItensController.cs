@@ -20,7 +20,6 @@ namespace Core.Controllers
                 ParamAcaso = 0.5,
                 ParamDiscriminacao = 0.5,
                 ParamDificuldade = 0.5,
-                ProvaId = 1,
             };
             await DbContext.AddAsync(item);
             await DbContext.SaveChangesAsync();
