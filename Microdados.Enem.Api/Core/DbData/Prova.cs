@@ -9,7 +9,11 @@ namespace Core.DbData
         public string Cor { get; set; } = default!;
         public string Adaptacao { get; set; } = default!;
 
-        public IEnumerable<Participante> Participantes { get; set; } = default!;
+        public IEnumerable<Participante> ParticipantesCH { get; set; } = default!;
+        public IEnumerable<Participante> ParticipantesCN { get; set; } = default!;
+        public IEnumerable<Participante> ParticipantesLC { get; set; } = default!;
+        public IEnumerable<Participante> ParticipantesMT { get; set; } = default!;
+
         public IEnumerable<Item> Itens { get; set; } = default!;
     }
 }
