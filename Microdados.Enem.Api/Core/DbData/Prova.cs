@@ -6,7 +6,7 @@ namespace Core.DbData
     {
         public int ProvaId { get; set; }
         public string AreaSigla { get; set; } = default!;
-        public string Cor { get; set; } = default!;
+        public string? Cor { get; set; }
         public string Adaptacao { get; set; } = default!;
 
         public IEnumerable<Participante> ParticipantesCH { get; set; } = default!;

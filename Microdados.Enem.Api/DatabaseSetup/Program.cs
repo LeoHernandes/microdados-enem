@@ -32,6 +32,16 @@ namespace DatabaseSetup
                     })
                     .ToArray();
 
+                HashSet<Prova> dbProvasSet = itemsDTO
+                    .Select(item => new Prova
+                    {
+                        ProvaId = item.CO_PROVA,
+                        AreaSigla = item.SG_AREA,
+                        Cor = item.TX_COR == "LEITOR TELA" ? null : item.TX_COR,
+                        Adaptacao = ""
+                    })
+                    .ToHashSet(new ProvaEqualityComparer());
+
                 HashSet<Item> dbItensSet = itemsDTO
                     .Select(item => new Item
                     {
@@ -48,6 +58,7 @@ namespace DatabaseSetup
 
                 dbContext.Itens.AddRange(dbItensSet);
                 dbContext.ItensPorProvas.AddRange(dbItensPorProvas);
+                dbContext.Provas.AddRange(dbProvasSet);
                 dbContext.SaveChanges();
             }
         }
@@ -62,6 +73,19 @@ namespace DatabaseSetup
             public int GetHashCode(Item obj)
             {
                 return obj.ItemId;
+            }
+        }
+
+        private class ProvaEqualityComparer : IEqualityComparer<Prova>
+        {
+            public bool Equals(Prova? x, Prova? y)
+            {
+                return x?.ProvaId == y?.ProvaId;
+            }
+
+            public int GetHashCode(Prova obj)
+            {
+                return obj.ProvaId;
             }
         }
 
@@ -82,12 +106,14 @@ namespace DatabaseSetup
     {
         public int CO_ITEM { get; set; }
         public int CO_PROVA { get; set; }
+        public string SG_AREA { get; set; } = default!;
         public int CO_HABILIDADE { get; set; }
         public double? NU_PARAM_A { get; set; }
         public double? NU_PARAM_B { get; set; }
         public double? NU_PARAM_C { get; set; }
         public bool IN_ITEM_ABAN { get; set; }
         public char TX_GABARITO { get; set; }
+        public string TX_COR { get; set; } = default!;
         public int? TP_LINGUA { get; set; }
     }
 }
