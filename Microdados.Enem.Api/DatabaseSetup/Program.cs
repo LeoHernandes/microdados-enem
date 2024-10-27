@@ -22,13 +22,37 @@ namespace DatabaseSetup
             using StreamReader reader = new("./ITENS_PROVA_2023.csv");
             using CsvReader csv = new(reader, csvHelperConfig);
             {
-                IEnumerable<ItemProvaDTO>? items = csv.GetRecords<ItemProvaDTO>();
+                ItemProvaDTO[] itemsDTO = csv.GetRecords<ItemProvaDTO>().ToArray();
 
-                Console.WriteLine(items.Count());
+                ItemPorProva[] dbItensPorProvas = itemsDTO
+                    .Select(item => new ItemPorProva
+                    {
+                        ItemId = item.CO_ITEM,
+                        ProvaId = item.CO_PROVA
+                    })
+                    .ToArray();
+
+                HashSet<Item> dbItensSet = itemsDTO
+                    .Select(item => new Item
+                    {
+                        ItemId = item.CO_ITEM,
+                        HabilidadeId = item.CO_HABILIDADE,
+                        ParamDiscriminacao = item.NU_PARAM_A,
+                        ParamDificuldade = item.NU_PARAM_B,
+                        ParamAcaso = item.NU_PARAM_C,
+                        FoiAbandonado = item.IN_ITEM_ABAN,
+                        Gabarito = item.TX_GABARITO,
+                        LinguaEstrangeira = item.TP_LINGUA == 0 ? "Espanhol" : "Inglês",
+                    })
+                    .ToHashSet(new ItemEqualityComparer());
+
+                dbContext.Itens.AddRange(dbItensSet);
+                dbContext.ItensPorProvas.AddRange(dbItensPorProvas);
+                dbContext.SaveChanges();
             }
         }
 
-        private class Foo : IEqualityComparer<Item>
+        private class ItemEqualityComparer : IEqualityComparer<Item>
         {
             public bool Equals(Item? x, Item? y)
             {
@@ -64,6 +88,6 @@ namespace DatabaseSetup
         public double? NU_PARAM_C { get; set; }
         public bool IN_ITEM_ABAN { get; set; }
         public char TX_GABARITO { get; set; }
-        public string? TP_LINGUA { get; set; }
+        public int? TP_LINGUA { get; set; }
     }
 }

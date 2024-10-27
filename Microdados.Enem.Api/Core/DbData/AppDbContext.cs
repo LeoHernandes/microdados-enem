@@ -17,10 +17,16 @@ namespace Core.DbData
                     .UsingEntity<ItemPorProva>();
             });
 
+            modelBuilder.Entity<ItemPorProva>(entity =>
+            {
+                entity.ToTable("ItensPorProvas");
+                entity.HasKey(e => new { e.ItemId, e.ProvaId });
+            });
+
             modelBuilder.Entity<Prova>(entity =>
             {
                 entity.ToTable("Provas");
-                entity.HasKey(i => i.ProvaId);
+                entity.HasKey(p => p.ProvaId);
             });
 
             modelBuilder.Entity<Participante>(entity =>
@@ -49,5 +55,6 @@ namespace Core.DbData
         public DbSet<Item> Itens { get; set; }
         public DbSet<Prova> Provas { get; set; }
         public DbSet<Participante> Participantes { get; set; }
+        public DbSet<ItemPorProva> ItensPorProvas { get; set; }
     }
 }
