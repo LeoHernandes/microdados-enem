@@ -38,7 +38,6 @@ namespace DatabaseSetup
                         ProvaId = item.CO_PROVA,
                         AreaSigla = item.SG_AREA,
                         Cor = item.TX_COR == "LEITOR TELA" ? null : item.TX_COR,
-                        Adaptacao = ""
                     })
                     .ToHashSet(new ProvaEqualityComparer());
 
@@ -63,31 +62,7 @@ namespace DatabaseSetup
             }
         }
 
-        private class ItemEqualityComparer : IEqualityComparer<Item>
-        {
-            public bool Equals(Item? x, Item? y)
-            {
-                return x?.ItemId == y?.ItemId;
-            }
 
-            public int GetHashCode(Item obj)
-            {
-                return obj.ItemId;
-            }
-        }
-
-        private class ProvaEqualityComparer : IEqualityComparer<Prova>
-        {
-            public bool Equals(Prova? x, Prova? y)
-            {
-                return x?.ProvaId == y?.ProvaId;
-            }
-
-            public int GetHashCode(Prova obj)
-            {
-                return obj.ProvaId;
-            }
-        }
 
         private static ServiceProvider ConfigureServices()
         {
@@ -115,5 +90,31 @@ namespace DatabaseSetup
         public char TX_GABARITO { get; set; }
         public string TX_COR { get; set; } = default!;
         public int? TP_LINGUA { get; set; }
+    }
+
+    public class ItemEqualityComparer : IEqualityComparer<Item>
+    {
+        public bool Equals(Item? x, Item? y)
+        {
+            return x?.ItemId == y?.ItemId;
+        }
+
+        public int GetHashCode(Item obj)
+        {
+            return obj.ItemId;
+        }
+    }
+
+    public class ProvaEqualityComparer : IEqualityComparer<Prova>
+    {
+        public bool Equals(Prova? x, Prova? y)
+        {
+            return x?.ProvaId == y?.ProvaId;
+        }
+
+        public int GetHashCode(Prova obj)
+        {
+            return obj.ProvaId;
+        }
     }
 }
