@@ -2,7 +2,7 @@ namespace Core.DbData
 {
     public class Participante
     {
-        public int ParticipanteId { get; set; }
+        public long ParticipanteId { get; set; }
         public bool Treineiro { get; set; }
         public string Municipio { get; set; } = default!;
         public int ProvaIdCH { get; set; }
@@ -33,6 +33,5 @@ namespace Core.DbData
         public Prova ProvaCN { get; set; } = default!;
         public Prova ProvaLC { get; set; } = default!;
         public Prova ProvaMT { get; set; } = default!;
-
     }
 }
