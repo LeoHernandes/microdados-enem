@@ -11,10 +11,12 @@ namespace DatabaseSetup
         {
             ServiceProvider services = ConfigureServices();
             AppDbContext dbContext = services.GetRequiredService<AppDbContext>();
+            dbContext.ChangeTracker.AutoDetectChangesEnabled = false;
+
             MicrodadosService microdadosService = new(dbContext);
 
             microdadosService.TransferMicrodadosItemsToDb();
-            microdadosService.TransferMicrodadosParticipantesToDb();
+            microdadosService.BulkTransferMicrodadosParticipantesToDb();
         }
 
         private static ServiceProvider ConfigureServices()
@@ -23,7 +25,7 @@ namespace DatabaseSetup
 
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlite("Data Source=/home/leo/git/microdados-enem/Microdados.Enem.Api/Database/test.db;Mode=ReadWrite;"); // <-- get this from env (options)
+                options.UseSqlite("Data Source=/home/leo/git/microdados-enem/Microdados.Enem.Api/Database/test.db;Mode=ReadWrite;");
             });
 
             return services.BuildServiceProvider();

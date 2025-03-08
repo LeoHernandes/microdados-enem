@@ -1,2 +1,2 @@
-rm -f Database/*.db
-sqlite3 Database/test.db < Database/create.sql
+rm -f /home/leo/git/microdados-enem/Microdados.Enem.Api/Database/*.db
+sqlite3 /home/leo/git/microdados-enem/Microdados.Enem.Api/Database/test.db < /home/leo/git/microdados-enem/Microdados.Enem.Api/Database/create.sql

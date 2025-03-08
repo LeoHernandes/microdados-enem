@@ -3,6 +3,7 @@ using System.Text;
 using Core.DbData;
 using CsvHelper;
 using CsvHelper.Configuration;
+using EFCore.BulkExtensions;
 
 namespace DatabaseSetup.DataInfrastructure;
 
@@ -26,13 +27,12 @@ public class MicrodadosService(AppDbContext dbContext)
             itemsDTO = [.. csv.GetRecords<ItemProvaDTO>()];
         }
 
-        ItemPorProva[] dbItensPorProvas = itemsDTO
+        ItemPorProva[] dbItensPorProvas = [.. itemsDTO
             .Select(item => new ItemPorProva
             {
                 ItemId = item.CO_ITEM,
                 ProvaId = item.CO_PROVA
-            })
-            .ToArray();
+            })];
 
         HashSet<Prova> dbProvasSet = itemsDTO
             .Select(item => new Prova
@@ -63,35 +63,23 @@ public class MicrodadosService(AppDbContext dbContext)
         DbContext.SaveChanges();
     }
 
-
-
-    public void TransferMicrodadosParticipantesToDb()
+    public void BulkTransferMicrodadosParticipantesToDb()
     {
-        const int INSERTION_BATCH_SIZE = 1000;
-
-        IEnumerable<ParticipanteDTO> participantesDTO;
         using StreamReader reader = new("./MICRODADOS_ENEM_2023.csv");
         using CsvReader csv = new(reader, CsvHelperConfig);
-        {
-            participantesDTO = csv.GetRecords<ParticipanteDTO>();
-        }
+        IEnumerable<ParticipanteDTO> participantesDTO = csv.GetRecords<ParticipanteDTO>();
 
-        int insertionElementsCount = 0;
-        int insertionCount = 0;
-        IEnumerable<Participante> participantesToInsert = [];
-        foreach (var participante in participantesDTO)
-        {
-            bool wasPresentInCH = Convert.ToBoolean(participante.TP_PRESENCA_CH);
-            bool wasPresentInCN = Convert.ToBoolean(participante.TP_PRESENCA_CN);
-            bool wasPresentInLC = Convert.ToBoolean(participante.TP_PRESENCA_LC);
-            bool wasPresentInMT = Convert.ToBoolean(participante.TP_PRESENCA_MT);
-
-            if (!wasPresentInCH || !wasPresentInCN || !wasPresentInLC || !wasPresentInMT)
+        IEnumerable<Participante> filteredParticipantes = participantesDTO
+            .Where(participante =>
             {
-                continue;
-            }
+                bool wasPresentInCH = participante.TP_PRESENCA_CH == 1;
+                bool wasPresentInCN = participante.TP_PRESENCA_CN == 1;
+                bool wasPresentInLC = participante.TP_PRESENCA_LC == 1;
+                bool wasPresentInMT = participante.TP_PRESENCA_MT == 1;
 
-            participantesToInsert = participantesToInsert.Append(new Participante
+                return wasPresentInCH && wasPresentInCN && wasPresentInLC && wasPresentInMT;
+            })
+            .Select(participante => new Participante
             {
                 ParticipanteId = participante.NU_INSCRICAO,
                 Treineiro = participante.IN_TREINEIRO == 1,
@@ -120,16 +108,18 @@ public class MicrodadosService(AppDbContext dbContext)
                 NotaRECompetencia4 = participante.NU_NOTA_COMP4 ?? -1,
                 NotaRECompetencia5 = participante.NU_NOTA_COMP5 ?? -1,
             });
-            insertionElementsCount++;
 
-            if (insertionElementsCount == INSERTION_BATCH_SIZE)
-            {
-                DbContext.Participantes.AddRange(participantesToInsert);
-                DbContext.SaveChanges();
-                insertionElementsCount = 0;
-                participantesToInsert = [];
-                Console.WriteLine($"{++insertionCount}");
-            }
+        BulkConfig bulkConfig = new() { SetOutputIdentity = false };
+        // There are approximately 4 million entries in the array,
+        // we need to work in chunks to avoid OOM problems
+        // 
+        // ==> Chunk size can be optimized! <==
+        // Current metrics for 4000 chunk size
+        // - Time: 02:45
+        // - Mem: 188.50 (MB)
+        foreach (Participante[] batch in filteredParticipantes.Chunk(4000))
+        {
+            DbContext.BulkInsert(batch, bulkConfig);
         }
     }
 }
