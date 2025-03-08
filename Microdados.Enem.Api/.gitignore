@@ -1,1 +1,4 @@
-*.db
+[Bb]in/
+[Oo]bj/
+**.csv
+**.db

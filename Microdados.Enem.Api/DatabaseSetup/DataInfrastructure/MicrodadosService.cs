@@ -9,6 +9,9 @@ namespace DatabaseSetup.DataInfrastructure;
 
 public class MicrodadosService(AppDbContext dbContext)
 {
+    private const string ITENS_FILE_PATH = "./ITENS_PROVA_2023.csv";
+    private const string PARTICIPANTES_FILE_PATH = "./MICRODADOS_ENEM_2023.csv";
+
     private AppDbContext DbContext { get; set; } = dbContext;
     private readonly CsvConfiguration CsvHelperConfig = new(CultureInfo.InvariantCulture)
     {
@@ -21,7 +24,7 @@ public class MicrodadosService(AppDbContext dbContext)
     public void TransferMicrodadosItemsToDb()
     {
         ItemProvaDTO[] itemsDTO = [];
-        using StreamReader reader = new("./ITENS_PROVA_2023.csv");
+        using StreamReader reader = new(ITENS_FILE_PATH);
         using CsvReader csv = new(reader, CsvHelperConfig);
         {
             itemsDTO = [.. csv.GetRecords<ItemProvaDTO>()];
@@ -65,7 +68,7 @@ public class MicrodadosService(AppDbContext dbContext)
 
     public void BulkTransferMicrodadosParticipantesToDb()
     {
-        using StreamReader reader = new("./MICRODADOS_ENEM_2023.csv");
+        using StreamReader reader = new(PARTICIPANTES_FILE_PATH);
         using CsvReader csv = new(reader, CsvHelperConfig);
         IEnumerable<ParticipanteDTO> participantesDTO = csv.GetRecords<ParticipanteDTO>();
 
