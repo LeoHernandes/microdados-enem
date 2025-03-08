@@ -9,10 +9,6 @@ namespace Core.DbData
         public int ProvaIdCN { get; set; }
         public int ProvaIdLC { get; set; }
         public int ProvaIdMT { get; set; }
-        public int StatusCH { get; set; }
-        public int StatusCN { get; set; }
-        public int StatusLC { get; set; }
-        public int StatusMT { get; set; }
         public int StatusRE { get; set; }
         public string RespostasCH { get; set; } = default!;
         public string RespostasCN { get; set; } = default!;
