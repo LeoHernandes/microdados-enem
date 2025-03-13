@@ -15,7 +15,7 @@ namespace Core.Controllers
         {
             long count = await DbContext.Participantes.LongCountAsync();
 
-            return Ok(count);
+            return Ok(new { count });
         }
     }
 }
