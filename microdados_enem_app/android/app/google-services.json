@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1044266129832",
+    "project_id": "microdados-enem-ed8bd",
+    "storage_bucket": "microdados-enem-ed8bd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1044266129832:android:686d21fbfafffa9e44259d",
+        "android_client_info": {
+          "package_name": "com.example.microdados_enem_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtbI53Lhm3J6OqSLBTWxKRxMv8IEg6-jo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
