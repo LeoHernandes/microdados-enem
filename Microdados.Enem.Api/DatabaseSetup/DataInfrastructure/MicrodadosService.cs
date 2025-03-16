@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text;
-using Core.DbData;
+using Core.Data;
+using Core.Data.Models;
 using CsvHelper;
 using CsvHelper.Configuration;
 using EFCore.BulkExtensions;

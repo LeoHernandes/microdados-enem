@@ -6,6 +6,7 @@ RUN dotnet publish -o out
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0@sha256:8757d38b7bef730a7723e28792b789c359fd24509a5cf6cb15143e4b44615fc0
 WORKDIR /Core
+COPY --from=build /Core/Data/microdados.db .
 COPY --from=build /Core/out .
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "Core.dll"]

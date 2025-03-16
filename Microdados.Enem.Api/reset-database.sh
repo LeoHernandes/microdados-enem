@@ -1,2 +1,2 @@
-rm -f Database/*.db
-sqlite3 Database/test.db < Database/create.sql
+rm -f Core/Data/microdados.db
+sqlite3 Core/Data/microdados.db < Core/Data/create.sql

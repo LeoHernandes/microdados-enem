@@ -1,4 +1,5 @@
-using Core.DbData;
+using Core.Data;
+using Core.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Controllers

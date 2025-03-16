@@ -1,4 +1,4 @@
-using Core.DbData;
+using Core.Data;
 using Microsoft.EntityFrameworkCore;
 
 internal class Program
@@ -12,7 +12,11 @@ internal class Program
 
         builder.Services.AddDbContext<AppDbContext>(options =>
         {
-            options.UseSqlite("Data Source=/home/leo/git/microdados-enem/Microdados.Enem.Api/Database/test.db;Mode=ReadWrite;"); // <-- get this from env (options)
+            string? connectionString = builder.Configuration
+                .GetRequiredSection("DatabaseSettings")
+                .GetValue<string>("SQLiteConnectionString") ?? throw new ApplicationException();
+
+            options.UseSqlite(connectionString);
         });
 
         var app = builder.Build();

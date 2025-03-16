@@ -1,4 +1,4 @@
-﻿using Core.DbData;
+﻿using Core.Data;
 using DatabaseSetup.DataInfrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +25,7 @@ namespace DatabaseSetup
 
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlite("Data Source=/home/leo/git/microdados-enem/Microdados.Enem.Api/Database/test.db;Mode=ReadWrite;");
+                options.UseSqlite("Data Source=/home/leo/git/microdados-enem/Microdados.Enem.Api/Core/Data/microdados.db;Mode=ReadWrite;");
             });
 
             return services.BuildServiceProvider();
