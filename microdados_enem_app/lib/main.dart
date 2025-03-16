@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class Foobar {
@@ -17,9 +18,9 @@ class Foobar {
 }
 
 Future<Foobar> fetchFoobar() async {
-  final response = await http.get(
-    Uri.parse('http://192.168.3.9:5000/participantes'),
-  );
+  final String apiBaseUrl = dotenv.get('API_BASE_URL');
+
+  final response = await http.get(Uri.parse('$apiBaseUrl/participantes'));
 
   if (response.statusCode == 200) {
     return Foobar.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
@@ -28,8 +29,12 @@ Future<Foobar> fetchFoobar() async {
   }
 }
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  const bool isProduction = bool.fromEnvironment('dart.vm.product');
+  await dotenv.load(fileName: isProduction ? './prod.env' : './dev.env');
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
