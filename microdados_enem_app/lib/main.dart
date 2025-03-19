@@ -1,38 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
-
-class Foobar {
-  final int count;
-
-  const Foobar({required this.count});
-
-  factory Foobar.fromJson(Map<String, dynamic> json) {
-    return switch (json) {
-      {'count': int count} => Foobar(count: count),
-      _ => throw const FormatException('Failed to load Foboar.'),
-    };
-  }
-}
-
-Future<Foobar> fetchFoobar() async {
-  final String apiBaseUrl = dotenv.get('API_BASE_URL');
-
-  final response = await http.get(Uri.parse('$apiBaseUrl/participantes'));
-
-  if (response.statusCode == 200) {
-    return Foobar.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
-  } else {
-    throw Exception('Failed to load album');
-  }
-}
+import 'package:microdados_enem_app/entrypoint/dotenv_initializer.dart';
+import 'package:microdados_enem_app/home/ui/home_page.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  const bool isProduction = bool.fromEnvironment('dart.vm.product');
-  await dotenv.load(fileName: isProduction ? './prod.env' : './dev.env');
+  AppDotenv.initialize();
 
   runApp(MyApp());
 }
@@ -47,65 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  late Future<Foobar> foobar;
-
-  @override
-  void initState() {
-    super.initState();
-    foobar = fetchFoobar();
-  }
-
-  void call() {
-    foobar = fetchFoobar();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('A quantidade de linhas na tabela:'),
-            FutureBuilder<Foobar>(
-              future: foobar,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Text(snapshot.data!.count.toString());
-                } else if (snapshot.hasError) {
-                  return const Text('Deu merda a');
-                }
-
-                return const CircularProgressIndicator();
-              },
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: call,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      home: const HomePage(),
     );
   }
 }
