@@ -10,13 +10,15 @@ class HomePageStateCubit extends Cubit<HomePageState> {
   Future<void> getHomePageData() async {
     emit(const HomePageState.loading());
 
-    // TODO: change this response to a unwrappable
-    //       structure to improve readability
-    try {
-      final response = await _repository.getHomePageData();
-      emit(HomePageState.success(HomePageStateData.fromModel(response)));
-    } on Exception catch (e) {
-      emit(HomePageState.error(e.toString()));
-    }
+    await _repository.getHomePageData().then(
+      (value) =>
+          emit(HomePageState.success(HomePageStateData.fromModel(value))),
+      onError:
+          (_) => emit(
+            HomePageState.error(
+              'Não foi possível encontrar as informações da tela inicial. Tente novamente mais tarde!',
+            ),
+          ),
+    );
   }
 }
