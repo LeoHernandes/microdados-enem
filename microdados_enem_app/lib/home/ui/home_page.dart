@@ -36,7 +36,7 @@ class Foobar extends StatelessWidget {
                   isIdle: () => Text('Parado'),
                   isLoading: () => Text('Carregando'),
                   isError: (_) => Text('Erro'),
-                  isSuccess: (data) => Text(data.count.toString()),
+                  isSuccess: (data) => Text('${data.count}'),
                 );
               },
             ),
