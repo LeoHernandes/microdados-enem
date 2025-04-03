@@ -26,3 +26,53 @@ flutter:
   assets:
     - prod.env
     - dev.env
+    - assets/onboarding/
+
+  fonts:
+    - family: Rawline
+      fonts:
+        - asset: assets/fonts/rawline-100.ttf
+          weight: 100
+        - asset: assets/fonts/rawline-200.ttf
+          weight: 200
+        - asset: assets/fonts/rawline-300.ttf
+          weight: 300
+        - asset: assets/fonts/rawline-400.ttf
+          weight: 400
+        - asset: assets/fonts/rawline-500.ttf
+          weight: 500
+        - asset: assets/fonts/rawline-600.ttf
+          weight: 600
+        - asset: assets/fonts/rawline-700.ttf
+          weight: 700
+        - asset: assets/fonts/rawline-800.ttf
+          weight: 800
+        - asset: assets/fonts/rawline-900.ttf
+          weight: 900
+        - asset: assets/fonts/rawline-100i.ttf
+          style: italic
+          weight: 100
+        - asset: assets/fonts/rawline-200i.ttf
+          style: italic
+          weight: 200
+        - asset: assets/fonts/rawline-300i.ttf
+          style: italic
+          weight: 300
+        - asset: assets/fonts/rawline-400i.ttf
+          style: italic
+          weight: 400
+        - asset: assets/fonts/rawline-500i.ttf
+          style: italic
+          weight: 500
+        - asset: assets/fonts/rawline-600i.ttf
+          style: italic
+          weight: 600
+        - asset: assets/fonts/rawline-700i.ttf
+          style: italic
+          weight: 700
+        - asset: assets/fonts/rawline-800i.ttf
+          style: italic
+          weight: 800
+        - asset: assets/fonts/rawline-900i.ttf
+          style: italic
+          weight: 900

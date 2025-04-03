@@ -28,12 +28,26 @@ class Foobar extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('A quantidade de linhas na tabela:'),
+          children: [
+            Image(image: AssetImage('assets/onboarding/step1.png')),
+            const Text(
+              'A quantidade de linhas na tabela:',
+              style: TextStyle(
+                fontFamily: 'Rawline',
+                fontWeight: FontWeight.w900,
+              ),
+            ),
             BlocBuilder<HomePageStateCubit, HomePageState>(
               builder: (context, state) {
                 return state.when(
-                  isIdle: () => Text('Parado'),
+                  isIdle:
+                      () => Text(
+                        'Parado',
+                        style: TextStyle(
+                          fontFamily: 'Rawline',
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
                   isLoading: () => Text('Carregando'),
                   isError: Text.new,
                   isSuccess: (data) => Text('${data.count}'),
