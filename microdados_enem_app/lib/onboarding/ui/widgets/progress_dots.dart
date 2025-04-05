@@ -13,21 +13,24 @@ class ProgressDots extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(
-        totalSteps,
-        (index) => Container(
-          width: 10,
-          height: 10,
-          margin: EdgeInsets.symmetric(horizontal: 4),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color:
-                currentStep == index
-                    ? AppColors
-                        .blueDarker // Active step
-                    : AppColors.blackLighter, // Inactive step
+    return Container(
+      decoration: BoxDecoration(color: AppColors.whitePrimary),
+      height: 48,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(
+          totalSteps,
+          (index) => Container(
+            width: 10,
+            height: 10,
+            margin: EdgeInsets.symmetric(horizontal: 4),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color:
+                  currentStep == index + 1
+                      ? AppColors.blueDarker
+                      : AppColors.blackLighter,
+            ),
           ),
         ),
       ),

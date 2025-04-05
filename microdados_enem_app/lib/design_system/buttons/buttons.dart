@@ -8,21 +8,24 @@ enum ButtonType { primary, secondary }
 class Button extends StatelessWidget {
   final ButtonType type;
   final Size size;
-  final VoidCallback onPressed;
   final String text;
+  final bool disable;
+  final VoidCallback? onPressed;
 
   const Button.primary({
     super.key,
     required this.size,
-    required this.onPressed,
     required this.text,
+    this.onPressed,
+    this.disable = false,
   }) : type = ButtonType.primary;
 
   const Button.secondary({
     super.key,
     required this.size,
-    required this.onPressed,
     required this.text,
+    this.onPressed,
+    this.disable = false,
   }) : type = ButtonType.secondary;
 
   @override
@@ -30,7 +33,8 @@ class Button extends StatelessWidget {
     return TextButton(
       style: switch (type) {
         ButtonType.primary => TextButton.styleFrom(
-          backgroundColor: AppColors.bluePrimary,
+          backgroundColor:
+              disable ? AppColors.blueLigher : AppColors.bluePrimary,
           foregroundColor: AppColors.blueLigher,
           minimumSize: size,
           shape: const RoundedRectangleBorder(
@@ -38,7 +42,8 @@ class Button extends StatelessWidget {
           ),
         ),
         ButtonType.secondary => TextButton.styleFrom(
-          backgroundColor: AppColors.whitePrimary,
+          backgroundColor:
+              disable ? AppColors.blueLighest : AppColors.whitePrimary,
           foregroundColor: AppColors.blueLighest,
           side: BorderSide(color: AppColors.bluePrimary),
           minimumSize: size,
@@ -47,9 +52,9 @@ class Button extends StatelessWidget {
           ),
         ),
       },
-      onPressed: onPressed,
+      onPressed: disable ? () {} : onPressed,
       child: AppText(
-        text: 'Iniciar',
+        text: text,
         typography: AppTypography.button,
         color: switch (type) {
           ButtonType.primary => AppColors.whitePrimary,

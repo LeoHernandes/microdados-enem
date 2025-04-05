@@ -5,27 +5,27 @@ import 'package:microdados_enem_app/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/onboarding/ui/widgets/progress_dots.dart';
 
-class WelcomeStep extends StatelessWidget {
+class WarningStep extends StatelessWidget {
   final VoidCallback onNextStep;
 
-  const WelcomeStep({super.key, required this.onNextStep});
+  const WarningStep({super.key, required this.onNextStep});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Image(image: AssetImage('assets/onboarding/step1.png')),
+        Image(image: AssetImage('assets/onboarding/step2.png')),
         SizedBox(height: 40),
         AppText(
-          text: 'Boas vindas ao Microdados Enem!',
+          text: 'Antes de tudo, um lembrete',
           typography: AppTypography.headline6,
           color: AppColors.bluePrimary,
         ),
         SizedBox(height: 20),
         AppText(
           text:
-              'Aqui você consegue visualizar e analisar tudo sobre o exame de forma interativa!',
+              'Embora este aplicativo obedeça às normas da LGPD e utilize elementos visuais de acordo com o Padrão Digital do Governo do Brasil, não se trata de uma ferramenta oficial do INEP.',
           typography: AppTypography.body1,
           color: AppColors.blackLight,
           align: TextAlign.justify,
@@ -34,10 +34,10 @@ class WelcomeStep extends StatelessWidget {
         Button.primary(
           size: Size(160, 36),
           onPressed: onNextStep,
-          text: 'INICIAR',
+          text: 'ENTENDI',
         ),
         SizedBox(height: 40),
-        ProgressDots(totalSteps: 4, currentStep: 1),
+        ProgressDots(totalSteps: 4, currentStep: 2),
       ],
     );
   }

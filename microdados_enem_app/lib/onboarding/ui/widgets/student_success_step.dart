@@ -5,27 +5,33 @@ import 'package:microdados_enem_app/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/onboarding/ui/widgets/progress_dots.dart';
 
-class WelcomeStep extends StatelessWidget {
+class StudentSuccessStep extends StatelessWidget {
   final VoidCallback onNextStep;
 
-  const WelcomeStep({super.key, required this.onNextStep});
+  const StudentSuccessStep({super.key, required this.onNextStep});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Image(image: AssetImage('assets/onboarding/step1.png')),
+        Image(image: AssetImage('assets/onboarding/step3.png')),
+        SizedBox(height: 20),
+        Button.secondary(
+          size: Size(160, 36),
+          text: 'SOU ESTUDANTE',
+          disable: true,
+        ),
         SizedBox(height: 40),
         AppText(
-          text: 'Boas vindas ao Microdados Enem!',
+          text: 'Feito!',
           typography: AppTypography.headline6,
           color: AppColors.bluePrimary,
         ),
         SizedBox(height: 20),
         AppText(
           text:
-              'Aqui você consegue visualizar e analisar tudo sobre o exame de forma interativa!',
+              'Tudo pronto para você mergulhar nos dados e alavancar ainda mais seus estudos!',
           typography: AppTypography.body1,
           color: AppColors.blackLight,
           align: TextAlign.justify,
@@ -34,10 +40,10 @@ class WelcomeStep extends StatelessWidget {
         Button.primary(
           size: Size(160, 36),
           onPressed: onNextStep,
-          text: 'INICIAR',
+          text: 'COMEÇAR',
         ),
         SizedBox(height: 40),
-        ProgressDots(totalSteps: 4, currentStep: 1),
+        ProgressDots(totalSteps: 4, currentStep: 4),
       ],
     );
   }
