@@ -2,16 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:microdados_enem_app/home/logic/home_page_cubit.dart';
 import 'package:microdados_enem_app/home/logic/home_page_state.dart';
+import 'package:microdados_enem_app/onboarding/ui/screen/onboarding_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return BlocProvider(
+  //     create: (_) => HomePageStateCubit(),
+  //     child: const Foobar(),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => HomePageStateCubit(),
-      child: const Foobar(),
-    );
+    return OnboardingPage();
   }
 }
 
