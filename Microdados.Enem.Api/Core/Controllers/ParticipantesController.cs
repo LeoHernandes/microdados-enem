@@ -9,13 +9,21 @@ namespace Core.Controllers
     {
         private AppDbContext DbContext { get; set; } = dbContext;
 
-        [HttpGet]
-        [Route("participantes")]
-        public async Task<IActionResult> GetParticipantesCount()
-        {
-            long count = await DbContext.Participantes.LongCountAsync();
+        public record PostSubscriptionValidateRequest(string Subscription);
 
-            return Ok(new { count });
+        [HttpPost]
+        [Route("subscription/validate")]
+        public async Task<IActionResult> PostSubscriptionValidate([FromBody] PostSubscriptionValidateRequest request)
+        {
+            bool participantExists = await DbContext.Participantes.Where(p => p.ParticipanteId == request.Subscription).AnyAsync();
+            if (participantExists)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }
