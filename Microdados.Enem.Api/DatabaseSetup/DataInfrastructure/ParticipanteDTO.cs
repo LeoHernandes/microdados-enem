@@ -2,7 +2,7 @@ namespace DatabaseSetup.DataInfrastructure;
 
 public class ParticipanteDTO
 {
-    public long NU_INSCRICAO { get; set; }
+    public string NU_INSCRICAO { get; set; } = default!;
     public int IN_TREINEIRO { get; set; }
     public string? NO_MUNICIPIO_ESC { get; set; } = default!;
     public int? CO_PROVA_CN { get; set; }

@@ -8,3 +8,6 @@ db-setup:
 
 db-reset:
 	./reset-database.sh
+
+db-open:
+	sqlite3 Core/Data/microdados.db

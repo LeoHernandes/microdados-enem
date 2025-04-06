@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS Provas (
 
 CREATE TABLE IF NOT EXISTS Participantes
 (
-        ParticipanteId INTEGER NOT NULL PRIMARY KEY,
+        ParticipanteId TEXT NOT NULL PRIMARY KEY,
         Treineiro INTEGER NOT NULL,
         Municipio TEXT NOT NULL,
         ProvaIdCH INTEGER NOT NULL,

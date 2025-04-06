@@ -2,7 +2,7 @@ namespace Core.Data.Models;
 
 public class Participante
 {
-    public long ParticipanteId { get; set; }
+    public string ParticipanteId { get; set; } = default!;
     public bool Treineiro { get; set; }
     public string Municipio { get; set; } = default!;
     public int ProvaIdCH { get; set; }
