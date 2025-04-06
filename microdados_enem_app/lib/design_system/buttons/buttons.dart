@@ -3,7 +3,7 @@ import 'package:microdados_enem_app/design_system/app_text/app_text.dart';
 import 'package:microdados_enem_app/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/design_system/styles/typography.dart';
 
-enum ButtonType { primary, secondary }
+enum ButtonType { primary, secondary, terciary }
 
 class Button extends StatelessWidget {
   final ButtonType type;
@@ -28,6 +28,14 @@ class Button extends StatelessWidget {
     this.disable = false,
   }) : type = ButtonType.secondary;
 
+  const Button.terciary({
+    super.key,
+    required this.size,
+    required this.text,
+    this.onPressed,
+    this.disable = false,
+  }) : type = ButtonType.terciary;
+
   @override
   Widget build(BuildContext build) {
     return TextButton(
@@ -51,6 +59,15 @@ class Button extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(36)),
           ),
         ),
+        ButtonType.terciary => TextButton.styleFrom(
+          backgroundColor:
+              disable ? AppColors.blueLighest : AppColors.whitePrimary,
+          foregroundColor: AppColors.blueLighest,
+          minimumSize: size,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(36)),
+          ),
+        ),
       },
       onPressed: disable ? () {} : onPressed,
       child: AppText(
@@ -59,6 +76,7 @@ class Button extends StatelessWidget {
         color: switch (type) {
           ButtonType.primary => AppColors.whitePrimary,
           ButtonType.secondary => AppColors.bluePrimary,
+          ButtonType.terciary => AppColors.bluePrimary,
         },
       ),
     );
