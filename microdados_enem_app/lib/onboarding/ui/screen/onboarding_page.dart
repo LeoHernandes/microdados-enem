@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:microdados_enem_app/design_system/styles/colors.dart';
+import 'package:microdados_enem_app/onboarding/logic/onboarding_cubit.dart';
 import 'package:microdados_enem_app/onboarding/ui/widgets/select_profile_step.dart';
 import 'package:microdados_enem_app/onboarding/ui/widgets/student_success_step.dart';
 import 'package:microdados_enem_app/onboarding/ui/widgets/student_verification_step.dart';
@@ -51,8 +53,13 @@ class OnboardingPage extends HookWidget {
                       step.value = OnboardingStep.TeacherSuccess,
                   },
             ),
-            OnboardingStep.StudentVerification => StudentVerificationStep(
-              onNextStep: () => step.value = OnboardingStep.StudentSuccess,
+            OnboardingStep.StudentVerification => BlocProvider(
+              create: (_) => OnboardingStateCubit(),
+              child: StudentVerificationStep(
+                onNextStep: () {
+                  step.value = OnboardingStep.StudentSuccess;
+                },
+              ),
             ),
             OnboardingStep.StudentSuccess => StudentSuccessStep(
               onNextStep: () {},

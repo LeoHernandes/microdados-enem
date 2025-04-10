@@ -6,6 +6,11 @@ sealed class EndpointState<F, S> {
   const factory EndpointState.error(F error) = ErrorState;
   const factory EndpointState.success(S data) = SuccessState;
 
+  bool get isError => this is ErrorState;
+  bool get isLoading => this is LoadingState;
+  bool get isSuccess => this is SuccessState;
+  bool get isIdle => this is IdleState;
+
   T when<T>({
     required T Function() isIdle,
     required T Function() isLoading,

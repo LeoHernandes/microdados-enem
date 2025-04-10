@@ -11,6 +11,7 @@ class Button extends StatelessWidget {
   final String text;
   final bool disable;
   final VoidCallback? onPressed;
+  final bool loading;
 
   const Button.primary({
     super.key,
@@ -18,6 +19,7 @@ class Button extends StatelessWidget {
     required this.text,
     this.onPressed,
     this.disable = false,
+    this.loading = false,
   }) : type = ButtonType.primary;
 
   const Button.secondary({
@@ -26,6 +28,7 @@ class Button extends StatelessWidget {
     required this.text,
     this.onPressed,
     this.disable = false,
+    this.loading = false,
   }) : type = ButtonType.secondary;
 
   const Button.terciary({
@@ -34,6 +37,7 @@ class Button extends StatelessWidget {
     required this.text,
     this.onPressed,
     this.disable = false,
+    this.loading = false,
   }) : type = ButtonType.terciary;
 
   @override
@@ -42,7 +46,7 @@ class Button extends StatelessWidget {
       style: switch (type) {
         ButtonType.primary => TextButton.styleFrom(
           backgroundColor:
-              disable ? AppColors.blueLigher : AppColors.bluePrimary,
+              disable || loading ? AppColors.blueLigher : AppColors.bluePrimary,
           foregroundColor: AppColors.blueLigher,
           minimumSize: size,
           shape: const RoundedRectangleBorder(
@@ -51,7 +55,9 @@ class Button extends StatelessWidget {
         ),
         ButtonType.secondary => TextButton.styleFrom(
           backgroundColor:
-              disable ? AppColors.blueLighest : AppColors.whitePrimary,
+              disable || loading
+                  ? AppColors.blueLighest
+                  : AppColors.whitePrimary,
           foregroundColor: AppColors.blueLighest,
           side: BorderSide(color: AppColors.bluePrimary),
           minimumSize: size,
@@ -61,7 +67,9 @@ class Button extends StatelessWidget {
         ),
         ButtonType.terciary => TextButton.styleFrom(
           backgroundColor:
-              disable ? AppColors.blueLighest : AppColors.whitePrimary,
+              disable || loading
+                  ? AppColors.blueLighest
+                  : AppColors.whitePrimary,
           foregroundColor: AppColors.blueLighest,
           minimumSize: size,
           shape: const RoundedRectangleBorder(
@@ -69,16 +77,30 @@ class Button extends StatelessWidget {
           ),
         ),
       },
-      onPressed: disable ? () {} : onPressed,
-      child: AppText(
-        text: text,
-        typography: AppTypography.button,
-        color: switch (type) {
-          ButtonType.primary => AppColors.whitePrimary,
-          ButtonType.secondary => AppColors.bluePrimary,
-          ButtonType.terciary => AppColors.bluePrimary,
-        },
-      ),
+      onPressed: disable || loading ? () {} : onPressed,
+      child:
+          loading
+              ? SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(switch (type) {
+                    ButtonType.primary => AppColors.whitePrimary,
+                    ButtonType.secondary => AppColors.bluePrimary,
+                    ButtonType.terciary => AppColors.bluePrimary,
+                  }),
+                ),
+              )
+              : AppText(
+                text: text,
+                typography: AppTypography.button,
+                color: switch (type) {
+                  ButtonType.primary => AppColors.whitePrimary,
+                  ButtonType.secondary => AppColors.bluePrimary,
+                  ButtonType.terciary => AppColors.bluePrimary,
+                },
+              ),
     );
   }
 }
