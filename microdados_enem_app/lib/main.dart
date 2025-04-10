@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:microdados_enem_app/home/ui/home_page.dart';
+import 'package:microdados_enem_app/onboarding/ui/screen/onboarding_page.dart';
+import 'package:microdados_enem_app/router/routes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,10 +24,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
-      ),
-      home: const HomePage(),
+      initialRoute: Routes.onboarding,
+      routes: {
+        Routes.onboarding: (context) => OnboardingPage(),
+        Routes.home: (context) => HomePage(),
+      },
     );
   }
 }

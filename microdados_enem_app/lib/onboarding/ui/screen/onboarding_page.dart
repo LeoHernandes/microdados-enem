@@ -9,6 +9,7 @@ import 'package:microdados_enem_app/onboarding/ui/widgets/student_verification_s
 import 'package:microdados_enem_app/onboarding/ui/widgets/teacher_success_step.dart';
 import 'package:microdados_enem_app/onboarding/ui/widgets/warning_step.dart';
 import 'package:microdados_enem_app/onboarding/ui/widgets/welcome_step.dart';
+import 'package:microdados_enem_app/router/routes.dart';
 
 enum OnboardingStep {
   Welcome,
@@ -62,10 +63,10 @@ class OnboardingPage extends HookWidget {
               ),
             ),
             OnboardingStep.StudentSuccess => StudentSuccessStep(
-              onNextStep: () {},
+              onNextStep: () => Navigator.pushNamed(context, Routes.home),
             ),
             OnboardingStep.TeacherSuccess => TeacherSuccessStep(
-              onNextStep: () {},
+              onNextStep: () => Navigator.pushNamed(context, Routes.home),
             ),
           },
         ),
