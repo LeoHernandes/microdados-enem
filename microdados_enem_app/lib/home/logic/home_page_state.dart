@@ -1,4 +1,4 @@
-import 'package:microdados_enem_app/api/endpoint_state.dart';
+import 'package:microdados_enem_app/core/api/endpoint_state.dart';
 import 'package:microdados_enem_app/home/data/home_page_repository.dart';
 
 typedef HomePageState = EndpointState<String, HomePageStateData>;

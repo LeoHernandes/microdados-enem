@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:microdados_enem_app/design_system/styles/colors.dart';
+import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
+import 'package:microdados_enem_app/core/local_storage.dart';
 import 'package:microdados_enem_app/onboarding/logic/onboarding_cubit.dart';
 import 'package:microdados_enem_app/onboarding/ui/widgets/select_profile_step.dart';
 import 'package:microdados_enem_app/onboarding/ui/widgets/student_success_step.dart';
@@ -9,7 +10,8 @@ import 'package:microdados_enem_app/onboarding/ui/widgets/student_verification_s
 import 'package:microdados_enem_app/onboarding/ui/widgets/teacher_success_step.dart';
 import 'package:microdados_enem_app/onboarding/ui/widgets/warning_step.dart';
 import 'package:microdados_enem_app/onboarding/ui/widgets/welcome_step.dart';
-import 'package:microdados_enem_app/router/routes.dart';
+import 'package:microdados_enem_app/core/routes.dart';
+import 'package:provider/provider.dart';
 
 enum OnboardingStep {
   Welcome,
@@ -26,6 +28,7 @@ class OnboardingPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final step = useState(OnboardingStep.Welcome);
+    final localStorage = Provider.of<LocalStorage>(context, listen: false);
 
     return PopScope(
       canPop: step.value == OnboardingStep.Welcome,
@@ -63,10 +66,22 @@ class OnboardingPage extends HookWidget {
               ),
             ),
             OnboardingStep.StudentSuccess => StudentSuccessStep(
-              onNextStep: () => Navigator.pushNamed(context, Routes.home),
+              onNextStep: () async {
+                await localStorage.setBool(
+                  StorageKeys.isOnboardingComplete,
+                  true,
+                );
+                Navigator.pushNamed(context, Routes.home);
+              },
             ),
             OnboardingStep.TeacherSuccess => TeacherSuccessStep(
-              onNextStep: () => Navigator.pushNamed(context, Routes.home),
+              onNextStep: () async {
+                await localStorage.setBool(
+                  StorageKeys.isOnboardingComplete,
+                  true,
+                );
+                Navigator.pushNamed(context, Routes.home);
+              },
             ),
           },
         ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:microdados_enem_app/design_system/app_text/app_text.dart';
-import 'package:microdados_enem_app/design_system/buttons/buttons.dart';
-import 'package:microdados_enem_app/design_system/styles/colors.dart';
-import 'package:microdados_enem_app/design_system/styles/typography.dart';
+import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
+import 'package:microdados_enem_app/core/design_system/buttons/buttons.dart';
+import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
+import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/onboarding/ui/widgets/progress_dots.dart';
 
 class WarningStep extends StatelessWidget {

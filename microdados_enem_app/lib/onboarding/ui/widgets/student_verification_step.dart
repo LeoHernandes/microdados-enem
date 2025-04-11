@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:microdados_enem_app/design_system/app_text/app_text.dart';
-import 'package:microdados_enem_app/design_system/buttons/buttons.dart';
-import 'package:microdados_enem_app/design_system/styles/colors.dart';
-import 'package:microdados_enem_app/design_system/styles/typography.dart';
+import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
+import 'package:microdados_enem_app/core/design_system/buttons/buttons.dart';
+import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
+import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
+import 'package:microdados_enem_app/core/local_storage.dart';
 import 'package:microdados_enem_app/onboarding/logic/onboarding_cubit.dart';
 import 'package:microdados_enem_app/onboarding/logic/onboarding_state.dart';
 import 'package:microdados_enem_app/onboarding/ui/widgets/progress_dots.dart';
+import 'package:provider/provider.dart';
 
 class StudentVerificationStep extends HookWidget {
   final VoidCallback onNextStep;
@@ -107,10 +109,21 @@ class StudentVerificationStep extends HookWidget {
                 SizedBox(height: 20),
                 BlocBuilder<OnboardingStateCubit, OnboardingState>(
                   builder: (context, state) {
+                    final localStorage = Provider.of<LocalStorage>(
+                      context,
+                      listen: false,
+                    );
+
                     if (state.isSuccess) {
                       return Button.primary(
                         size: Size(160, 36),
-                        onPressed: onNextStep,
+                        onPressed: () async {
+                          await localStorage.setString(
+                            StorageKeys.subscription,
+                            subscriptionController.text,
+                          );
+                          onNextStep();
+                        },
                         text: 'Continuar',
                       );
                     }

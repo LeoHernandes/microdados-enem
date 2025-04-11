@@ -1,4 +1,4 @@
-import 'package:microdados_enem_app/api/microdados_api.dart';
+import 'package:microdados_enem_app/core/api/microdados_api.dart';
 
 class HomePageRepository {
   final AppHttpClient _httpClient = AppHttpClient();

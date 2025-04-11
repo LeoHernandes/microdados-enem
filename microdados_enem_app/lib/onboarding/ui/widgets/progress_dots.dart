@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:microdados_enem_app/design_system/styles/colors.dart';
+import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 
 class ProgressDots extends StatelessWidget {
   final int totalSteps;
