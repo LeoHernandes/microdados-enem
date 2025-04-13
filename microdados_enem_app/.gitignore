@@ -46,3 +46,4 @@ app.*.map.json
 
 # Custom
 testers.txt
+dev.env
