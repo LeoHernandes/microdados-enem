@@ -14,7 +14,8 @@ class AppColors {
 
   static const blackPrimary = Color(0xFF000000);
   static const blackLight = Color(0xFF333333);
-  static const blackLighter = Color(0xFFCCCCCC);
+  static const blackLighter = Color(0xFF888888);
+  static const blackLightest = Color(0xFFCCCCCC);
 
   static const whitePrimary = Color(0xFFFFFFFF);
 }

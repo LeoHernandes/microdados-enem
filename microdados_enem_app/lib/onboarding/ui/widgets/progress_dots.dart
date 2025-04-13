@@ -29,7 +29,7 @@ class ProgressDots extends StatelessWidget {
               color:
                   currentStep == index + 1
                       ? AppColors.blueDarker
-                      : AppColors.blackLighter,
+                      : AppColors.blackLightest,
             ),
           ),
         ),

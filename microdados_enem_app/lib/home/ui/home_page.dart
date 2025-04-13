@@ -1,30 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:microdados_enem_app/home/logic/home_page_cubit.dart';
-import 'package:microdados_enem_app/home/logic/home_page_state.dart';
+import 'package:microdados_enem_app/core/design_system/app_scaffold/app_scaffold.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => HomePageStateCubit(),
-      child: const Foobar(),
-    );
-  }
-}
-
-class Foobar extends StatelessWidget {
-  const Foobar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Boas vindas!'),
-      ),
+    return AppScaffold(
+      appBarText: 'Início',
+      selectedTab: NavTab.home,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -37,30 +21,8 @@ class Foobar extends StatelessWidget {
                 fontWeight: FontWeight.w900,
               ),
             ),
-            BlocBuilder<HomePageStateCubit, HomePageState>(
-              builder: (context, state) {
-                return state.when(
-                  isIdle:
-                      () => Text(
-                        'Parado',
-                        style: TextStyle(
-                          fontFamily: 'Rawline',
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                  isLoading: () => Text('Carregando'),
-                  isError: Text.new,
-                  isSuccess: (data) => Text('${data.count}'),
-                );
-              },
-            ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.read<HomePageStateCubit>().getHomePageData(),
-        key: const Key('Foobar'),
-        child: const Icon(Icons.add),
       ),
     );
   }
