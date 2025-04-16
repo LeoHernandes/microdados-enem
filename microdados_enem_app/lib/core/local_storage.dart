@@ -13,6 +13,9 @@ class LocalStorage {
 
   Future<bool> setString(String key, String value) =>
       _prefs.setString(key, value);
+
+  String getString(String key, String defaultValue) =>
+      _prefs.getString(key) ?? defaultValue;
 }
 
 class StorageKeys {

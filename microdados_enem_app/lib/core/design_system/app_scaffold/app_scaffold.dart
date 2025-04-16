@@ -22,6 +22,7 @@ class AppScaffold extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: AppColors.whitePrimary,
+        backgroundColor: AppColors.whitePrimary,
         shadowColor: AppColors.blackLight,
         elevation: 1,
         title: AppText(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:microdados_enem_app/core/local_storage.dart';
-import 'package:microdados_enem_app/home/ui/home_page.dart';
+import 'package:microdados_enem_app/home/ui/screen/home_page.dart';
 import 'package:microdados_enem_app/onboarding/ui/screen/onboarding_page.dart';
 import 'package:microdados_enem_app/core/routes.dart';
 import 'package:provider/provider.dart';

@@ -37,4 +37,18 @@ class AppTypography {
     fontSize: 16.8,
     height: 1.4,
   );
+
+  static final subtitle2 = TextStyle(
+    fontFamily: 'Rawline',
+    fontWeight: FontWeight.w600,
+    fontSize: 14,
+    height: 1.5,
+  );
+
+  static final caption = TextStyle(
+    fontFamily: 'Rawline',
+    fontWeight: FontWeight.w500,
+    fontSize: 11.67,
+    height: 1.38,
+  );
 }
