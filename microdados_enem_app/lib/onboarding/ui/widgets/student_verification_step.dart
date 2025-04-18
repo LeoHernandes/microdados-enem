@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
-import 'package:microdados_enem_app/core/design_system/buttons/buttons.dart';
+import 'package:microdados_enem_app/core/design_system/button/button.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/core/local_storage.dart';
@@ -68,7 +68,7 @@ class StudentVerificationStep extends HookWidget {
                                       : null,
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: const BorderRadius.all(
-                                  Radius.circular(10),
+                                  Radius.circular(8),
                                 ),
                                 borderSide: BorderSide(
                                   color:
@@ -79,7 +79,7 @@ class StudentVerificationStep extends HookWidget {
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: const BorderRadius.all(
-                                  Radius.circular(10),
+                                  Radius.circular(8),
                                 ),
                                 borderSide: BorderSide(
                                   color: AppColors.bluePrimary,
@@ -176,8 +176,8 @@ class StudentVerificationStep extends HookWidget {
           decoration: BoxDecoration(
             color: AppColors.whitePrimary,
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
+              topLeft: Radius.circular(8),
+              topRight: Radius.circular(8),
             ),
           ),
           padding: EdgeInsets.all(20),
