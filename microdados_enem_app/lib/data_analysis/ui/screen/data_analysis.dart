@@ -17,6 +17,7 @@ class DataAnalysis extends StatelessWidget {
       appBarText: 'Análises',
       selectedTab: NavTab.dataAnalysis,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppCard(
             border: true,
@@ -29,6 +30,11 @@ class DataAnalysis extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20),
+          AppText(
+            text: 'Número de acertos',
+            typography: AppTypography.subtitle2,
+            color: AppColors.blackLight,
+          ),
           NumericStepButton(
             maxValue: 45,
             minValue: 1,
@@ -58,28 +64,50 @@ class NumericStepButton extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final counter = useState(this.initialValue);
-    final controller = useTextEditingController();
+    final controller = useTextEditingController(text: initialValue.toString());
+    final textValue = useValueListenable(controller);
+
+    void handleValueChange(int newValue) {
+      final clampedValue = newValue.clamp(minValue, maxValue);
+      controller.text = clampedValue.toString();
+      controller.selection = TextSelection.fromPosition(
+        TextPosition(offset: controller.text.length),
+      );
+      onChanged(clampedValue);
+    }
+
+    final currentValue = int.tryParse(textValue.text) ?? initialValue;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        Expanded(
+          child: TextInput(
+            controller: controller,
+            inputType: TextInputType.number,
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                final newValue = int.tryParse(value);
+                if (newValue != null) handleValueChange(newValue);
+              }
+            },
+          ),
+        ),
+        SizedBox(width: 10),
         AppIconButton(
           icon: Icons.remove,
           onTap:
-              counter.value == this.minValue
+              currentValue == minValue
                   ? null
-                  : () => this.onChanged(--counter.value),
+                  : () => handleValueChange(currentValue - 1),
         ),
-        SizedBox(width: 10),
-        Expanded(child: TextInput(controller: controller)),
         SizedBox(width: 10),
         AppIconButton(
           icon: Icons.add,
           onTap:
-              counter.value == this.maxValue
+              currentValue == maxValue
                   ? null
-                  : () => this.onChanged(++counter.value),
+                  : () => handleValueChange(currentValue + 1),
         ),
       ],
     );

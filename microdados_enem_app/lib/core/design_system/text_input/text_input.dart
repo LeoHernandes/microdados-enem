@@ -8,6 +8,7 @@ class TextInput extends StatelessWidget {
   final bool disable;
   final String? label;
   final String? error;
+  final ValueChanged<String>? onChanged;
 
   const TextInput({
     super.key,
@@ -17,15 +18,18 @@ class TextInput extends StatelessWidget {
     this.inputType = TextInputType.text,
     this.isSuccess = false,
     this.error,
+    this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onChanged: onChanged,
       cursorColor: AppColors.bluePrimary,
       readOnly: disable,
       controller: controller,
       decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         labelText: label,
         errorText: error,
         enabledBorder: OutlineInputBorder(

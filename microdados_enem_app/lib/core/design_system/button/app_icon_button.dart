@@ -16,7 +16,9 @@ class AppIconButton extends StatelessWidget {
       color: AppColors.bluePrimary,
       style: IconButton.styleFrom(
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        side: BorderSide(color: AppColors.bluePrimary),
+        side: BorderSide(
+          color: onTap != null ? AppColors.bluePrimary : AppColors.blackLight,
+        ),
       ),
     );
   }
