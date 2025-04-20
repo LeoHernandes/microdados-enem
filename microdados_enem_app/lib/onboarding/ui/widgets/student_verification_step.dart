@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
+import 'package:microdados_enem_app/core/design_system/button/app_icon_button.dart';
 import 'package:microdados_enem_app/core/design_system/button/button.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
+import 'package:microdados_enem_app/core/design_system/text_input/text_input.dart';
 import 'package:microdados_enem_app/core/local_storage.dart';
 import 'package:microdados_enem_app/onboarding/logic/onboarding_cubit.dart';
 import 'package:microdados_enem_app/onboarding/logic/onboarding_state.dart';
@@ -47,62 +49,33 @@ class StudentVerificationStep extends HookWidget {
                 SizedBox(height: 20),
                 Row(
                   mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       child: BlocBuilder<OnboardingStateCubit, OnboardingState>(
                         builder: (context, state) {
-                          return TextField(
-                            readOnly: state.isLoading || state.isSuccess,
+                          return TextInput(
+                            disable: state.isLoading || state.isSuccess,
                             controller: subscriptionController,
-                            decoration: InputDecoration(
-                              labelText:
-                                  state.isSuccess
-                                      ? 'Número encontrado'
-                                      : 'Número de inscrição',
-                              errorText:
-                                  state.isError
-                                      ? 'Número de inscrição não encontrado'
-                                      : !isValid.value
-                                      ? 'Insira um número de inscrição'
-                                      : null,
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(8),
-                                ),
-                                borderSide: BorderSide(
-                                  color:
-                                      state.isSuccess
-                                          ? AppColors.greenPrimary
-                                          : AppColors.bluePrimary,
-                                ),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(8),
-                                ),
-                                borderSide: BorderSide(
-                                  color: AppColors.bluePrimary,
-                                ),
-                              ),
-                            ),
-                            keyboardType: TextInputType.number,
+                            label:
+                                state.isSuccess
+                                    ? 'Número encontrado'
+                                    : 'Número de inscrição',
+                            error:
+                                state.isError
+                                    ? 'Número de inscrição não encontrado'
+                                    : !isValid.value
+                                    ? 'Insira um número de inscrição'
+                                    : null,
+                            isSuccess: state.isSuccess,
+                            inputType: TextInputType.number,
                           );
                         },
                       ),
                     ),
                     SizedBox(width: 20),
-                    IconButton.outlined(
-                      onPressed:
-                          () => _showSubscriptionNumberExplanation(context),
-                      icon: Icon(
-                        Icons.question_mark,
-                        color: AppColors.bluePrimary,
-                      ),
-                      style: IconButton.styleFrom(
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        side: BorderSide(color: AppColors.bluePrimary),
-                      ),
+                    AppIconButton(
+                      onTap: () => _showSubscriptionNumberExplanation(context),
+                      icon: Icons.question_mark,
                     ),
                   ],
                 ),

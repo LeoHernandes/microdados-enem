@@ -4,7 +4,7 @@ import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 
-enum NavTab { home, myInfo }
+enum NavTab { home, dataAnalysis }
 
 class AppScaffold extends StatelessWidget {
   final String appBarText;
@@ -32,7 +32,10 @@ class AppScaffold extends StatelessWidget {
           typography: AppTypography.headline6,
         ),
       ),
-      body: body,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+        child: body,
+      ),
       bottomNavigationBar: BottomNav(selectedTab: selectedTab),
     );
   }

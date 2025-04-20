@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
+import 'package:microdados_enem_app/core/design_system/app_card/app_card.dart';
 import 'package:microdados_enem_app/core/local_storage.dart';
 import 'package:microdados_enem_app/home/logic/participant_score.cubit.dart';
 import 'package:microdados_enem_app/home/logic/participant_score_state.dart';
@@ -25,22 +25,9 @@ class UserScoreCard extends HookWidget {
       return () {};
     }, []);
 
-    return Container(
-      padding: EdgeInsets.all(8),
-      width: MediaQuery.sizeOf(context).width,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: AppColors.whitePrimary,
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.blackLightest,
-            offset: Offset(0, 2),
-            blurRadius: 2,
-          ),
-        ],
-      ),
-
-      child: BlocBuilder<ParticipantScoreCubit, ParticipantScoreState>(
+    return AppCard(
+      shadow: true,
+      body: BlocBuilder<ParticipantScoreCubit, ParticipantScoreState>(
         builder:
             (context, state) => state.when(
               isIdle: CardBodyLoading.new,

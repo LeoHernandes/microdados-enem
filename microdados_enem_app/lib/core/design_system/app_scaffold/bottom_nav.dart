@@ -38,10 +38,14 @@ class BottomNav extends StatelessWidget {
                 },
           ),
           _NavButton(
-            icon: Icons.person,
-            label: 'Meus Dados',
-            isSelected: this.selectedTab == NavTab.myInfo,
-            onTap: () {},
+            icon: Icons.bar_chart_outlined,
+            label: 'Análises',
+            isSelected: this.selectedTab == NavTab.dataAnalysis,
+            onTap:
+                () => {
+                  if (this.selectedTab != NavTab.dataAnalysis)
+                    Navigator.pushNamed(context, Routes.dataAnalysis),
+                },
           ),
         ],
       ),
