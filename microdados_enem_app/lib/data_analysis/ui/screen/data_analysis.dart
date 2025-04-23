@@ -3,12 +3,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:microdados_enem_app/core/design_system/app_card/app_card.dart';
 import 'package:microdados_enem_app/core/design_system/app_scaffold/app_scaffold.dart';
 import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
-import 'package:microdados_enem_app/core/design_system/button/app_icon_button.dart';
+import 'package:microdados_enem_app/core/design_system/button/check_button.dart';
+import 'package:microdados_enem_app/core/design_system/input/numeric_step_button.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
-import 'package:microdados_enem_app/core/design_system/text_input/text_input.dart';
 
-class DataAnalysis extends StatelessWidget {
+class DataAnalysis extends HookWidget {
   const DataAnalysis({super.key});
 
   @override
@@ -35,79 +35,72 @@ class DataAnalysis extends StatelessWidget {
             typography: AppTypography.subtitle2,
             color: AppColors.blackLight,
           ),
+          SizedBox(height: 2),
           NumericStepButton(
             maxValue: 45,
             minValue: 1,
             onChanged: (_) {},
             initialValue: 45,
           ),
+          SizedBox(height: 20),
+          AppText(
+            text: 'Área do conhecimento',
+            typography: AppTypography.subtitle2,
+            color: AppColors.blackLight,
+          ),
+          SizedBox(height: 2),
+          ExamAreaPicker(onAreaSelect: (_) {}),
         ],
       ),
     );
   }
 }
 
-class NumericStepButton extends HookWidget {
-  final int minValue;
-  final int maxValue;
-  final int initialValue;
+enum ExamArea { CH, CN, LC, MT }
 
-  final ValueChanged<int> onChanged;
+class ExamAreaPicker extends HookWidget {
+  final ValueChanged<ExamArea> onAreaSelect;
 
-  const NumericStepButton({
-    super.key,
-    required this.minValue,
-    required this.maxValue,
-    this.initialValue = 1,
-    required this.onChanged,
-  });
+  const ExamAreaPicker({super.key, required this.onAreaSelect});
 
   @override
   Widget build(BuildContext context) {
-    final controller = useTextEditingController(text: initialValue.toString());
-    final textValue = useValueListenable(controller);
+    final selectedArea = useState<ExamArea>(ExamArea.LC);
 
-    void handleValueChange(int newValue) {
-      final clampedValue = newValue.clamp(minValue, maxValue);
-      controller.text = clampedValue.toString();
-      controller.selection = TextSelection.fromPosition(
-        TextPosition(offset: controller.text.length),
-      );
-      onChanged(clampedValue);
-    }
-
-    final currentValue = int.tryParse(textValue.text) ?? initialValue;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Wrap(
+      spacing: 10,
       children: [
-        Expanded(
-          child: TextInput(
-            controller: controller,
-            inputType: TextInputType.number,
-            onChanged: (value) {
-              if (value.isNotEmpty) {
-                final newValue = int.tryParse(value);
-                if (newValue != null) handleValueChange(newValue);
-              }
-            },
-          ),
+        CheckButton(
+          checked: selectedArea.value == ExamArea.LC,
+          text: 'Linguagens',
+          onCheck: () {
+            onAreaSelect(ExamArea.LC);
+            selectedArea.value = ExamArea.LC;
+          },
         ),
-        SizedBox(width: 10),
-        AppIconButton(
-          icon: Icons.remove,
-          onTap:
-              currentValue == minValue
-                  ? null
-                  : () => handleValueChange(currentValue - 1),
+        CheckButton(
+          checked: selectedArea.value == ExamArea.CH,
+          text: 'Ciências Humanas',
+          onCheck: () {
+            onAreaSelect(ExamArea.CH);
+            selectedArea.value = ExamArea.CH;
+          },
         ),
-        SizedBox(width: 10),
-        AppIconButton(
-          icon: Icons.add,
-          onTap:
-              currentValue == maxValue
-                  ? null
-                  : () => handleValueChange(currentValue + 1),
+        CheckButton(
+          checked: selectedArea.value == ExamArea.MT,
+          text: 'Matemática',
+          onCheck: () {
+            onAreaSelect(ExamArea.MT);
+            selectedArea.value = ExamArea.MT;
+          },
+        ),
+        CheckButton(
+          checked: selectedArea.value == ExamArea.CN,
+          text: 'Ciências da Natureza',
+          onCheck: () {
+            onAreaSelect(ExamArea.CN);
+            selectedArea.value = ExamArea.CN;
+          },
         ),
       ],
     );

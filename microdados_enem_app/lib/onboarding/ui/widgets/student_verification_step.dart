@@ -6,7 +6,7 @@ import 'package:microdados_enem_app/core/design_system/button/app_icon_button.da
 import 'package:microdados_enem_app/core/design_system/button/button.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
-import 'package:microdados_enem_app/core/design_system/text_input/text_input.dart';
+import 'package:microdados_enem_app/core/design_system/input/text_input.dart';
 import 'package:microdados_enem_app/core/local_storage.dart';
 import 'package:microdados_enem_app/onboarding/logic/onboarding_cubit.dart';
 import 'package:microdados_enem_app/onboarding/logic/onboarding_state.dart';
