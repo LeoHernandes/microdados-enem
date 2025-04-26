@@ -4,22 +4,44 @@ import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 class AppIconButton extends StatelessWidget {
   final VoidCallback? onTap;
   final IconData icon;
+  final bool border;
+  final double? iconSize;
 
-  const AppIconButton({super.key, this.onTap, required this.icon});
+  const AppIconButton({
+    super.key,
+    this.onTap,
+    required this.icon,
+    this.border = true,
+    this.iconSize,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return IconButton.outlined(
-      onPressed: onTap,
-      disabledColor: AppColors.blackLight,
-      icon: Icon(icon),
-      color: AppColors.bluePrimary,
-      style: IconButton.styleFrom(
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        side: BorderSide(
-          color: onTap != null ? AppColors.bluePrimary : AppColors.blackLight,
+    if (border) {
+      return IconButton.outlined(
+        iconSize: iconSize,
+        onPressed: onTap,
+        disabledColor: AppColors.blackLight,
+        icon: Icon(icon),
+        color: AppColors.bluePrimary,
+        style: IconButton.styleFrom(
+          side: BorderSide(
+            color: onTap != null ? AppColors.bluePrimary : AppColors.blackLight,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return IconButton.filled(
+        style: IconButton.styleFrom(
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          backgroundColor: AppColors.whitePrimary,
+        ),
+        iconSize: iconSize,
+        onPressed: onTap,
+        icon: Icon(icon),
+        color: AppColors.bluePrimary,
+        disabledColor: AppColors.blackLight,
+      );
+    }
   }
 }
