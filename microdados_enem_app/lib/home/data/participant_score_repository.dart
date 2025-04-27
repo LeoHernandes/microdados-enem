@@ -8,9 +8,7 @@ class ParticipantScoreRepository {
   Future<ParticipantScoreResponse> getParticipantScoreData(
     String subscription,
   ) async {
-    final response = await _httpClient.get(
-      'participant/score?subscription=$subscription',
-    );
+    final response = await _httpClient.get('participant/$subscription/score');
     return ParticipantScoreResponse.fromJson(response);
   }
 }
