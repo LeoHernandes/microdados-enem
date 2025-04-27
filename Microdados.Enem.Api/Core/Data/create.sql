@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS Itens (
 CREATE TABLE IF NOT EXISTS ItensPorProvas (
         ItemId INTEGER NOT NULL,
         ProvaId INTEGER NOT NULL,
+        Posicao INTEGER NOT NULL,
         PRIMARY KEY (ItemId, ProvaId)
 );
 

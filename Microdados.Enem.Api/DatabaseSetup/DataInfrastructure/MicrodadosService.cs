@@ -35,7 +35,8 @@ public class MicrodadosService(AppDbContext dbContext)
             .Select(item => new ItemPorProva
             {
                 ItemId = item.CO_ITEM,
-                ProvaId = item.CO_PROVA
+                ProvaId = item.CO_PROVA,
+                Posicao = item.CO_POSICAO
             })];
 
         HashSet<Prova> dbProvasSet = itemsDTO

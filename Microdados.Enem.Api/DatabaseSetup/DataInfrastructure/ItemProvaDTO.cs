@@ -2,6 +2,7 @@ namespace DatabaseSetup.DataInfrastructure;
 
 public class ItemProvaDTO
 {
+    public int CO_POSICAO { get; set; }
     public int CO_ITEM { get; set; }
     public int CO_PROVA { get; set; }
     public string SG_AREA { get; set; } = default!;
