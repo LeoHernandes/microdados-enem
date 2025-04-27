@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <NoWarn>CS8524</NoWarn> <!-- CS8524: Switch expxression not convering all integer numbers when dealing with enums -->
+    <WarningsAsErrors>CS8509</WarningsAsErrors> <!-- CS8509: Switch expression not covering all cases --> 
   </PropertyGroup>
 
   <ItemGroup>
