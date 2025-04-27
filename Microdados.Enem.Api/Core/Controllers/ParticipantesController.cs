@@ -14,7 +14,7 @@ namespace Core.Controllers
         private AppDbContext DbContext { get; set; } = dbContext;
 
         [HttpPost]
-        [Route("subscription/validate")]
+        [Route("participant/check-in")]
         public async Task<IActionResult> PostSubscriptionValidate([FromBody] PostSubscriptionValidateRequest request)
         {
             bool participantExists = await DbContext.Participantes.Where(p => p.ParticipanteId == request.Subscription).AnyAsync();
