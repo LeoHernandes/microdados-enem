@@ -9,6 +9,7 @@ public class ParticipanteDTO
     public int? CO_PROVA_CH { get; set; }
     public int? CO_PROVA_LC { get; set; }
     public int? CO_PROVA_MT { get; set; }
+    public int TP_LINGUA { get; set; }
     public int TP_PRESENCA_CN { get; set; }
     public int TP_PRESENCA_CH { get; set; }
     public int TP_PRESENCA_LC { get; set; }

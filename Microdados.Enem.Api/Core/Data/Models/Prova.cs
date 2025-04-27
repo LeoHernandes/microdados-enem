@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Core.Data.Models;
 
 public class Prova
@@ -11,5 +13,5 @@ public class Prova
     public IEnumerable<Participante> ParticipantesLC { get; set; } = default!;
     public IEnumerable<Participante> ParticipantesMT { get; set; } = default!;
 
-    public IEnumerable<Item> Itens { get; set; } = default!;
+    public IEnumerable<ItemPorProva> ItensPorProva { get; set; } = default!;
 }

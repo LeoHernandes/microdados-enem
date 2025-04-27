@@ -58,7 +58,7 @@ public class MicrodadosService(AppDbContext dbContext)
                 ParamAcaso = item.NU_PARAM_C,
                 FoiAbandonado = item.IN_ITEM_ABAN,
                 Gabarito = item.TX_GABARITO,
-                LinguaEstrangeira = item.TP_LINGUA == 0 ? "Espanhol" : "Inglês",
+                LinguaEstrangeira = (ForeignLanguage?)item.TP_LINGUA,
             })
             .ToHashSet(new ItemEqualityComparer());
 
@@ -94,6 +94,7 @@ public class MicrodadosService(AppDbContext dbContext)
                 ProvaIdLC = participante.CO_PROVA_LC ?? -1,
                 ProvaIdMT = participante.CO_PROVA_MT ?? -1,
                 StatusRE = participante.TP_STATUS_REDACAO ?? -1,
+                LinguaEstrangeira = (ForeignLanguage)participante.TP_LINGUA,
                 RespostasCH = participante.TX_RESPOSTAS_CH ?? "",
                 RespostasCN = participante.TX_RESPOSTAS_CN ?? "",
                 RespostasLC = participante.TX_RESPOSTAS_LC ?? "",

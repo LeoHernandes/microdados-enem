@@ -10,6 +10,7 @@ public class Participante
     public int ProvaIdLC { get; set; }
     public int ProvaIdMT { get; set; }
     public int StatusRE { get; set; }
+    public ForeignLanguage LinguaEstrangeira { get; set; }
     public string RespostasCH { get; set; } = default!;
     public string RespostasCN { get; set; } = default!;
     public string RespostasLC { get; set; } = default!;

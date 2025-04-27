@@ -9,7 +9,7 @@ public class Item
     public double? ParamAcaso { get; set; }
     public bool FoiAbandonado { get; set; }
     public char Gabarito { get; set; }
-    public string? LinguaEstrangeira { get; set; }
+    public ForeignLanguage? LinguaEstrangeira { get; set; }
 
-    public IEnumerable<Prova> Provas { get; set; } = default!;
+    public IEnumerable<ItemPorProva> ProvasPorItem { get; set; } = default!;
 }

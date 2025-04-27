@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS Itens (
         ParamAcaso REAL NULL,
         FoiAbandonado INTEGER NOT NULL,
         Gabarito TEXT NOT NULL,
-        LinguaEstrangeira TEXT NULL
+        LinguaEstrangeira INT NULL
 );
 
 CREATE TABLE IF NOT EXISTS ItensPorProvas (
@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS Participantes
         ProvaIdLC INTEGER NOT NULL,
         ProvaIdMT INTEGER NOT NULL,
         StatusRE INTEGER NOT NULL,
+        LinguaEstrangeira INTEGER NOT NULL,
         RespostasCH TEXT NOT NULL,
         RespostasCN TEXT NOT NULL,
         RespostasLC TEXT NOT NULL,

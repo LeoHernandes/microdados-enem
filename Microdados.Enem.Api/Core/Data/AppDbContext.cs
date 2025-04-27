@@ -12,27 +12,39 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.ToTable("Itens");
             entity.HasKey(i => i.ItemId);
 
-            entity.HasMany(i => i.Provas)
-                .WithMany(prova => prova.Itens)
-                .UsingEntity<ItemPorProva>();
+            entity.HasMany(i => i.ProvasPorItem)
+                .WithOne(ip => ip.Item)
+                .HasForeignKey(ip => ip.ItemId);
+
+            entity.Property(i => i.LinguaEstrangeira)
+                .HasConversion<int>();
         });
 
         modelBuilder.Entity<ItemPorProva>(entity =>
         {
             entity.ToTable("ItensPorProvas");
             entity.HasKey(e => new { e.ItemId, e.ProvaId });
+
+            entity.Property(e => e.Posicao).IsRequired();
         });
 
         modelBuilder.Entity<Prova>(entity =>
         {
             entity.ToTable("Provas");
             entity.HasKey(p => p.ProvaId);
+
+            entity.HasMany(p => p.ItensPorProva)
+                .WithOne(ip => ip.Prova)
+                .HasForeignKey(ip => ip.ProvaId);
         });
 
         modelBuilder.Entity<Participante>(entity =>
         {
             entity.ToTable("Participantes");
             entity.HasKey(p => p.ParticipanteId);
+
+            entity.Property(p => p.LinguaEstrangeira)
+                .HasConversion<int>();
 
             entity.HasOne(part => part.ProvaCH)
                 .WithMany(prova => prova.ParticipantesCH)
