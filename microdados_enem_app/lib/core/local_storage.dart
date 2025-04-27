@@ -23,4 +23,5 @@ class StorageKeys {
 
   static const isOnboardingComplete = 'is_onboarding_complete';
   static const subscription = 'subscription';
+  static const cachePrefix = 'CACHE_';
 }
