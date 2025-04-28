@@ -55,7 +55,7 @@ namespace Core.Controllers
         [Route("participant/{id}/score-on-area/{areaId}")]
         public async Task<IActionResult> GetParticipantScoreOnArea(string id, string areaId)
         {
-            if (!Enum.TryParse<Area>(areaId, ignoreCase: true, out var parsedAreaId))
+            if (!Enum.TryParse<Area>(areaId, ignoreCase: true, out Area parsedAreaId))
             {
                 return BadRequest("INVALID_AREA");
             }
@@ -80,7 +80,7 @@ namespace Core.Controllers
                     p => p.ItensPorProva
                         .OrderBy(ip => ip.Posicao)
                         // If the item is from foreign language, check the participant choice
-                        .Where(ip => ip.Item.LinguaEstrangeira == null || ip.Item.LinguaEstrangeira == userTestDTO.language)
+                        .Where(ip => ip.Item.LinguaEstrangeira == null || ip.Item.LinguaEstrangeira == userTestDTO.Language)
                         .Select(ip => ip.Item.Gabarito)
                 )
                .FirstOrDefaultAsync();
@@ -97,6 +97,6 @@ namespace Core.Controllers
             ));
         }
 
-        record UserTestDTO(int Code, ForeignLanguage language, string Answers, float Score);
+        record UserTestDTO(int Code, ForeignLanguage Language, string Answers, float Score);
     }
 }
