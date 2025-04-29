@@ -15,6 +15,10 @@ public class Participante
     public string RespostasCN { get; set; } = default!;
     public string RespostasLC { get; set; } = default!;
     public string RespostasMT { get; set; } = default!;
+    public int AcertosCH { get; set; } = default!;
+    public int AcertosCN { get; set; } = default!;
+    public int AcertosLC { get; set; } = default!;
+    public int AcertosMT { get; set; } = default!;
     public float NotaCH { get; set; }
     public float NotaCN { get; set; }
     public float NotaLC { get; set; }

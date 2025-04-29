@@ -14,6 +14,7 @@ public class MicrodadosService(AppDbContext dbContext)
     private const string PARTICIPANTES_FILE_PATH = "./MICRODADOS_ENEM_2023.csv";
 
     private AppDbContext DbContext { get; set; } = dbContext;
+    private Dictionary<int, string> Gabaritos { get; set; } = [];
     private readonly CsvConfiguration CsvHelperConfig = new(CultureInfo.InvariantCulture)
     {
         Delimiter = ";",
@@ -21,7 +22,7 @@ public class MicrodadosService(AppDbContext dbContext)
         Encoding = Encoding.Latin1
     };
 
-
+    // Has the side effect of populating the `Gabaritos` dictionary 
     public void TransferMicrodadosItemsToDb()
     {
         ItemProvaDTO[] itemsDTO = [];
@@ -66,6 +67,23 @@ public class MicrodadosService(AppDbContext dbContext)
         DbContext.ItensPorProvas.AddRange(dbItensPorProvas);
         DbContext.Provas.AddRange(dbProvasSet);
         DbContext.SaveChanges();
+
+        // Dict used to calculate the number of correctly answered question for each area for each user
+        // Is better to generate the dict here instead of building it from the DB due to obvious performance reasons
+        // OBS:
+        //   LC exam have repeated 1-5 questions, so we consider TP_LINGUA as the second order criteria, where
+        //      0 - English
+        //      1 - Spanish
+        foreach (Prova prova in dbProvasSet)
+        {
+            string gabarito = string.Concat(itemsDTO
+                .Where(items => items.CO_PROVA == prova.ProvaId)
+                .OrderBy(items => items.CO_POSICAO)
+                .ThenBy(items => items.TP_LINGUA)
+                .Select(items => items.TX_GABARITO));
+
+            this.Gabaritos.Add(prova.ProvaId, gabarito);
+        }
     }
 
     public void BulkTransferMicrodadosParticipantesToDb()
@@ -84,31 +102,48 @@ public class MicrodadosService(AppDbContext dbContext)
 
                 return wasPresentInCH && wasPresentInCN && wasPresentInLC && wasPresentInMT;
             })
-            .Select(participante => new Participante
+            .Select(participante =>
             {
-                ParticipanteId = participante.NU_INSCRICAO,
-                Treineiro = participante.IN_TREINEIRO == 1,
-                Municipio = participante.NO_MUNICIPIO_ESC ?? "",
-                ProvaIdCH = participante.CO_PROVA_CH ?? -1,
-                ProvaIdCN = participante.CO_PROVA_CN ?? -1,
-                ProvaIdLC = participante.CO_PROVA_LC ?? -1,
-                ProvaIdMT = participante.CO_PROVA_MT ?? -1,
-                StatusRE = participante.TP_STATUS_REDACAO ?? -1,
-                LinguaEstrangeira = (ForeignLanguage)participante.TP_LINGUA,
-                RespostasCH = participante.TX_RESPOSTAS_CH ?? "",
-                RespostasCN = participante.TX_RESPOSTAS_CN ?? "",
-                RespostasLC = participante.TX_RESPOSTAS_LC ?? "",
-                RespostasMT = participante.TX_RESPOSTAS_MT ?? "",
-                NotaCH = participante.NU_NOTA_CH ?? -1,
-                NotaCN = participante.NU_NOTA_CN ?? -1,
-                NotaLC = participante.NU_NOTA_LC ?? -1,
-                NotaMT = participante.NU_NOTA_MT ?? -1,
-                NotaRE = participante.NU_NOTA_REDACAO ?? -1,
-                NotaRECompetencia1 = participante.NU_NOTA_COMP1 ?? -1,
-                NotaRECompetencia2 = participante.NU_NOTA_COMP2 ?? -1,
-                NotaRECompetencia3 = participante.NU_NOTA_COMP3 ?? -1,
-                NotaRECompetencia4 = participante.NU_NOTA_COMP4 ?? -1,
-                NotaRECompetencia5 = participante.NU_NOTA_COMP5 ?? -1,
+                int provaIdCH = participante.CO_PROVA_CH ?? -1;
+                int provaIdCN = participante.CO_PROVA_CN ?? -1;
+                int provaIdLC = participante.CO_PROVA_LC ?? -1;
+                int provaIdMT = participante.CO_PROVA_MT ?? -1;
+
+                string respostasCH = participante.TX_RESPOSTAS_CH ?? "";
+                string respostasCN = participante.TX_RESPOSTAS_CN ?? "";
+                string respostasLC = participante.TX_RESPOSTAS_LC ?? "";
+                string respostasMT = participante.TX_RESPOSTAS_MT ?? "";
+
+                return new Participante
+                {
+                    ParticipanteId = participante.NU_INSCRICAO,
+                    Treineiro = participante.IN_TREINEIRO == 1,
+                    Municipio = participante.NO_MUNICIPIO_ESC ?? "",
+                    ProvaIdCH = provaIdCH,
+                    ProvaIdCN = provaIdCN,
+                    ProvaIdLC = provaIdLC,
+                    ProvaIdMT = provaIdMT,
+                    StatusRE = participante.TP_STATUS_REDACAO ?? -1,
+                    LinguaEstrangeira = (ForeignLanguage)participante.TP_LINGUA,
+                    RespostasCH = respostasCH,
+                    RespostasCN = respostasCN,
+                    RespostasLC = respostasLC,
+                    RespostasMT = respostasMT,
+                    AcertosCH = GetCorrectItemsCount(provaIdCH, respostasCH),
+                    AcertosCN = GetCorrectItemsCount(provaIdCN, respostasCN),
+                    AcertosLC = GetCorrectItemsCount(provaIdLC, respostasLC, participante.TP_LINGUA),
+                    AcertosMT = GetCorrectItemsCount(provaIdMT, respostasMT),
+                    NotaCH = participante.NU_NOTA_CH ?? -1,
+                    NotaCN = participante.NU_NOTA_CN ?? -1,
+                    NotaLC = participante.NU_NOTA_LC ?? -1,
+                    NotaMT = participante.NU_NOTA_MT ?? -1,
+                    NotaRE = participante.NU_NOTA_REDACAO ?? -1,
+                    NotaRECompetencia1 = participante.NU_NOTA_COMP1 ?? -1,
+                    NotaRECompetencia2 = participante.NU_NOTA_COMP2 ?? -1,
+                    NotaRECompetencia3 = participante.NU_NOTA_COMP3 ?? -1,
+                    NotaRECompetencia4 = participante.NU_NOTA_COMP4 ?? -1,
+                    NotaRECompetencia5 = participante.NU_NOTA_COMP5 ?? -1,
+                };
             });
 
         BulkConfig bulkConfig = new() { SetOutputIdentity = false };
@@ -122,6 +157,36 @@ public class MicrodadosService(AppDbContext dbContext)
         foreach (Participante[] batch in filteredParticipantes.Chunk(4000))
         {
             DbContext.BulkInsert(batch, bulkConfig);
+        }
+    }
+
+    private int GetCorrectItemsCount(int provaId, string participantAnswers, int? language = null)
+    {
+        string testAnswers = this.Gabaritos[provaId];
+        // If is LC exam answers
+        if (language != null)
+        {
+            const int FOREIGN_SKIP = 10;
+            const int FOREIGN_COUNT = 5;
+
+
+            // Deal with foreign language questions
+            string foreignLanguageAnswers = participantAnswers[..FOREIGN_COUNT];
+            int correctItemsCount = foreignLanguageAnswers
+                .Select((answer, index) => answer == testAnswers[index + language.Value] ? 1 : 0)
+                .Sum();
+
+            string remainingAnswers = participantAnswers[FOREIGN_COUNT..];
+            correctItemsCount += remainingAnswers
+                .Select((answer, index) => answer == testAnswers[index + FOREIGN_SKIP] ? 1 : 0)
+                .Sum();
+            return correctItemsCount;
+        }
+        else
+        {
+            return participantAnswers
+                .Select((answer, index) => answer == testAnswers[index] ? 1 : 0)
+                .Sum();
         }
     }
 }
