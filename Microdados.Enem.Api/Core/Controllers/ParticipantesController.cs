@@ -62,10 +62,10 @@ namespace Core.Controllers
 
             Dictionary<Area, Expression<Func<Participante, UserTestDTO>>> areaSelector = new()
             {
-                [Area.CH] = p => new UserTestDTO(p.ProvaIdCH, p.LinguaEstrangeira, p.RespostasCH, p.NotaCH),
-                [Area.CN] = p => new UserTestDTO(p.ProvaIdCN, p.LinguaEstrangeira, p.RespostasCN, p.NotaCN),
-                [Area.LC] = p => new UserTestDTO(p.ProvaIdLC, p.LinguaEstrangeira, p.RespostasLC, p.NotaLC),
-                [Area.MT] = p => new UserTestDTO(p.ProvaIdMT, p.LinguaEstrangeira, p.RespostasMT, p.NotaMT),
+                [Area.CH] = p => new UserTestDTO(p.AcertosCH, p.NotaCH),
+                [Area.CN] = p => new UserTestDTO(p.AcertosCN, p.NotaCN),
+                [Area.LC] = p => new UserTestDTO(p.AcertosLC, p.NotaLC),
+                [Area.MT] = p => new UserTestDTO(p.AcertosMT, p.NotaMT),
             };
 
             UserTestDTO? userTestDTO = await DbContext.Participantes
@@ -74,29 +74,12 @@ namespace Core.Controllers
                 .FirstOrDefaultAsync();
             if (userTestDTO == null) return BadRequest();
 
-            IEnumerable<char>? testItens = await DbContext.Provas
-               .Where(p => p.ProvaId == userTestDTO.Code)
-               .Select(
-                    p => p.ItensPorProva
-                        .OrderBy(ip => ip.Posicao)
-                        // If the item is from foreign language, check the participant choice
-                        .Where(ip => ip.Item.LinguaEstrangeira == null || ip.Item.LinguaEstrangeira == userTestDTO.Language)
-                        .Select(ip => ip.Item.Gabarito)
-                )
-               .FirstOrDefaultAsync();
-
-            if (testItens == null) return BadRequest();
-
-            int correctItemsCount = testItens
-                .Select((item, index) => item == userTestDTO.Answers[index] ? 1 : 0)
-                .Sum();
-
             return Ok(new GetParticipantScoreOnAreaResponse(
                 Score: userTestDTO.Score,
-                CorrectItemsCount: correctItemsCount
+                RightAnswersCount: userTestDTO.RightAnswersCount
             ));
         }
 
-        record UserTestDTO(int Code, ForeignLanguage Language, string Answers, float Score);
+        record UserTestDTO(int RightAnswersCount, float Score);
     }
 }
