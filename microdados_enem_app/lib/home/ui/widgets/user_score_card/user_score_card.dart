@@ -20,6 +20,7 @@ class UserScoreCard extends HookWidget {
 
     useEffect(() {
       context.read<ParticipantScoreCubit>().getParticipantScoreData(
+        context,
         subscription,
       );
       return () {};
@@ -37,7 +38,7 @@ class UserScoreCard extends HookWidget {
                     refetch:
                         () => context
                             .read<ParticipantScoreCubit>()
-                            .getParticipantScoreData(subscription),
+                            .getParticipantScoreData(context, subscription),
                   ),
               isSuccess: (data) => CardBody(participantScore: data),
             ),

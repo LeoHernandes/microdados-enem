@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:microdados_enem_app/home/data/participant_score_repository.dart';
 import 'package:microdados_enem_app/home/logic/participant_score_state.dart';
 
@@ -7,11 +8,14 @@ class ParticipantScoreCubit extends Cubit<ParticipantScoreState> {
 
   ParticipantScoreCubit() : super(const ParticipantScoreState.idle());
 
-  Future<void> getParticipantScoreData(String subscription) async {
+  Future<void> getParticipantScoreData(
+    BuildContext context,
+    String subscription,
+  ) async {
     emit(const ParticipantScoreState.loading());
 
     await _repository
-        .getParticipantScoreData(subscription)
+        .getParticipantScoreData(context, subscription)
         .then(
           (value) => emit(
             ParticipantScoreState.success(

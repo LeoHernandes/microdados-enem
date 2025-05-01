@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:microdados_enem_app/core/api/app_cache.dart';
 import 'package:microdados_enem_app/core/api/microdados_api.dart';
 
 class ParticipantScoreRepository {
@@ -6,9 +8,14 @@ class ParticipantScoreRepository {
   ParticipantScoreRepository();
 
   Future<ParticipantScoreResponse> getParticipantScoreData(
+    BuildContext context,
     String subscription,
   ) async {
-    final response = await _httpClient.get('participant/$subscription/score');
+    final route = 'participant/$subscription/score';
+    final response = await _httpClient.get(
+      route,
+      cache: AppCache(context: context, key: route),
+    );
     return ParticipantScoreResponse.fromJson(response);
   }
 }

@@ -8,7 +8,7 @@ class AppCache {
   final LocalStorage cache;
   final String key;
 
-  AppCache(BuildContext context, key)
+  AppCache({required BuildContext context, required String key})
     : this.cache = Provider.of<LocalStorage>(context, listen: false),
       this.key = '${StorageKeys.cachePrefix}$key';
 
