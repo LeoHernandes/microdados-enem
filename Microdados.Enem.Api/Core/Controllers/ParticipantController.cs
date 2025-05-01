@@ -9,13 +9,13 @@ using Microsoft.EntityFrameworkCore;
 namespace Core.Controllers
 {
     [ApiController]
-    public class ParticipantesController(AppDbContext dbContext) : ControllerBase
+    public class ParticipantController(AppDbContext dbContext) : ControllerBase
     {
         private AppDbContext DbContext { get; set; } = dbContext;
 
         [HttpPost]
         [Route("participant/check-in")]
-        public async Task<IActionResult> PostSubscriptionValidate([FromBody] PostSubscriptionValidateRequest request)
+        public async Task<IActionResult> PostParticipantCheckIn([FromBody] PostParticipantCheckInRequest request)
         {
             bool participantExists = await DbContext.Participantes.Where(p => p.ParticipanteId == request.Subscription).AnyAsync();
             if (participantExists)
