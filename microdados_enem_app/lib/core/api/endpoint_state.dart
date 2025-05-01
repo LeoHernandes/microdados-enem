@@ -31,6 +31,28 @@ sealed class EndpointState<F, S> {
         return isSuccess(data);
     }
   }
+
+  T whenOrDefault<T>({
+    T Function()? isIdle,
+    T Function()? isLoading,
+    T Function(F error)? isError,
+    T Function(S data)? isSuccess,
+    required T defaultValue,
+  }) {
+    switch (this) {
+      case IdleState<F, S> _:
+        return isIdle != null ? isIdle() : defaultValue;
+
+      case LoadingState<F, S> _:
+        return isLoading != null ? isLoading() : defaultValue;
+
+      case ErrorState<F, S>(:final error):
+        return isError != null ? isError(error) : defaultValue;
+
+      case SuccessState<F, S>(:final data):
+        return isSuccess != null ? isSuccess(data) : defaultValue;
+    }
+  }
 }
 
 class IdleState<F, S> extends EndpointState<F, S> {

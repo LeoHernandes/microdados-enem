@@ -9,7 +9,7 @@ class ParticipantScoreOnAreaCubit extends Cubit<ParticipantScoreOnAreaState> {
   ParticipantScoreOnAreaCubit()
     : super(const ParticipantScoreOnAreaState.idle());
 
-  Future<void> getParticipantScoreData(String id, ExamArea area) async {
+  Future<void> getParticipantScoreOnAreaData(String id, ExamArea area) async {
     emit(const ParticipantScoreOnAreaState.loading());
 
     await _repository
@@ -23,7 +23,7 @@ class ParticipantScoreOnAreaCubit extends Cubit<ParticipantScoreOnAreaState> {
           onError:
               (_) => emit(
                 ParticipantScoreOnAreaState.error(
-                  'Não foi possível encontrar as informações da tela inicial. Tente novamente mais tarde!',
+                  'Não foi possível encontrar suas informações. Tente novamente mais tarde!',
                 ),
               ),
         );

@@ -1,19 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:microdados_enem_app/core/design_system/app_bottomsheet/app_bottomsheet.dart';
+import 'package:microdados_enem_app/core/design_system/app_card/app_card.dart';
 import 'package:microdados_enem_app/core/design_system/app_scaffold/app_scaffold.dart';
 import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
 import 'package:microdados_enem_app/core/design_system/button/app_icon_button.dart';
 import 'package:microdados_enem_app/core/design_system/exam_area_picker/exam_area_picker.dart';
 import 'package:microdados_enem_app/core/design_system/input/numeric_step_button.dart';
+import 'package:microdados_enem_app/core/design_system/nothing/nothing.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
+import 'package:microdados_enem_app/core/enem/exam_area.dart';
+import 'package:microdados_enem_app/core/local_storage.dart';
+import 'package:microdados_enem_app/data_analysis/logic/participant_score_on_area_cubit.dart';
+import 'package:microdados_enem_app/data_analysis/logic/participant_score_on_area_state.dart';
+import 'package:provider/provider.dart';
 
 class DataAnalysis extends HookWidget {
   const DataAnalysis({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final selectedArea = useState<ExamArea>(ExamArea.CH);
+
     return AppScaffold(
       appBarText: 'Análises',
       selectedTab: NavTab.dataAnalysis,
@@ -59,7 +69,15 @@ class DataAnalysis extends HookWidget {
             color: AppColors.blackLight,
           ),
           SizedBox(height: 2),
-          ExamAreaPicker(onAreaSelect: (_) {}),
+          ExamAreaPicker(
+            onChange: (area) => selectedArea.value = area,
+            value: selectedArea.value,
+          ),
+          SizedBox(height: 20),
+          BlocProvider(
+            create: (_) => ParticipantScoreOnAreaCubit(),
+            child: UserScoreOnArea(area: selectedArea.value),
+          ),
         ],
       ),
     );
@@ -75,6 +93,46 @@ class DataAnalysis extends HookWidget {
               'Nessa análise, você verá em cada área qual foi a maior e menor pontuação considerando um número de acertos. Isso permite avaliar a influência das diferentes questões sobre a nota final numa área de conhecimento.',
         ),
       ],
+    );
+  }
+}
+
+class UserScoreOnArea extends HookWidget {
+  final ExamArea area;
+
+  const UserScoreOnArea({super.key, required this.area});
+
+  @override
+  Widget build(BuildContext context) {
+    useEffect(() {
+      final localStorage = Provider.of<LocalStorage>(context, listen: false);
+      final id = localStorage.getString(StorageKeys.subscription, '');
+
+      context.read<ParticipantScoreOnAreaCubit>().getParticipantScoreOnAreaData(
+        id,
+        area,
+      );
+
+      return () {};
+    }, []);
+
+    return BlocBuilder<
+      ParticipantScoreOnAreaCubit,
+      ParticipantScoreOnAreaState
+    >(
+      builder:
+          (context, state) => state.whenOrDefault(
+            isSuccess:
+                (data) => AppCard(
+                  border: true,
+                  body: AppText(
+                    text: data.rightAnswersCount,
+                    typography: AppTypography.caption,
+                    color: AppColors.blackPrimary,
+                  ),
+                ),
+            defaultValue: Nothing(),
+          ),
     );
   }
 }
