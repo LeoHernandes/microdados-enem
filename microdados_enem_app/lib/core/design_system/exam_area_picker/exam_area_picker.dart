@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:microdados_enem_app/core/design_system/button/check_button.dart';
-
-enum ExamArea { CH, CN, LC, MT }
+import 'package:microdados_enem_app/core/enem/exam_area.dart';
 
 class ExamAreaPicker extends HookWidget {
   final ValueChanged<ExamArea> onAreaSelect;

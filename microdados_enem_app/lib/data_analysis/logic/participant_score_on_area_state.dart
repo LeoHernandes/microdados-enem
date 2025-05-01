@@ -1,0 +1,24 @@
+import 'package:microdados_enem_app/core/api/endpoint_state.dart';
+import 'package:microdados_enem_app/data_analysis/data/data_analysis_repository.dart';
+
+typedef ParticipantScoreOnAreaState =
+    EndpointState<String, ParticipantScoreOnAreaStateData>;
+
+class ParticipantScoreOnAreaStateData {
+  final String score;
+  final String rightAnswersCount;
+
+  const ParticipantScoreOnAreaStateData({
+    required this.score,
+    required this.rightAnswersCount,
+  });
+
+  factory ParticipantScoreOnAreaStateData.fromModel(
+    ParticipantScoreOnAreaResponse model,
+  ) {
+    return ParticipantScoreOnAreaStateData(
+      score: model.score.toString(),
+      rightAnswersCount: model.rightAnswersCount.toString(),
+    );
+  }
+}
