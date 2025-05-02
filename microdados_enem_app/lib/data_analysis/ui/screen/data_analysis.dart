@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:microdados_enem_app/core/design_system/app_bottomsheet/app_bottomsheet.dart';
 import 'package:microdados_enem_app/core/design_system/app_card/app_card.dart';
-import 'package:microdados_enem_app/core/design_system/app_scaffold/app_scaffold.dart';
 import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
 import 'package:microdados_enem_app/core/design_system/button/app_icon_button.dart';
 import 'package:microdados_enem_app/core/design_system/exam_area_picker/exam_area_picker.dart';
@@ -24,62 +23,58 @@ class DataAnalysis extends HookWidget {
   Widget build(BuildContext context) {
     final selectedArea = useState<ExamArea>(ExamArea.CH);
 
-    return AppScaffold(
-      appBarText: 'Análises',
-      selectedTab: NavTab.dataAnalysis,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppText(
-                text: 'Número de acertos e pontuação',
-                typography: AppTypography.headline6,
-                color: AppColors.blackPrimary,
-              ),
-              AppIconButton(
-                icon: Icons.info_outline_rounded,
-                border: false,
-                onTap:
-                    () => AppBottomsheet(
-                      builder: explanationBuilder,
-                      onPrimaryButtonTap: () => Navigator.pop(context),
-                    ).show(context),
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          AppText(
-            text: 'Número de acertos',
-            typography: AppTypography.subtitle2,
-            color: AppColors.blackLight,
-          ),
-          SizedBox(height: 2),
-          NumericStepButton(
-            maxValue: 45,
-            minValue: 1,
-            onChanged: (_) {},
-            initialValue: 45,
-          ),
-          SizedBox(height: 10),
-          AppText(
-            text: 'Área do conhecimento',
-            typography: AppTypography.subtitle2,
-            color: AppColors.blackLight,
-          ),
-          SizedBox(height: 2),
-          ExamAreaPicker(
-            onChange: (area) => selectedArea.value = area,
-            value: selectedArea.value,
-          ),
-          SizedBox(height: 20),
-          BlocProvider(
-            create: (_) => ParticipantScoreOnAreaCubit(),
-            child: UserScoreOnArea(area: selectedArea.value),
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AppText(
+              text: 'Número de acertos e pontuação',
+              typography: AppTypography.headline6,
+              color: AppColors.blackPrimary,
+            ),
+            AppIconButton(
+              icon: Icons.info_outline_rounded,
+              border: false,
+              onTap:
+                  () => AppBottomsheet(
+                    builder: explanationBuilder,
+                    onPrimaryButtonTap: () => Navigator.pop(context),
+                  ).show(context),
+            ),
+          ],
+        ),
+        SizedBox(height: 10),
+        AppText(
+          text: 'Número de acertos',
+          typography: AppTypography.subtitle2,
+          color: AppColors.blackLight,
+        ),
+        SizedBox(height: 2),
+        NumericStepButton(
+          maxValue: 45,
+          minValue: 1,
+          onChanged: (_) {},
+          initialValue: 45,
+        ),
+        SizedBox(height: 10),
+        AppText(
+          text: 'Área do conhecimento',
+          typography: AppTypography.subtitle2,
+          color: AppColors.blackLight,
+        ),
+        SizedBox(height: 2),
+        ExamAreaPicker(
+          onChange: (area) => selectedArea.value = area,
+          value: selectedArea.value,
+        ),
+        SizedBox(height: 20),
+        BlocProvider(
+          create: (_) => ParticipantScoreOnAreaCubit(),
+          child: UserScoreOnArea(area: selectedArea.value),
+        ),
+      ],
     );
   }
 

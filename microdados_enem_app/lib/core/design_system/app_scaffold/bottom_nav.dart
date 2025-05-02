@@ -34,7 +34,11 @@ class BottomNav extends StatelessWidget {
             onTap:
                 () => {
                   if (this.selectedTab != NavTab.home)
-                    Navigator.pushNamed(context, Routes.home),
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      Routes.home,
+                      (_) => false,
+                    ),
                 },
           ),
           _NavButton(

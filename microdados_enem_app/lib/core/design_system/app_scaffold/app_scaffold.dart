@@ -22,6 +22,7 @@ class AppScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         surfaceTintColor: AppColors.whitePrimary,
         backgroundColor: AppColors.whitePrimary,
         shadowColor: AppColors.blackLight,
@@ -32,6 +33,7 @@ class AppScaffold extends StatelessWidget {
           typography: AppTypography.headline6,
         ),
       ),
+
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         child: body,

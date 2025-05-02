@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:microdados_enem_app/core/design_system/app_scaffold/app_scaffold.dart';
+import 'package:microdados_enem_app/core/design_system/nothing/nothing.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/local_storage.dart';
 import 'package:microdados_enem_app/data_analysis/ui/screen/data_analysis.dart';
@@ -41,11 +43,26 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(scaffoldBackgroundColor: AppColors.whitePrimary),
       initialRoute: isOnboardingComplete ? Routes.home : Routes.onboarding,
-      routes: {
-        Routes.onboarding: (context) => OnboardingPage(),
-        Routes.home: (context) => HomePage(),
-        Routes.dataAnalysis: (context) => DataAnalysis(),
-      },
+      onGenerateRoute:
+          (settings) => PageRouteBuilder(
+            pageBuilder:
+                (_, __, ___) => switch (settings.name) {
+                  Routes.onboarding => OnboardingPage(),
+                  Routes.home => AppScaffold(
+                    appBarText: 'Início',
+                    body: HomePage(),
+                    selectedTab: NavTab.home,
+                  ),
+                  Routes.dataAnalysis => AppScaffold(
+                    appBarText: 'Análises',
+                    body: DataAnalysis(),
+                    selectedTab: NavTab.dataAnalysis,
+                  ),
+                  _ => Nothing(),
+                },
+            transitionDuration: Duration.zero,
+            reverseTransitionDuration: Duration.zero,
+          ),
     );
   }
 }
