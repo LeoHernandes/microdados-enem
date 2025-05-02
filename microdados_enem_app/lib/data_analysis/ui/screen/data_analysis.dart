@@ -103,10 +103,11 @@ class UserScoreOnArea extends HookWidget {
       final localStorage = Provider.of<LocalStorage>(context, listen: false);
       final id = localStorage.getString(StorageKeys.subscription, '');
 
-      context.read<ParticipantScoreOnAreaCubit>().getParticipantScoreOnAreaData(
-        id,
-        area,
-      );
+      if (id.isNotEmpty) {
+        context
+            .read<ParticipantScoreOnAreaCubit>()
+            .getParticipantScoreOnAreaData(id, area);
+      }
 
       return () {};
     }, []);

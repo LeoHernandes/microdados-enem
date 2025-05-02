@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:microdados_enem_app/core/design_system/app_card/app_card.dart';
+import 'package:microdados_enem_app/core/design_system/nothing/nothing.dart';
 import 'package:microdados_enem_app/core/local_storage.dart';
 import 'package:microdados_enem_app/home/logic/participant_score_cubit.dart';
 import 'package:microdados_enem_app/home/logic/participant_score_state.dart';
@@ -19,12 +20,16 @@ class UserScoreCard extends HookWidget {
     final subscription = localStorage.getString(StorageKeys.subscription, '');
 
     useEffect(() {
-      context.read<ParticipantScoreCubit>().getParticipantScoreData(
-        context,
-        subscription,
-      );
+      if (subscription.isNotEmpty) {
+        context.read<ParticipantScoreCubit>().getParticipantScoreData(
+          context,
+          subscription,
+        );
+      }
       return () {};
     }, []);
+
+    if (subscription.isEmpty) return Nothing();
 
     return AppCard(
       shadow: true,
