@@ -106,7 +106,7 @@ class UserScoreOnArea extends HookWidget {
       if (id.isNotEmpty) {
         context
             .read<ParticipantScoreOnAreaCubit>()
-            .getParticipantScoreOnAreaData(id, area);
+            .getParticipantScoreOnAreaData(context, id, area);
       }
 
       return () {};
