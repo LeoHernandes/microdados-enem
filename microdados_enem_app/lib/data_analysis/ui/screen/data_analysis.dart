@@ -21,7 +21,7 @@ class DataAnalysis extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedArea = useState<ExamArea>(ExamArea.CH);
+    final selectedArea = useState<ExamArea>(ExamArea.LC);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,7 +110,7 @@ class UserScoreOnArea extends HookWidget {
       }
 
       return () {};
-    }, []);
+    }, [area]);
 
     return BlocBuilder<
       ParticipantScoreOnAreaCubit,
@@ -121,10 +121,54 @@ class UserScoreOnArea extends HookWidget {
             isSuccess:
                 (data) => AppCard(
                   border: true,
-                  body: AppText(
-                    text: data.rightAnswersCount,
-                    typography: AppTypography.caption,
-                    color: AppColors.blackPrimary,
+                  body: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppText(
+                        text: 'Seu desempenho em ${area.displayName}',
+                        typography: AppTypography.subtitle1,
+                        color: AppColors.blackPrimary,
+                      ),
+                      Row(
+                        children: [
+                          AppText(
+                            text: 'Acertos: ',
+                            typography: AppTypography.body2,
+                            color: AppColors.blackPrimary,
+                          ),
+                          AppText(
+                            text: data.rightAnswersCount,
+                            typography: AppTypography.body2,
+                            color: AppColors.blueLigher,
+                          ),
+                          AppText(
+                            text: '/45',
+                            typography: AppTypography.body2,
+                            color: AppColors.blackPrimary,
+                          ),
+                          SizedBox(
+                            height: 18,
+                            child: VerticalDivider(
+                              color: AppColors.blackLighter,
+                              thickness: 1,
+                              width: 10,
+                              indent: 2,
+                            ),
+                          ),
+                          AppText(
+                            text: 'Nota: ',
+                            typography: AppTypography.body2,
+                            color: AppColors.blackPrimary,
+                          ),
+                          AppText(
+                            text: data.score,
+                            typography: AppTypography.body2,
+                            color: AppColors.blueLigher,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
             defaultValue: Nothing(),
