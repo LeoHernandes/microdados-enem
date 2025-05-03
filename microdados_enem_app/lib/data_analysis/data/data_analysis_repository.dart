@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:microdados_enem_app/core/api/app_cache.dart';
 import 'package:microdados_enem_app/core/api/microdados_api.dart';
 import 'package:microdados_enem_app/core/enem/exam_area.dart';
+import 'package:microdados_enem_app/data_analysis/data/models.dart';
 
 class DataAnalysisRepository {
   final AppHttpClient _httpClient = AppHttpClient();
@@ -17,33 +18,25 @@ class DataAnalysisRepository {
 
     final response = await _httpClient.get(
       route,
-      timeout: Duration(seconds: 5),
+      timeout: Duration(seconds: 10),
       cache: AppCache(context: context, key: route),
     );
     return ParticipantScoreOnAreaResponse.fromJson(response);
   }
-}
 
-class ParticipantScoreOnAreaResponse {
-  final double score;
-  final int rightAnswersCount;
+  Future<AnswerScoreRelationResponse> getAnswerScoreRelation(
+    BuildContext context,
+    int rightAnswers,
+    ExamArea area,
+  ) async {
+    final route =
+        'analysis/answer-score-relation?rightAnswers=$rightAnswers&areaId=${area.name}';
 
-  const ParticipantScoreOnAreaResponse({
-    required this.score,
-    required this.rightAnswersCount,
-  });
-
-  factory ParticipantScoreOnAreaResponse.fromJson(Map<String, dynamic> json) {
-    return switch (json) {
-      {'score': final score, 'rightAnswersCount': final rightAnswersCount} =>
-        ParticipantScoreOnAreaResponse(
-          score: score.toDouble(),
-          rightAnswersCount: rightAnswersCount.toInt(),
-        ),
-      _ =>
-        throw const FormatException(
-          'Failed to load participant score on area.',
-        ),
-    };
+    final response = await _httpClient.get(
+      route,
+      timeout: Duration(seconds: 10),
+      cache: AppCache(context: context, key: route),
+    );
+    return AnswerScoreRelationResponse.fromJson(response);
   }
 }

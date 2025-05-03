@@ -1,0 +1,56 @@
+class ParticipantScoreOnAreaResponse {
+  final double score;
+  final int rightAnswersCount;
+
+  const ParticipantScoreOnAreaResponse({
+    required this.score,
+    required this.rightAnswersCount,
+  });
+
+  factory ParticipantScoreOnAreaResponse.fromJson(Map<String, dynamic> json) {
+    return switch (json) {
+      {'score': final score, 'rightAnswersCount': final rightAnswersCount} =>
+        ParticipantScoreOnAreaResponse(
+          score: score.toDouble(),
+          rightAnswersCount: rightAnswersCount.toInt(),
+        ),
+      _ =>
+        throw const FormatException(
+          'Failed to load participant score on area.',
+        ),
+    };
+  }
+}
+
+class AnswerScoreRelationResponse {
+  final double minScore;
+  final double maxScore;
+  final Map<int, int> histogram;
+
+  AnswerScoreRelationResponse({
+    required this.minScore,
+    required this.maxScore,
+    required this.histogram,
+  });
+
+  factory AnswerScoreRelationResponse.fromJson(Map<String, dynamic> json) {
+    return switch (json) {
+      {
+        'minScore': final minScore,
+        'maxScore': final maxScore,
+        'histogram': final Map<String, dynamic> histogram,
+      } =>
+        AnswerScoreRelationResponse(
+          minScore: minScore.toDouble(),
+          maxScore: maxScore.toDouble(),
+          histogram: histogram.map(
+            (key, value) => MapEntry(int.parse(key), value as int),
+          ),
+        ),
+      _ =>
+        throw const FormatException(
+          'Failed to load analysis answer score relation.',
+        ),
+    };
+  }
+}

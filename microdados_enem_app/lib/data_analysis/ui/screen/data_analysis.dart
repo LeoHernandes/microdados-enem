@@ -2,19 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:microdados_enem_app/core/design_system/app_bottomsheet/app_bottomsheet.dart';
-import 'package:microdados_enem_app/core/design_system/app_card/app_card.dart';
 import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
 import 'package:microdados_enem_app/core/design_system/button/app_icon_button.dart';
 import 'package:microdados_enem_app/core/design_system/exam_area_picker/exam_area_picker.dart';
 import 'package:microdados_enem_app/core/design_system/input/numeric_step_button.dart';
-import 'package:microdados_enem_app/core/design_system/nothing/nothing.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/core/enem/exam_area.dart';
-import 'package:microdados_enem_app/core/local_storage.dart';
+import 'package:microdados_enem_app/data_analysis/logic/answer_score_relation_cubit.dart';
 import 'package:microdados_enem_app/data_analysis/logic/participant_score_on_area_cubit.dart';
-import 'package:microdados_enem_app/data_analysis/logic/participant_score_on_area_state.dart';
-import 'package:provider/provider.dart';
+import 'package:microdados_enem_app/data_analysis/ui/widgets/answer_score_bar_chart.dart';
+import 'package:microdados_enem_app/data_analysis/ui/widgets/user_score_on_area.dart';
 
 class DataAnalysis extends HookWidget {
   const DataAnalysis({super.key});
@@ -22,59 +20,70 @@ class DataAnalysis extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final selectedArea = useState<ExamArea>(ExamArea.LC);
+    final rightAnswers = useState<int>(40);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AppText(
-              text: 'Número de acertos e pontuação',
-              typography: AppTypography.headline6,
-              color: AppColors.blackPrimary,
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AppText(
+                text: 'Número de acertos e pontuação',
+                typography: AppTypography.headline6,
+                color: AppColors.blackPrimary,
+              ),
+              AppIconButton(
+                icon: Icons.info_outline_rounded,
+                border: false,
+                onTap:
+                    () => AppBottomsheet(
+                      builder: explanationBuilder,
+                      onPrimaryButtonTap: () => Navigator.pop(context),
+                    ).show(context),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          AppText(
+            text: 'Número de acertos',
+            typography: AppTypography.subtitle2,
+            color: AppColors.blackLight,
+          ),
+          SizedBox(height: 2),
+          NumericStepButton(
+            maxValue: 45,
+            minValue: 1,
+            onChanged: (number) => rightAnswers.value = number,
+            initialValue: 40,
+          ),
+          SizedBox(height: 10),
+          AppText(
+            text: 'Área do conhecimento',
+            typography: AppTypography.subtitle2,
+            color: AppColors.blackLight,
+          ),
+          SizedBox(height: 2),
+          ExamAreaPicker(
+            onChange: (area) => selectedArea.value = area,
+            value: selectedArea.value,
+          ),
+          SizedBox(height: 20),
+          BlocProvider(
+            create: (_) => AnswerScoreRelationCubit(),
+            child: AnswerScoreBarChart(
+              rightAnswers: rightAnswers.value,
+              area: selectedArea.value,
             ),
-            AppIconButton(
-              icon: Icons.info_outline_rounded,
-              border: false,
-              onTap:
-                  () => AppBottomsheet(
-                    builder: explanationBuilder,
-                    onPrimaryButtonTap: () => Navigator.pop(context),
-                  ).show(context),
-            ),
-          ],
-        ),
-        SizedBox(height: 10),
-        AppText(
-          text: 'Número de acertos',
-          typography: AppTypography.subtitle2,
-          color: AppColors.blackLight,
-        ),
-        SizedBox(height: 2),
-        NumericStepButton(
-          maxValue: 45,
-          minValue: 1,
-          onChanged: (_) {},
-          initialValue: 45,
-        ),
-        SizedBox(height: 10),
-        AppText(
-          text: 'Área do conhecimento',
-          typography: AppTypography.subtitle2,
-          color: AppColors.blackLight,
-        ),
-        SizedBox(height: 2),
-        ExamAreaPicker(
-          onChange: (area) => selectedArea.value = area,
-          value: selectedArea.value,
-        ),
-        SizedBox(height: 20),
-        BlocProvider(
-          create: (_) => ParticipantScoreOnAreaCubit(),
-          child: UserScoreOnArea(area: selectedArea.value),
-        ),
-      ],
+          ),
+          SizedBox(height: 20),
+          BlocProvider(
+            create: (_) => ParticipantScoreOnAreaCubit(),
+            child: UserScoreOnArea(area: selectedArea.value),
+          ),
+        ],
+      ),
     );
   }
 
@@ -88,91 +97,6 @@ class DataAnalysis extends HookWidget {
               'Nessa análise, você verá em cada área qual foi a maior e menor pontuação considerando um número de acertos. Isso permite avaliar a influência das diferentes questões sobre a nota final numa área de conhecimento.',
         ),
       ],
-    );
-  }
-}
-
-class UserScoreOnArea extends HookWidget {
-  final ExamArea area;
-
-  const UserScoreOnArea({super.key, required this.area});
-
-  @override
-  Widget build(BuildContext context) {
-    useEffect(() {
-      final localStorage = Provider.of<LocalStorage>(context, listen: false);
-      final id = localStorage.getString(StorageKeys.subscription, '');
-
-      if (id.isNotEmpty) {
-        context
-            .read<ParticipantScoreOnAreaCubit>()
-            .getParticipantScoreOnAreaData(context, id, area);
-      }
-
-      return () {};
-    }, [area]);
-
-    return BlocBuilder<
-      ParticipantScoreOnAreaCubit,
-      ParticipantScoreOnAreaState
-    >(
-      builder:
-          (context, state) => state.whenOrDefault(
-            isSuccess:
-                (data) => AppCard(
-                  border: true,
-                  body: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AppText(
-                        text: 'Seu desempenho em ${area.displayName}',
-                        typography: AppTypography.subtitle1,
-                        color: AppColors.blackPrimary,
-                      ),
-                      Row(
-                        children: [
-                          AppText(
-                            text: 'Acertos: ',
-                            typography: AppTypography.body2,
-                            color: AppColors.blackPrimary,
-                          ),
-                          AppText(
-                            text: data.rightAnswersCount,
-                            typography: AppTypography.body2,
-                            color: AppColors.blueLigher,
-                          ),
-                          AppText(
-                            text: '/45',
-                            typography: AppTypography.body2,
-                            color: AppColors.blackPrimary,
-                          ),
-                          SizedBox(
-                            height: 18,
-                            child: VerticalDivider(
-                              color: AppColors.blackLighter,
-                              thickness: 1,
-                              width: 10,
-                              indent: 2,
-                            ),
-                          ),
-                          AppText(
-                            text: 'Nota: ',
-                            typography: AppTypography.body2,
-                            color: AppColors.blackPrimary,
-                          ),
-                          AppText(
-                            text: data.score,
-                            typography: AppTypography.body2,
-                            color: AppColors.blueLigher,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-            defaultValue: Nothing(),
-          ),
     );
   }
 }
