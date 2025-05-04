@@ -64,14 +64,20 @@ namespace Core.Controllers
 
         private static Dictionary<int, int> Discretize(float start, float end, float[] values)
         {
-            const int MAX_INTERVALS = 6;
+            const int MAX_INTERVALS = 5;
             const int MIN_INTERVAL_SIZE = 10;
 
             float dataRange = end - start;
             int intervalSize = Math.Max(MIN_INTERVAL_SIZE, (int)Math.Round(dataRange / MAX_INTERVALS));
 
             return values
-             .GroupBy(score => Math.Floor(score / intervalSize) * intervalSize)
+             .GroupBy(score =>
+             {
+                 double group = Math.Floor(score / intervalSize) * intervalSize;
+                 if (group <= start) return group + intervalSize;
+                 if (group >= end) return group - intervalSize;
+                 return group;
+             })
              .OrderBy(group => group.Key)
              .ToDictionary(
                  group => (int)group.Key,
