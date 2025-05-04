@@ -6,7 +6,7 @@ typedef ParticipantScoreOnAreaState =
 
 class ParticipantScoreOnAreaStateData {
   final String score;
-  final String rightAnswersCount;
+  final int rightAnswersCount;
 
   const ParticipantScoreOnAreaStateData({
     required this.score,
@@ -18,7 +18,7 @@ class ParticipantScoreOnAreaStateData {
   ) {
     return ParticipantScoreOnAreaStateData(
       score: model.score.toString(),
-      rightAnswersCount: model.rightAnswersCount.toString(),
+      rightAnswersCount: model.rightAnswersCount,
     );
   }
 }

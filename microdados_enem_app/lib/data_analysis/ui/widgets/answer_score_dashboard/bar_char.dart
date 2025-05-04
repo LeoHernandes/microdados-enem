@@ -1,59 +1,28 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:microdados_enem_app/core/design_system/app_card/app_card.dart';
 import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
-import 'package:microdados_enem_app/core/enem/exam_area.dart';
-import 'package:microdados_enem_app/data_analysis/logic/answer_score_relation_cubit.dart';
-import 'package:microdados_enem_app/data_analysis/logic/answer_score_relation_state.dart';
 
-class AnswerScoreBarChart extends HookWidget {
-  final int rightAnswers;
-  final ExamArea area;
-
-  const AnswerScoreBarChart({
-    super.key,
-    required this.rightAnswers,
-    required this.area,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    useEffect(() {
-      context.read<AnswerScoreRelationCubit>().getAnswerScoreRelationData(
-        context,
-        this.rightAnswers,
-        this.area,
-      );
-
-      return null;
-    }, [this.rightAnswers, this.area]);
-
-    return BlocBuilder<AnswerScoreRelationCubit, AnswerScoreRelationState>(
-      builder:
-          (context, state) => state.when(
-            isError: Text.new,
-            isIdle: () => Text('idle'),
-            isLoading: () => Text('carregando'),
-            isSuccess: (data) => _BarChar(data: data.histogram),
-          ),
-    );
-  }
-}
-
-class _BarChar extends StatelessWidget {
+class BarChar extends StatelessWidget {
   final Map<int, int> data;
 
-  const _BarChar({required this.data});
+  const BarChar({super.key, required this.data});
+
+  static const double MAX_BAR_HEIGHT = 300;
+  int get maxEntry => data.values.reduce((a, b) => a > b ? a : b);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 500,
-      child: BarChart(
+    return AppCard(
+      shadow: true,
+      height: MAX_BAR_HEIGHT,
+      body: BarChart(
         BarChartData(
+          borderData: FlBorderData(show: false),
+          alignment: BarChartAlignment.spaceAround,
+          maxY: MAX_BAR_HEIGHT * 1.1,
           barTouchData: BarTouchData(
             enabled: false,
             touchTooltipData: BarTouchTooltipData(
@@ -64,7 +33,7 @@ class _BarChar extends StatelessWidget {
                 return BarTooltipItem(
                   rod.toY.round().toString(),
                   const TextStyle(
-                    color: AppColors.blueLigher,
+                    color: AppColors.bluePrimary,
                     fontWeight: FontWeight.bold,
                   ),
                 );
@@ -93,24 +62,30 @@ class _BarChar extends StatelessWidget {
           ),
           barGroups:
               data.entries
-                  .toList()
-                  .asMap()
-                  .entries
                   .map(
-                    (value) => BarChartGroupData(
-                      x: value.key,
+                    (entry) => BarChartGroupData(
+                      x: entry.key,
                       barRods: [
-                        BarChartRodData(toY: value.value.value.toDouble()),
+                        BarChartRodData(
+                          toY: _normalizeValue(entry.value),
+                          width: 20,
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(8),
+                            topLeft: Radius.circular(8),
+                          ),
+                          color: AppColors.bluePrimary,
+                        ),
                       ],
-                      showingTooltipIndicators: [value.key],
                     ),
                   )
                   .toList(),
           gridData: const FlGridData(show: false),
-          alignment: BarChartAlignment.spaceAround,
-          maxY: 20,
         ),
       ),
     );
+  }
+
+  double _normalizeValue(int value) {
+    return (value / this.maxEntry) * MAX_BAR_HEIGHT;
   }
 }

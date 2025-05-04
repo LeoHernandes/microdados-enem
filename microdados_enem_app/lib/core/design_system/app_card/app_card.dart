@@ -5,12 +5,14 @@ class AppCard extends StatelessWidget {
   final Widget body;
   final bool shadow;
   final bool border;
+  final double? height;
 
   const AppCard({
     super.key,
     required this.body,
     this.border = false,
     this.shadow = false,
+    this.height,
   });
 
   @override
@@ -18,6 +20,7 @@ class AppCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(8),
       width: MediaQuery.sizeOf(context).width,
+      height: this.height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         border: this.border ? Border.all(color: AppColors.bluePrimary) : null,
@@ -29,6 +32,7 @@ class AppCard extends StatelessWidget {
                     color: AppColors.blackLightest,
                     offset: Offset(0, 2),
                     blurRadius: 2,
+                    spreadRadius: 1.5,
                   ),
                 ]
                 : null,

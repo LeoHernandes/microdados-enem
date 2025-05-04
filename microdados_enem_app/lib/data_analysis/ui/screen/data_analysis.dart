@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:microdados_enem_app/core/design_system/app_bottomsheet/app_bottomsheet.dart';
 import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
 import 'package:microdados_enem_app/core/design_system/button/app_icon_button.dart';
+import 'package:microdados_enem_app/core/design_system/dotted_line/dotted_line.dart';
 import 'package:microdados_enem_app/core/design_system/exam_area_picker/exam_area_picker.dart';
 import 'package:microdados_enem_app/core/design_system/input/numeric_step_button.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
@@ -11,7 +12,7 @@ import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/core/enem/exam_area.dart';
 import 'package:microdados_enem_app/data_analysis/logic/answer_score_relation_cubit.dart';
 import 'package:microdados_enem_app/data_analysis/logic/participant_score_on_area_cubit.dart';
-import 'package:microdados_enem_app/data_analysis/ui/widgets/answer_score_bar_chart.dart';
+import 'package:microdados_enem_app/data_analysis/ui/widgets/answer_score_dashboard/answer_score_dashboard.dart';
 import 'package:microdados_enem_app/data_analysis/ui/widgets/user_score_on_area.dart';
 
 class DataAnalysis extends HookWidget {
@@ -23,6 +24,7 @@ class DataAnalysis extends HookWidget {
     final rightAnswers = useState<int>(40);
 
     return SingleChildScrollView(
+      clipBehavior: Clip.none,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -69,10 +71,13 @@ class DataAnalysis extends HookWidget {
             onChange: (area) => selectedArea.value = area,
             value: selectedArea.value,
           ),
-          SizedBox(height: 20),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: DottedDivider(),
+          ),
           BlocProvider(
             create: (_) => AnswerScoreRelationCubit(),
-            child: AnswerScoreBarChart(
+            child: AnswerScoreDashboard(
               rightAnswers: rightAnswers.value,
               area: selectedArea.value,
             ),

@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -29,7 +30,7 @@ class UserScoreOnArea extends HookWidget {
             .getParticipantScoreOnAreaData(context, id, area);
       }
 
-      return () {};
+      return null;
     }, [area]);
 
     return BlocBuilder<
@@ -40,51 +41,86 @@ class UserScoreOnArea extends HookWidget {
           (context, state) => state.whenOrDefault(
             isSuccess:
                 (data) => AppCard(
-                  border: true,
+                  shadow: true,
                   body: Column(
                     mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AppText(
-                        text: 'Seu desempenho em ${area.displayName}',
-                        typography: AppTypography.subtitle1,
-                        color: AppColors.blackPrimary,
-                      ),
                       Row(
                         children: [
                           AppText(
-                            text: 'Acertos: ',
-                            typography: AppTypography.body2,
+                            text: 'Seu desempenho em ${area.displayName}',
+                            typography: AppTypography.subtitle1,
                             color: AppColors.blackPrimary,
                           ),
-                          AppText(
-                            text: data.rightAnswersCount,
-                            typography: AppTypography.body2,
-                            color: AppColors.blueLigher,
-                          ),
-                          AppText(
-                            text: '/45',
-                            typography: AppTypography.body2,
-                            color: AppColors.blackPrimary,
-                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
                           SizedBox(
-                            height: 18,
-                            child: VerticalDivider(
-                              color: AppColors.blackLighter,
-                              thickness: 1,
-                              width: 10,
-                              indent: 2,
+                            width: 150,
+                            height: 150,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                PieChart(
+                                  PieChartData(
+                                    startDegreeOffset: 270,
+                                    sectionsSpace: 0,
+                                    centerSpaceRadius: 45,
+                                    sections: [
+                                      PieChartSectionData(
+                                        value:
+                                            data.rightAnswersCount.toDouble(),
+                                        color: AppColors.bluePrimary,
+                                        radius: 25,
+                                        title: '',
+                                      ),
+                                      PieChartSectionData(
+                                        value:
+                                            (45 - data.rightAnswersCount)
+                                                .toDouble(),
+                                        color: AppColors.blackLightest,
+                                        radius: 25,
+                                        title: '',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    AppText(
+                                      text: '${data.rightAnswersCount}/45',
+                                      typography: AppTypography.headline6,
+                                      color: AppColors.blackPrimary,
+                                    ),
+                                    AppText(
+                                      text:
+                                          '${(data.rightAnswersCount * 100 / 45).toStringAsFixed(1)}%',
+                                      typography: AppTypography.caption,
+                                      color: AppColors.blackLighter,
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
-                          AppText(
-                            text: 'Nota: ',
-                            typography: AppTypography.body2,
-                            color: AppColors.blackPrimary,
-                          ),
-                          AppText(
-                            text: data.score,
-                            typography: AppTypography.body2,
-                            color: AppColors.blueLigher,
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AppText(
+                                text: 'Nota final',
+                                typography: AppTypography.headline6,
+                                color: AppColors.blackLighter,
+                              ),
+                              AppText(
+                                text: data.score,
+                                typography: AppTypography.headline6,
+                                color: AppColors.blackPrimary,
+                              ),
+                            ],
                           ),
                         ],
                       ),
