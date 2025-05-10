@@ -18,7 +18,7 @@ class BottomNav extends StatelessWidget {
         color: AppColors.blueDarker,
         boxShadow: [
           BoxShadow(
-            color: AppColors.blackLighter,
+            color: AppColors.blackPrimary.withAlpha(100),
             spreadRadius: 1,
             blurRadius: 2,
             offset: Offset(0, -2),

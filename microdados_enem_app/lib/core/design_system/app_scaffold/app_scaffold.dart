@@ -25,7 +25,7 @@ class AppScaffold extends StatelessWidget {
         automaticallyImplyLeading: false,
         surfaceTintColor: AppColors.whitePrimary,
         backgroundColor: AppColors.whitePrimary,
-        shadowColor: AppColors.blackLight,
+        shadowColor: AppColors.blackPrimary.withAlpha(150),
         elevation: 1,
         title: AppText(
           color: AppColors.bluePrimary,
