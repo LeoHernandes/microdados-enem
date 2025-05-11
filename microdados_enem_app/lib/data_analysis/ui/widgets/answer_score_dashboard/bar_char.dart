@@ -4,88 +4,131 @@ import 'package:microdados_enem_app/core/design_system/app_card/app_card.dart';
 import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
+import 'package:microdados_enem_app/core/enem/exam_area.dart';
 
 class BarChar extends StatelessWidget {
   final Map<int, int> data;
+  final ExamArea area;
+  final int rightAnswers;
 
-  const BarChar({super.key, required this.data});
+  const BarChar({
+    super.key,
+    required this.data,
+    required this.area,
+    required this.rightAnswers,
+  });
 
   static const double MAX_BAR_HEIGHT = 300;
+  static const double BAR_WIDTH = 56;
+
   int get maxEntry => data.values.reduce((a, b) => a > b ? a : b);
+  int get scoreInterval => data.keys.elementAt(1) - data.keys.elementAt(0);
 
   @override
   Widget build(BuildContext context) {
     return AppCard(
       shadow: true,
-      height: MAX_BAR_HEIGHT,
-      body: BarChart(
-        BarChartData(
-          borderData: FlBorderData(show: false),
-          alignment: BarChartAlignment.spaceAround,
-          maxY: MAX_BAR_HEIGHT * 1.1,
-          barTouchData: BarTouchData(
-            enabled: false,
-            touchTooltipData: BarTouchTooltipData(
-              getTooltipColor: (group) => Colors.transparent,
-              tooltipPadding: EdgeInsets.zero,
-              tooltipMargin: 8,
-              getTooltipItem: (_, _, rod, _) {
-                return BarTooltipItem(
-                  rod.toY.round().toString(),
-                  const TextStyle(
-                    color: AppColors.bluePrimary,
-                    fontWeight: FontWeight.bold,
-                  ),
-                );
-              },
-            ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AppText(
+            text: 'Número de participantes por pontuação',
+            typography: AppTypography.subtitle1,
+            color: AppColors.blackPrimary,
           ),
-          titlesData: FlTitlesData(
-            bottomTitles: AxisTitles(
-              sideTitles: SideTitles(
-                showTitles: true,
-                reservedSize: 30,
-                getTitlesWidget:
-                    (_, meta) => SideTitleWidget(
-                      child: AppText(
-                        text: '',
-                        typography: AppTypography.caption,
-                        color: AppColors.blackPrimary,
-                      ),
-                      meta: meta,
-                    ),
-              ),
-            ),
-            leftTitles: const AxisTitles(),
-            topTitles: const AxisTitles(),
-            rightTitles: const AxisTitles(),
+          AppText(
+            text:
+                'Participantes com $rightAnswers acertos em ${area.displayName}',
+            typography: AppTypography.caption,
+            color: AppColors.blackPrimary,
           ),
-          barGroups:
-              data.entries
-                  .map(
-                    (entry) => BarChartGroupData(
-                      x: entry.key,
-                      barRods: [
-                        BarChartRodData(
-                          toY: _normalizeValue(entry.value),
-                          width: 20,
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(8),
-                            topLeft: Radius.circular(8),
-                          ),
+          SizedBox(
+            height: MAX_BAR_HEIGHT,
+            child: BarChart(
+              BarChartData(
+                alignment: BarChartAlignment.spaceAround,
+                maxY: maxEntry * 1.2,
+                barTouchData: BarTouchData(
+                  enabled: true,
+                  touchTooltipData: BarTouchTooltipData(
+                    getTooltipColor: (group) => Colors.transparent,
+                    tooltipPadding: EdgeInsets.zero,
+                    tooltipMargin: 4,
+                    getTooltipItem: (_, _, rod, _) {
+                      return BarTooltipItem(
+                        rod.toY.round().toString(),
+                        AppTypography.subtitle1.copyWith(
                           color: AppColors.bluePrimary,
                         ),
-                      ],
+                      );
+                    },
+                  ),
+                ),
+                titlesData: FlTitlesData(
+                  bottomTitles: AxisTitles(
+                    axisNameWidget: AppText(
+                      text: 'Pontuações',
+                      typography: AppTypography.subtitle2,
+                      color: AppColors.blackPrimary,
                     ),
-                  )
-                  .toList(),
-          gridData: const FlGridData(show: false),
-        ),
+                    axisNameSize: 20,
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 40,
+                      getTitlesWidget:
+                          (value, meta) => SideTitleWidget(
+                            child: SizedBox(
+                              width: BAR_WIDTH,
+                              child: AppText(
+                                align: TextAlign.center,
+                                text:
+                                    '${value.round()} a ${value.round() + scoreInterval}',
+                                typography: AppTypography.caption,
+                                color: AppColors.blackPrimary,
+                              ),
+                            ),
+                            meta: meta,
+                          ),
+                    ),
+                  ),
+                  leftTitles: AxisTitles(
+                    axisNameWidget: AppText(
+                      text: 'Quantidade de participantes',
+                      typography: AppTypography.subtitle2,
+                      color: AppColors.blackPrimary,
+                    ),
+                    axisNameSize: 20,
+                  ),
+                  topTitles: const AxisTitles(),
+                  rightTitles: const AxisTitles(),
+                ),
+                barGroups:
+                    data.entries
+                        .map(
+                          (entry) => BarChartGroupData(
+                            x: entry.key,
+                            barRods: [
+                              BarChartRodData(
+                                toY: entry.value.toDouble(),
+                                width: BAR_WIDTH,
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(8),
+                                  topLeft: Radius.circular(8),
+                                ),
+                                color: AppColors.bluePrimary,
+                              ),
+                            ],
+                            showingTooltipIndicators: [0],
+                          ),
+                        )
+                        .toList(),
+                gridData: const FlGridData(show: false),
+                borderData: FlBorderData(show: false),
+              ),
+            ),
+          ),
+        ],
       ),
     );
-  }
-
-  double _normalizeValue(int value) {
-    return (value / this.maxEntry) * MAX_BAR_HEIGHT;
   }
 }

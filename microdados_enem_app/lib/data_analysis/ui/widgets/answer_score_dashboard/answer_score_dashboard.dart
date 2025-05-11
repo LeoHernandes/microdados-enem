@@ -45,7 +45,11 @@ class AnswerScoreDashboard extends HookWidget {
                       area: area,
                     ),
                     SizedBox(height: 20),
-                    BarChar(data: data.histogram),
+                    BarChar(
+                      data: data.histogram,
+                      area: area,
+                      rightAnswers: rightAnswers,
+                    ),
                   ],
                 ),
           ),
