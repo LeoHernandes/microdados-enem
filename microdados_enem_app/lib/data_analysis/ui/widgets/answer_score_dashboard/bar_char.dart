@@ -10,22 +10,26 @@ class BarChar extends StatelessWidget {
   final Map<int, int> data;
   final ExamArea area;
   final int rightAnswers;
+  final String minScore;
 
   const BarChar({
     super.key,
     required this.data,
     required this.area,
     required this.rightAnswers,
+    required this.minScore,
   });
 
   static const double MAX_BAR_HEIGHT = 300;
-  static const double BAR_WIDTH = 56;
 
   int get maxEntry => data.values.reduce((a, b) => a > b ? a : b);
-  int get scoreInterval => data.keys.elementAt(1) - data.keys.elementAt(0);
+  int get scoreInterval =>
+      data.length > 1 ? data.keys.elementAt(1) - data.keys.elementAt(0) : 0;
 
   @override
   Widget build(BuildContext context) {
+    final barWidth = MediaQuery.sizeOf(context).width / (data.length + 2);
+
     return AppCard(
       shadow: true,
       body: Column(
@@ -78,11 +82,13 @@ class BarChar extends StatelessWidget {
                       getTitlesWidget:
                           (value, meta) => SideTitleWidget(
                             child: SizedBox(
-                              width: BAR_WIDTH,
+                              width: barWidth,
                               child: AppText(
                                 align: TextAlign.center,
                                 text:
-                                    '${value.round()} a ${value.round() + scoreInterval}',
+                                    scoreInterval != 0
+                                        ? '${value.round()} a ${value.round() + scoreInterval}'
+                                        : minScore,
                                 typography: AppTypography.caption,
                                 color: AppColors.blackPrimary,
                               ),
@@ -110,7 +116,7 @@ class BarChar extends StatelessWidget {
                             barRods: [
                               BarChartRodData(
                                 toY: entry.value.toDouble(),
-                                width: BAR_WIDTH,
+                                width: barWidth,
                                 borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(8),
                                   topLeft: Radius.circular(8),

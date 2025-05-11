@@ -49,6 +49,7 @@ class AnswerScoreDashboard extends HookWidget {
                       data: data.histogram,
                       area: area,
                       rightAnswers: rightAnswers,
+                      minScore: data.minScore,
                     ),
                   ],
                 ),
