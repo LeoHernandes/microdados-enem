@@ -6,6 +6,7 @@ import 'package:microdados_enem_app/data_analysis/logic/answer_score_relation_st
 
 class AnswerScoreRelationCubit extends Cubit<AnswerScoreRelationState> {
   final DataAnalysisRepository _repository = DataAnalysisRepository();
+  int _currentRequestId = 0;
 
   AnswerScoreRelationCubit() : super(const AnswerScoreRelationState.idle());
 
@@ -14,22 +15,30 @@ class AnswerScoreRelationCubit extends Cubit<AnswerScoreRelationState> {
     int rightAnswers,
     ExamArea area,
   ) async {
+    final requestId = ++_currentRequestId;
     emit(const AnswerScoreRelationState.loading());
 
     await _repository
         .getAnswerScoreRelation(context, rightAnswers, area)
         .then(
-          (value) => emit(
-            AnswerScoreRelationState.success(
-              AnswerScoreRelationStateData.fromModel(value),
-            ),
-          ),
-          onError:
-              (_) => emit(
+          (value) {
+            if (requestId == _currentRequestId) {
+              emit(
+                AnswerScoreRelationState.success(
+                  AnswerScoreRelationStateData.fromModel(value),
+                ),
+              );
+            }
+          },
+          onError: (_) {
+            if (requestId == _currentRequestId) {
+              emit(
                 AnswerScoreRelationState.error(
                   'Não foi possível encontrar os dados da análise. Tente novamente mais tarde!',
                 ),
-              ),
+              );
+            }
+          },
         );
   }
 }
