@@ -82,7 +82,10 @@ class DataAnalysis extends HookWidget {
               area: selectedArea.value,
             ),
           ),
-          SizedBox(height: 20),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: DottedDivider(),
+          ),
           BlocProvider(
             create: (_) => ParticipantScoreOnAreaCubit(),
             child: UserScoreOnArea(area: selectedArea.value),

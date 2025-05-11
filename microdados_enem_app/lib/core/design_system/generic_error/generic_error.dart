@@ -4,10 +4,11 @@ import 'package:microdados_enem_app/core/design_system/button/button.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 
-class CardBodyError extends StatelessWidget {
+class GenericError extends StatelessWidget {
+  final String text;
   final VoidCallback refetch;
 
-  const CardBodyError({super.key, required this.refetch});
+  const GenericError({super.key, required this.text, required this.refetch});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +22,10 @@ class CardBodyError extends StatelessWidget {
         SizedBox(height: 20),
 
         AppText(
-          text: 'Não foi possível encontrar as informações',
+          text: text,
           color: AppColors.blackPrimary,
           typography: AppTypography.subtitle1,
+          align: TextAlign.center,
         ),
         SizedBox(height: 20),
 
