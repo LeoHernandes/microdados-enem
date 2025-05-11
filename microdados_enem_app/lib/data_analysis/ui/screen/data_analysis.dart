@@ -99,7 +99,13 @@ class DataAnalysis extends HookWidget {
         SizedBox(height: 8),
         BottomsheetBodyText(
           text:
-              'Nessa análise, você verá em cada área qual foi a maior e menor pontuação considerando um número de acertos. Isso permite avaliar a influência das diferentes questões sobre a nota final numa área de conhecimento.',
+              'Nessa análise, você verá em cada área qual foi a distribuição de pontuações considerando um número de acertos, podendo verificar a menor e maior nota.',
+        ),
+        SizedBox(height: 8),
+
+        BottomsheetBodyText(
+          text:
+              'Você pode alterar a área e o número de acertos para avaliar a influência das diferentes questões sobre a nota final. Observe a importância de acertar as questões com baixa dificuldade e manter uma coerência pedagógica na sua performance.',
         ),
       ],
     );
