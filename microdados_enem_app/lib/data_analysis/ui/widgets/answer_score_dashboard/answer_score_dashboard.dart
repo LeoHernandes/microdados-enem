@@ -8,6 +8,7 @@ import 'package:microdados_enem_app/core/enem/exam_area.dart';
 import 'package:microdados_enem_app/data_analysis/logic/answer_score_relation_cubit.dart';
 import 'package:microdados_enem_app/data_analysis/logic/answer_score_relation_state.dart';
 import 'package:microdados_enem_app/data_analysis/ui/widgets/answer_score_dashboard/bar_char.dart';
+import 'package:microdados_enem_app/data_analysis/ui/widgets/answer_score_dashboard/empty_dashboard.dart';
 import 'package:microdados_enem_app/data_analysis/ui/widgets/answer_score_dashboard/score_summary.dart';
 
 class AnswerScoreDashboard extends HookWidget {
@@ -58,23 +59,29 @@ class AnswerScoreDashboard extends HookWidget {
                   ],
                 ),
             isSuccess:
-                (data) => Column(
-                  children: [
-                    ScoreSummary(
-                      minScore: data.minScore,
-                      maxScore: data.maxScore,
-                      rightAnswers: rightAnswers,
-                      area: area,
-                    ),
-                    SizedBox(height: 20),
-                    BarChar(
-                      data: data.histogram,
-                      area: area,
-                      rightAnswers: rightAnswers,
-                      minScore: data.minScore,
-                    ),
-                  ],
-                ),
+                (data) =>
+                    data.hasData
+                        ? Column(
+                          children: [
+                            ScoreSummary(
+                              minScore: data.minScore,
+                              maxScore: data.maxScore,
+                              rightAnswers: rightAnswers,
+                              area: area,
+                            ),
+                            SizedBox(height: 20),
+                            BarChar(
+                              data: data.histogram,
+                              area: area,
+                              rightAnswers: rightAnswers,
+                              minScore: data.minScore,
+                            ),
+                          ],
+                        )
+                        : EmptyDashboard(
+                          area: area,
+                          rightAnswers: rightAnswers,
+                        ),
           ),
     );
   }

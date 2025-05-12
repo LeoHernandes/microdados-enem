@@ -26,14 +26,25 @@ class AnswerScoreRelationResponse {
   final double minScore;
   final double maxScore;
   final Map<int, int> histogram;
+  final bool hasData;
 
-  AnswerScoreRelationResponse({
+  const AnswerScoreRelationResponse({
     required this.minScore,
     required this.maxScore,
     required this.histogram,
-  });
+  }) : this.hasData = true;
+
+  AnswerScoreRelationResponse.noData()
+    : this.minScore = 0,
+      this.maxScore = 0,
+      this.histogram = {},
+      this.hasData = false;
 
   factory AnswerScoreRelationResponse.fromJson(Map<String, dynamic> json) {
+    if (json.isEmpty) {
+      return AnswerScoreRelationResponse.noData();
+    }
+
     return switch (json) {
       {
         'minScore': final minScore,

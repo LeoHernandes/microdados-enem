@@ -8,11 +8,13 @@ class AnswerScoreRelationStateData {
   final String minScore;
   final String maxScore;
   final Map<int, int> histogram;
+  final bool hasData;
 
   const AnswerScoreRelationStateData({
     required this.minScore,
     required this.maxScore,
     required this.histogram,
+    required this.hasData,
   });
 
   factory AnswerScoreRelationStateData.fromModel(
@@ -22,6 +24,7 @@ class AnswerScoreRelationStateData {
       minScore: model.minScore.toString(),
       maxScore: model.maxScore.toString(),
       histogram: model.histogram,
+      hasData: model.hasData,
     );
   }
 }
