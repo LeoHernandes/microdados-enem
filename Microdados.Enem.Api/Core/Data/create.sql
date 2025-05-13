@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS ItensPorProvas (
 CREATE TABLE IF NOT EXISTS Provas (
         ProvaId INTEGER NOT NULL PRIMARY KEY,
         AreaSigla TEXT NOT NULL,
-        Cor TEXT NULL
+        Cor TEXT NULL,
+        Reaplicacao INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Participantes

@@ -12,6 +12,7 @@ public class MicrodadosService(AppDbContext dbContext)
 {
     private const string ITENS_FILE_PATH = "./ITENS_PROVA_2023.csv";
     private const string PARTICIPANTES_FILE_PATH = "./MICRODADOS_ENEM_2023.csv";
+    private const int EXAM_REAPPLICATION_START_ID = 1271;
 
     private AppDbContext DbContext { get; set; } = dbContext;
     private Dictionary<int, string> Gabaritos { get; set; } = [];
@@ -46,6 +47,7 @@ public class MicrodadosService(AppDbContext dbContext)
                 ProvaId = item.CO_PROVA,
                 AreaSigla = item.SG_AREA,
                 Cor = item.TX_COR == "LEITOR TELA" ? null : item.TX_COR,
+                Reaplicacao = item.CO_PROVA >= EXAM_REAPPLICATION_START_ID,
             })
             .ToHashSet(new ProvaEqualityComparer());
 
