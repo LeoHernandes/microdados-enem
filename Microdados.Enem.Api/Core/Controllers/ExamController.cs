@@ -1,5 +1,6 @@
 using Core.Data;
 using Core.Data.Models;
+using Core.Enem;
 using Core.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,11 +13,16 @@ namespace Core.Controllers
         private AppDbContext DbContext { get; set; } = dbContext;
 
         [HttpGet]
-        [Route("exam/{id}/canceled-questions-count")]
-        public async Task<IActionResult> GetExamCanceledQuestionsCount(int id)
+        [Route("exam/{areaId}/canceled-questions-count")]
+        public async Task<IActionResult> GetExamCanceledQuestionsCount(string areaId, [FromQuery] bool? reapplication)
         {
+            if (!Enum.TryParse<Area>(areaId, ignoreCase: false, out Area parsedAreaId))
+            {
+                return NotFound();
+            }
+
             IEnumerable<Item>? items = await DbContext.Provas
-                .Where(p => p.ProvaId == id)
+                .Where(p => p.AreaSigla == areaId && p.Reaplicacao == (reapplication ?? false))
                 .Include(p => p.ItensPorProva)
                 .ThenInclude(ip => ip.Item)
                 .Select(p => p.ItensPorProva.Select(ip => ip.Item))
