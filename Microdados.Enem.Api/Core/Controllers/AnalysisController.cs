@@ -15,7 +15,7 @@ namespace Core.Controllers
 
         [HttpGet]
         [Route("analysis/answer-score-relation")]
-        public async Task<IActionResult> GetAnswerScoreRelation([FromQuery] int rightAnswers, [FromQuery] string areaId)
+        public async Task<IActionResult> GetAnswerScoreRelation([FromQuery] int rightAnswers, [FromQuery] string areaId, [FromQuery] bool? reapplication)
         {
             if (!Enum.TryParse<Area>(areaId, ignoreCase: true, out Area parsedAreaId))
             {
@@ -32,10 +32,10 @@ namespace Core.Controllers
 
             Dictionary<Area, Expression<Func<Participante, bool>>> rightsFilter = new()
             {
-                [Area.CH] = p => p.AcertosCH == rightAnswers,
-                [Area.CN] = p => p.AcertosCN == rightAnswers,
-                [Area.LC] = p => p.AcertosLC == rightAnswers,
-                [Area.MT] = p => p.AcertosMT == rightAnswers,
+                [Area.CH] = p => p.AcertosCH == rightAnswers && p.ProvaCH.Reaplicacao == (reapplication ?? false),
+                [Area.CN] = p => p.AcertosCN == rightAnswers && p.ProvaCN.Reaplicacao == (reapplication ?? false),
+                [Area.LC] = p => p.AcertosLC == rightAnswers && p.ProvaLC.Reaplicacao == (reapplication ?? false),
+                [Area.MT] = p => p.AcertosMT == rightAnswers && p.ProvaMT.Reaplicacao == (reapplication ?? false),
             };
 
             float[] scores = await DbContext.Participantes
