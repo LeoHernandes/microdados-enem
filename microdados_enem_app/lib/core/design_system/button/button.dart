@@ -46,8 +46,8 @@ class Button extends StatelessWidget {
       style: switch (type) {
         ButtonType.primary => TextButton.styleFrom(
           backgroundColor:
-              disable || loading ? AppColors.blueLigher : AppColors.bluePrimary,
-          foregroundColor: AppColors.blueLigher,
+              disable || loading ? AppColors.blueLight : AppColors.bluePrimary,
+          foregroundColor: AppColors.blueLight,
           minimumSize: size,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(36)),
@@ -56,9 +56,9 @@ class Button extends StatelessWidget {
         ButtonType.secondary => TextButton.styleFrom(
           backgroundColor:
               disable || loading
-                  ? AppColors.blueLighest
+                  ? AppColors.blueLightest
                   : AppColors.whitePrimary,
-          foregroundColor: AppColors.blueLighest,
+          foregroundColor: AppColors.blueLightest,
           side: BorderSide(color: AppColors.bluePrimary),
           minimumSize: size,
           shape: const RoundedRectangleBorder(
@@ -68,9 +68,9 @@ class Button extends StatelessWidget {
         ButtonType.terciary => TextButton.styleFrom(
           backgroundColor:
               disable || loading
-                  ? AppColors.blueLighest
+                  ? AppColors.blueLightest
                   : AppColors.whitePrimary,
-          foregroundColor: AppColors.blueLighest,
+          foregroundColor: AppColors.blueLightest,
           minimumSize: size,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(36)),

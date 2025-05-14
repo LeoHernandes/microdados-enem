@@ -11,8 +11,10 @@ import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/core/enem/exam_area.dart';
 import 'package:microdados_enem_app/data_analysis/logic/answer_score_relation_cubit.dart';
+import 'package:microdados_enem_app/data_analysis/logic/canceled_questions_count_cubit.dart';
 import 'package:microdados_enem_app/data_analysis/logic/participant_score_on_area_cubit.dart';
 import 'package:microdados_enem_app/data_analysis/ui/widgets/answer_score_dashboard/answer_score_dashboard.dart';
+import 'package:microdados_enem_app/data_analysis/ui/widgets/canceled_questions_alert.dart';
 import 'package:microdados_enem_app/data_analysis/ui/widgets/user_score_on_area.dart';
 
 class DataAnalysis extends HookWidget {
@@ -74,6 +76,10 @@ class DataAnalysis extends HookWidget {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16),
             child: DottedDivider(),
+          ),
+          BlocProvider(
+            create: (_) => CanceledQuestionsCountCubit(),
+            child: CanceledQuestionsAlert(area: selectedArea.value),
           ),
           BlocProvider(
             create: (_) => AnswerScoreRelationCubit(),

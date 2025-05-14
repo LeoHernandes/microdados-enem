@@ -65,3 +65,21 @@ class AnswerScoreRelationResponse {
     };
   }
 }
+
+class CanceledQuestionsCountResponse {
+  final int count;
+
+  const CanceledQuestionsCountResponse({required this.count});
+
+  factory CanceledQuestionsCountResponse.fromJson(Map<String, dynamic> json) {
+    return switch (json) {
+      {'count': final count} => CanceledQuestionsCountResponse(
+        count: count.toInt(),
+      ),
+      _ =>
+        throw const FormatException(
+          'Failed to load canceled questions count on area.',
+        ),
+    };
+  }
+}

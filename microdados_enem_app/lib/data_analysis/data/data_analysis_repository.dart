@@ -39,4 +39,21 @@ class DataAnalysisRepository {
     );
     return AnswerScoreRelationResponse.fromJson(response);
   }
+
+  Future<CanceledQuestionsCountResponse> getCanceledQuestionsCount(
+    BuildContext context,
+    ExamArea area,
+    bool isReapplication,
+  ) async {
+    final route =
+        'exam/${area.name}/canceled-questions-count?reapplication=$isReapplication';
+
+    final response = await _httpClient.get(
+      route,
+      timeout: Duration(seconds: 10),
+      cache: AppCache(context: context, key: route),
+    );
+
+    return CanceledQuestionsCountResponse.fromJson(response);
+  }
 }

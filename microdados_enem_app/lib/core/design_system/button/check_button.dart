@@ -20,8 +20,8 @@ class CheckButton extends StatelessWidget {
     return TextButton(
       style: TextButton.styleFrom(
         backgroundColor:
-            checked ? AppColors.blueLighest : AppColors.whitePrimary,
-        foregroundColor: AppColors.blueLighest,
+            checked ? AppColors.blueLightest : AppColors.whitePrimary,
+        foregroundColor: AppColors.blueLightest,
         side: BorderSide(color: AppColors.bluePrimary),
         minimumSize: Size(0, 0),
         shape: const RoundedRectangleBorder(

@@ -6,6 +6,7 @@ class AppCard extends StatelessWidget {
   final bool shadow;
   final bool border;
   final double? height;
+  final Color? backgroundColor;
 
   const AppCard({
     super.key,
@@ -13,6 +14,7 @@ class AppCard extends StatelessWidget {
     this.border = false,
     this.shadow = false,
     this.height,
+    this.backgroundColor,
   });
 
   @override
@@ -24,7 +26,7 @@ class AppCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         border: this.border ? Border.all(color: AppColors.bluePrimary) : null,
-        color: AppColors.whitePrimary,
+        color: backgroundColor ?? AppColors.whitePrimary,
         boxShadow:
             this.shadow
                 ? [
