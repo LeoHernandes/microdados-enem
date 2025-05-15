@@ -39,6 +39,13 @@ class MyApp extends StatelessWidget {
       false,
     );
 
+    final envCacheId = int.parse(dotenv.get('APP_CACHE_VERSION_ID'));
+    final storageCacheId = localStorage.getInt(StorageKeys.appCacheId, 0);
+    if (envCacheId != storageCacheId) {
+      localStorage.removeKeysStartingWith(StorageKeys.cachePrefix);
+      localStorage.setInt(StorageKeys.appCacheId, envCacheId);
+    }
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(scaffoldBackgroundColor: AppColors.whitePrimary),
