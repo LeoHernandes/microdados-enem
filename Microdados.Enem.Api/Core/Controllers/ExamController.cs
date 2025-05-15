@@ -30,7 +30,7 @@ namespace Core.Controllers
 
             if (items == null) return BadRequest("EXAM_NOT_FOUND");
 
-            int count = items.Where(i => i.FoiAbandonado).Count();
+            int count = items.Where(i => char.ToLower(i.Gabarito) == 'x').Count();
             return Ok(new GetExamCanceledQuestionsCountResponse(Count: count));
         }
     }
