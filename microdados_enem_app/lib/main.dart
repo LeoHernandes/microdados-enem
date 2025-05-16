@@ -5,6 +5,7 @@ import 'package:microdados_enem_app/core/design_system/nothing/nothing.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/local_storage.dart';
 import 'package:microdados_enem_app/answer_score_analysis/ui/screen/answer_score_analysis.dart';
+import 'package:microdados_enem_app/difficulty_analysis/ui/screen/difficulty_analysis.dart';
 import 'package:microdados_enem_app/home/ui/screen/home_page.dart';
 import 'package:microdados_enem_app/onboarding/ui/screen/onboarding_page.dart';
 import 'package:microdados_enem_app/core/routes.dart';
@@ -67,7 +68,7 @@ class MyApp extends StatelessWidget {
                   ),
                   Routes.difficultyAnalysis => AppScaffold(
                     appBarText: 'Análises',
-                    body: AnswerScoreAnalysis(),
+                    body: DifficultyAnalysis(),
                     selectedTab: NavTab.difficultyAnalysis,
                   ),
                   _ => Nothing(),
