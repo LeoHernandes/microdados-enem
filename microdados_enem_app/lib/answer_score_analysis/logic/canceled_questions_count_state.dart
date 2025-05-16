@@ -1,5 +1,5 @@
 import 'package:microdados_enem_app/core/api/endpoint_state.dart';
-import 'package:microdados_enem_app/data_analysis/data/models.dart';
+import 'package:microdados_enem_app/answer_score_analysis/data/models.dart';
 
 typedef CanceledQuestionsCountState =
     EndpointState<String, CanceledQuestionsCountStateData>;

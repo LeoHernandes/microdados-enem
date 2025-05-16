@@ -3,5 +3,6 @@ class Routes {
 
   static const home = '/home';
   static const onboarding = '/onboarding';
-  static const dataAnalysis = '/data-analysis';
+  static const answerScoreAnalysis = '/answer-score-analysis';
+  static const difficultyAnalysis = '/difficulty-analysis';
 }

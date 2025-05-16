@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:microdados_enem_app/core/api/app_cache.dart';
 import 'package:microdados_enem_app/core/api/microdados_api.dart';
 import 'package:microdados_enem_app/core/enem/exam_area.dart';
-import 'package:microdados_enem_app/data_analysis/data/models.dart';
+import 'package:microdados_enem_app/answer_score_analysis/data/models.dart';
 
-class DataAnalysisRepository {
+class AnswerScoreAnalysisRepository {
   final AppHttpClient _httpClient = AppHttpClient();
 
-  DataAnalysisRepository();
+  AnswerScoreAnalysisRepository();
 
   Future<ParticipantScoreOnAreaResponse> getParticipantScoreOnArea(
     BuildContext context,

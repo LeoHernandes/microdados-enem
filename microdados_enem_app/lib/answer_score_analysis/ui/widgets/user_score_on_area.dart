@@ -9,8 +9,8 @@ import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/core/enem/exam_area.dart';
 import 'package:microdados_enem_app/core/local_storage.dart';
-import 'package:microdados_enem_app/data_analysis/logic/participant_score_on_area_cubit.dart';
-import 'package:microdados_enem_app/data_analysis/logic/participant_score_on_area_state.dart';
+import 'package:microdados_enem_app/answer_score_analysis/logic/participant_score_on_area_cubit.dart';
+import 'package:microdados_enem_app/answer_score_analysis/logic/participant_score_on_area_state.dart';
 import 'package:provider/provider.dart';
 
 class UserScoreOnArea extends HookWidget {

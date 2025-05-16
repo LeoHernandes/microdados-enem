@@ -7,8 +7,8 @@ import 'package:microdados_enem_app/core/design_system/nothing/nothing.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/core/enem/exam_area.dart';
-import 'package:microdados_enem_app/data_analysis/logic/canceled_questions_count_cubit.dart';
-import 'package:microdados_enem_app/data_analysis/logic/canceled_questions_count_state.dart';
+import 'package:microdados_enem_app/answer_score_analysis/logic/canceled_questions_count_cubit.dart';
+import 'package:microdados_enem_app/answer_score_analysis/logic/canceled_questions_count_state.dart';
 
 class CanceledQuestionsAlert extends HookWidget {
   final ExamArea area;

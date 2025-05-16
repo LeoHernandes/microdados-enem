@@ -43,12 +43,22 @@ class BottomNav extends StatelessWidget {
           ),
           _NavButton(
             icon: Icons.bar_chart_outlined,
-            label: 'Análises',
-            isSelected: this.selectedTab == NavTab.dataAnalysis,
+            label: 'Notas',
+            isSelected: this.selectedTab == NavTab.answerScoreAnalysis,
             onTap:
                 () => {
-                  if (this.selectedTab != NavTab.dataAnalysis)
-                    Navigator.pushNamed(context, Routes.dataAnalysis),
+                  if (this.selectedTab != NavTab.answerScoreAnalysis)
+                    Navigator.pushNamed(context, Routes.answerScoreAnalysis),
+                },
+          ),
+          _NavButton(
+            icon: Icons.show_chart_outlined,
+            label: 'Dificuldade',
+            isSelected: this.selectedTab == NavTab.difficultyAnalysis,
+            onTap:
+                () => {
+                  if (this.selectedTab != NavTab.difficultyAnalysis)
+                    Navigator.pushNamed(context, Routes.difficultyAnalysis),
                 },
           ),
         ],
@@ -95,6 +105,7 @@ class _NavButton extends StatelessWidget {
                   size: 26,
                 ),
                 AppText(
+                  align: TextAlign.center,
                   color:
                       isSelected
                           ? AppColors.whitePrimary

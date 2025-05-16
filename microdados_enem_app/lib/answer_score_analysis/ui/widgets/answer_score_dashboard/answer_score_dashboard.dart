@@ -5,11 +5,11 @@ import 'package:microdados_enem_app/core/design_system/generic_error/generic_err
 import 'package:microdados_enem_app/core/design_system/nothing/nothing.dart';
 import 'package:microdados_enem_app/core/design_system/skeleton/skeleton.dart';
 import 'package:microdados_enem_app/core/enem/exam_area.dart';
-import 'package:microdados_enem_app/data_analysis/logic/answer_score_relation_cubit.dart';
-import 'package:microdados_enem_app/data_analysis/logic/answer_score_relation_state.dart';
-import 'package:microdados_enem_app/data_analysis/ui/widgets/answer_score_dashboard/bar_char.dart';
-import 'package:microdados_enem_app/data_analysis/ui/widgets/answer_score_dashboard/empty_dashboard.dart';
-import 'package:microdados_enem_app/data_analysis/ui/widgets/answer_score_dashboard/score_summary.dart';
+import 'package:microdados_enem_app/answer_score_analysis/logic/answer_score_relation_cubit.dart';
+import 'package:microdados_enem_app/answer_score_analysis/logic/answer_score_relation_state.dart';
+import 'package:microdados_enem_app/answer_score_analysis/ui/widgets/answer_score_dashboard/bar_char.dart';
+import 'package:microdados_enem_app/answer_score_analysis/ui/widgets/answer_score_dashboard/empty_dashboard.dart';
+import 'package:microdados_enem_app/answer_score_analysis/ui/widgets/answer_score_dashboard/score_summary.dart';
 
 class AnswerScoreDashboard extends HookWidget {
   final int rightAnswers;

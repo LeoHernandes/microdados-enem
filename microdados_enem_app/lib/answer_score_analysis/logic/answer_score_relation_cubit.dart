@@ -1,11 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:microdados_enem_app/core/enem/exam_area.dart';
-import 'package:microdados_enem_app/data_analysis/data/data_analysis_repository.dart';
-import 'package:microdados_enem_app/data_analysis/logic/answer_score_relation_state.dart';
+import 'package:microdados_enem_app/answer_score_analysis/data/answer_score_analysis_repository.dart';
+import 'package:microdados_enem_app/answer_score_analysis/logic/answer_score_relation_state.dart';
 
 class AnswerScoreRelationCubit extends Cubit<AnswerScoreRelationState> {
-  final DataAnalysisRepository _repository = DataAnalysisRepository();
+  final AnswerScoreAnalysisRepository _repository =
+      AnswerScoreAnalysisRepository();
   int _currentRequestId = 0;
 
   AnswerScoreRelationCubit() : super(const AnswerScoreRelationState.idle());
