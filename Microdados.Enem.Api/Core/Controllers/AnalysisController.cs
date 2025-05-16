@@ -84,5 +84,72 @@ namespace Core.Controllers
                  group => group.Count()
              );
         }
+
+        [HttpGet]
+        [Route("exam/{areaId}/difficulty-distribution")]
+        public async Task<IActionResult> GetExamDifficulryDistribution(string areaId, [FromQuery] ForeignLanguage? language, [FromQuery] bool? reapplication)
+        {
+            if (!Enum.TryParse<Area>(areaId, ignoreCase: false, out Area parsedAreaId))
+            {
+                return NotFound();
+            }
+
+            var itemsByExam = await DbContext.Provas
+                .Where(p => p.AreaSigla == areaId && p.Reaplicacao == (reapplication ?? false))
+                .Include(p => p.ItensPorProva)
+                .ThenInclude(ip => ip.Item)
+                .Select(p => new ItemsByExamDTO
+                (
+                    p.Cor,
+                    p.ItensPorProva
+                        .Where(ip => ip.Item.LinguaEstrangeira == null || ip.Item.LinguaEstrangeira == language)
+                        .Select(ip => new QuestionDifficulty
+                        (
+                            ip.Posicao,
+                            ip.Item.ParamDificuldade
+                        ))
+
+                ))
+                .FirstOrDefaultAsync();
+
+            if (itemsByExam == null) return BadRequest("EXAM_NOT_FOUND");
+
+            double? lowestDifficulty = itemsByExam.Items.Min(i => i.Difficulty);
+            Dictionary<int, double?> distributionDict = itemsByExam.Items
+                .OrderBy(item => item.Position)
+                .ToDictionary(
+                    item => item.Position,
+                    item => item.Difficulty.HasValue
+                        ? lowestDifficulty < 0
+                            ? ((item.Difficulty - lowestDifficulty) * 100 + 300)
+                            : item.Difficulty * 100 + 300
+                        : null
+            );
+
+            KeyValuePair<int, double?> easiestQuestion = distributionDict
+                .Aggregate((a, b) => a.Value > b.Value ? b : a);
+
+            KeyValuePair<int, double?> hardestQuestion = distributionDict
+                .Aggregate((a, b) => a.Value < b.Value ? b : a);
+
+            return Ok(new GetDifficultyDistributionResponse
+            (
+                Color: itemsByExam.Color ?? "",
+                EasiestQuestion: new QuestionDifficulty
+                (
+                    Position: easiestQuestion.Key,
+                    Difficulty: easiestQuestion.Value
+                ),
+                HardestQuestion: new QuestionDifficulty
+                (
+                    Position: hardestQuestion.Key,
+                    Difficulty: hardestQuestion.Value
+                ),
+                Distribution: distributionDict
+            )
+            );
+        }
+
+        record ItemsByExamDTO(string? Color, IEnumerable<QuestionDifficulty> Items);
     }
 }
