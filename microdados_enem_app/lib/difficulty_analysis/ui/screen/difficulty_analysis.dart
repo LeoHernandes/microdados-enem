@@ -8,6 +8,7 @@ import 'package:microdados_enem_app/core/design_system/exam_area_picker/exam_are
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/core/enem/exam_area.dart';
+import 'package:microdados_enem_app/core/enem/foreign_language.dart';
 
 class DifficultyAnalysis extends HookWidget {
   const DifficultyAnalysis({super.key});
@@ -15,6 +16,7 @@ class DifficultyAnalysis extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final selectedArea = useState<ExamArea>(ExamArea.LC);
+    final selectedLanguage = useState<ForeignLanguage?>(ForeignLanguage.EN);
 
     return SingleChildScrollView(
       clipBehavior: Clip.none,
@@ -48,8 +50,13 @@ class DifficultyAnalysis extends HookWidget {
           ),
           SizedBox(height: 2),
           ExamAreaPicker(
-            onChange: (area) => selectedArea.value = area,
-            value: selectedArea.value,
+            onChange: (area, language) {
+              selectedArea.value = area;
+              selectedLanguage.value = language;
+            },
+            area: selectedArea.value,
+            language: selectedLanguage.value,
+            pickLanguage: true,
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16),

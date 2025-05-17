@@ -70,8 +70,8 @@ class AnswerScoreAnalysis extends HookWidget {
           ),
           SizedBox(height: 2),
           ExamAreaPicker(
-            onChange: (area) => selectedArea.value = area,
-            value: selectedArea.value,
+            onChange: (area, _) => selectedArea.value = area,
+            area: selectedArea.value,
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16),
