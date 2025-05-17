@@ -86,7 +86,7 @@ namespace Core.Controllers
         }
 
         [HttpGet]
-        [Route("exam/{areaId}/difficulty-distribution")]
+        [Route("analysis/difficulty-distribution/{areaId}")]
         public async Task<IActionResult> GetExamDifficulryDistribution(string areaId, [FromQuery] ForeignLanguage? language, [FromQuery] bool? reapplication)
         {
             if (!Enum.TryParse<Area>(areaId, ignoreCase: false, out Area parsedAreaId))
