@@ -11,7 +11,7 @@ import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/core/enem/exam_area.dart';
 import 'package:microdados_enem_app/core/enem/foreign_language.dart';
 import 'package:microdados_enem_app/difficulty_analysis/logic/answer_score_relation_cubit.dart';
-import 'package:microdados_enem_app/difficulty_analysis/ui/screen/widgets/difficulty_dashboard/difficulty_distribution_dashboard.dart';
+import 'package:microdados_enem_app/difficulty_analysis/ui/widgets/difficulty_dashboard/difficulty_distribution_dashboard.dart';
 
 class DifficultyAnalysis extends HookWidget {
   const DifficultyAnalysis({super.key});
