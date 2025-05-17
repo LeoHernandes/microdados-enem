@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:microdados_enem_app/core/design_system/app_bottomsheet/app_bottomsheet.dart';
 import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
@@ -9,6 +10,8 @@ import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/core/enem/exam_area.dart';
 import 'package:microdados_enem_app/core/enem/foreign_language.dart';
+import 'package:microdados_enem_app/difficulty_analysis/logic/answer_score_relation_cubit.dart';
+import 'package:microdados_enem_app/difficulty_analysis/ui/screen/widgets/difficulty_dashboard/difficulty_distribution_dashboard.dart';
 
 class DifficultyAnalysis extends HookWidget {
   const DifficultyAnalysis({super.key});
@@ -61,6 +64,13 @@ class DifficultyAnalysis extends HookWidget {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16),
             child: DottedDivider(),
+          ),
+          BlocProvider(
+            create: (_) => DifficultyDistributionCubit(),
+            child: DifficultyDistributionDashboard(
+              area: selectedArea.value,
+              language: selectedLanguage.value,
+            ),
           ),
         ],
       ),

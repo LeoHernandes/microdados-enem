@@ -6,13 +6,13 @@ import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/core/enem/exam_area.dart';
 
-class BarChar extends StatelessWidget {
+class AnswerScoreBarChart extends StatelessWidget {
   final Map<int, int> data;
   final ExamArea area;
   final int rightAnswers;
   final String minScore;
 
-  const BarChar({
+  const AnswerScoreBarChart({
     super.key,
     required this.data,
     required this.area,
