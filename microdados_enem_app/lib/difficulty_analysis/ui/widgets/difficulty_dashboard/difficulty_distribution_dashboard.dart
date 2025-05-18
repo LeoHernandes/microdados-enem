@@ -81,7 +81,7 @@ class DifficultyDistributionDashboard extends HookWidget {
                       hardestQuestion: data.hardestQuestion,
                     ),
                     SizedBox(height: 20),
-                    DifficultyLineChart(data: data.distribution),
+                    DifficultyLineChart(data: data.distribution, area: area),
                   ],
                 ),
           ),
