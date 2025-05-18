@@ -6,6 +6,8 @@ class AppIconButton extends StatelessWidget {
   final IconData icon;
   final bool border;
   final double? iconSize;
+  final String? tooltip;
+  final double? size;
 
   const AppIconButton({
     super.key,
@@ -13,14 +15,22 @@ class AppIconButton extends StatelessWidget {
     required this.icon,
     this.border = true,
     this.iconSize,
+    this.tooltip,
+    this.size,
   });
 
   @override
   Widget build(BuildContext context) {
     if (border) {
       return IconButton.outlined(
+        constraints:
+            size != null
+                ? BoxConstraints(minHeight: size!, minWidth: size!)
+                : null,
+        tooltip: tooltip,
         iconSize: iconSize,
         onPressed: onTap,
+        padding: EdgeInsets.all(0),
         disabledColor: AppColors.blackLight,
         icon: Icon(icon),
         color: AppColors.bluePrimary,

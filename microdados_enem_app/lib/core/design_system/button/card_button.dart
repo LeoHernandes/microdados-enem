@@ -30,29 +30,29 @@ class CardButton extends StatelessWidget {
           border: true,
           backgroundColor: Colors.transparent,
           body: Row(
+            spacing: 10,
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AppText(
-                    text: title,
-                    typography: AppTypography.subtitle1,
-                    color: AppColors.bluePrimary,
-                  ),
-                  SizedBox(height: 4),
-                  SizedBox(
-                    width: MediaQuery.sizeOf(context).width * 0.75,
-                    child: AppText(
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AppText(
+                      text: title,
+                      typography: AppTypography.subtitle1,
+                      color: AppColors.bluePrimary,
+                    ),
+                    SizedBox(height: 4),
+                    AppText(
                       align: TextAlign.justify,
                       text: description,
                       typography: AppTypography.caption,
                       color: AppColors.blackPrimary,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Icon(
                 Icons.chevron_right_rounded,

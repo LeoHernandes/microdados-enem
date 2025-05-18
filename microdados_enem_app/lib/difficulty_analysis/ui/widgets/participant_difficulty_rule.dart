@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -58,16 +59,19 @@ class ParticipantDifficultyRule extends HookWidget {
                         children: [
                           Row(
                             children: [
-                              AppText(
-                                text:
-                                    'Régua de dificuldade de ${area.displayName}',
-                                typography: AppTypography.subtitle1,
-                                color: AppColors.blackPrimary,
+                              Flexible(
+                                child: AppText(
+                                  text:
+                                      'Régua de dificuldade de ${area.displayName}',
+                                  typography: AppTypography.subtitle1,
+                                  color: AppColors.blackPrimary,
+                                ),
                               ),
                               AppIconButton(
-                                iconSize: 20,
-                                icon: Icons.info_outline_rounded,
-                                border: false,
+                                size: 22,
+                                iconSize: 12,
+                                tooltip: 'Ajuda',
+                                icon: Icons.question_mark_rounded,
                                 onTap:
                                     () => AppBottomsheet(
                                       builder: explanationBuilder,
@@ -126,10 +130,38 @@ class DifficultyRule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppText(
-      text: '${data.entries.first.key} - ${data.entries.first.value}',
-      typography: AppTypography.body2,
-      color: AppColors.redPrimary,
+    return SizedBox(
+      height: 100,
+      child: LineChart(
+        LineChartData(
+          maxY: 1,
+          minY: -1,
+          titlesData: FlTitlesData(
+            bottomTitles: AxisTitles(
+              axisNameWidget: AppText(
+                text: 'Dificuldade das questões',
+                typography: AppTypography.subtitle2,
+                color: AppColors.blackPrimary,
+              ),
+              axisNameSize: 20,
+            ),
+            leftTitles: const AxisTitles(axisNameSize: 20),
+            rightTitles: const AxisTitles(),
+            topTitles: const AxisTitles(),
+          ),
+          gridData: FlGridData(drawHorizontalLine: false),
+          borderData: FlBorderData(
+            show: true,
+            border: Border.all(color: AppColors.blackLighter),
+          ),
+          lineBarsData: [
+            LineChartBarData(
+              spots: data.entries.map((entry) => FlSpot(entry.key, 0)).toList(),
+              color: AppColors.bluePrimary,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

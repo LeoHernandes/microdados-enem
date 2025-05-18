@@ -39,8 +39,10 @@ class AnswerScoreAnalysis extends HookWidget {
                 color: AppColors.blackPrimary,
               ),
               AppIconButton(
-                icon: Icons.info_outline_rounded,
-                border: false,
+                size: 22,
+                iconSize: 12,
+                tooltip: 'Ajuda',
+                icon: Icons.question_mark_rounded,
                 onTap:
                     () => AppBottomsheet(
                       builder: explanationBuilder,
