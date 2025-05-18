@@ -3,7 +3,7 @@ import 'package:microdados_enem_app/core/design_system/app_card/app_card.dart';
 import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
-import 'package:microdados_enem_app/difficulty_analysis/data/difficulty_analysis_repository.dart';
+import 'package:microdados_enem_app/difficulty_analysis/data/models.dart';
 
 class DifficultySummary extends StatelessWidget {
   final QuestionDifficulty easiestQuestion;

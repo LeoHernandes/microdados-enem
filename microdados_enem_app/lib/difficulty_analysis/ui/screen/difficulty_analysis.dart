@@ -10,8 +10,10 @@ import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/core/enem/exam_area.dart';
 import 'package:microdados_enem_app/core/enem/foreign_language.dart';
-import 'package:microdados_enem_app/difficulty_analysis/logic/answer_score_relation_cubit.dart';
+import 'package:microdados_enem_app/difficulty_analysis/logic/difficulty_distribution_cubit.dart';
+import 'package:microdados_enem_app/difficulty_analysis/logic/participant_pedagogical_coherence_cubit.dart';
 import 'package:microdados_enem_app/difficulty_analysis/ui/widgets/difficulty_dashboard/difficulty_distribution_dashboard.dart';
+import 'package:microdados_enem_app/difficulty_analysis/ui/widgets/participant_difficulty_rule.dart';
 
 class DifficultyAnalysis extends HookWidget {
   const DifficultyAnalysis({super.key});
@@ -71,6 +73,10 @@ class DifficultyAnalysis extends HookWidget {
               area: selectedArea.value,
               language: selectedLanguage.value,
             ),
+          ),
+          BlocProvider(
+            create: (_) => ParticipantPedagogicalCoherenceCubit(),
+            child: ParticipantDifficultyRule(area: selectedArea.value),
           ),
         ],
       ),

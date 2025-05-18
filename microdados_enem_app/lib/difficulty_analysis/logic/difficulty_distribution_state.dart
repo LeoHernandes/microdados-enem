@@ -1,5 +1,5 @@
 import 'package:microdados_enem_app/core/api/endpoint_state.dart';
-import 'package:microdados_enem_app/difficulty_analysis/data/difficulty_analysis_repository.dart';
+import 'package:microdados_enem_app/difficulty_analysis/data/models.dart';
 
 typedef DifficultyDistributionState =
     EndpointState<String, DifficultyDistributionStateData>;

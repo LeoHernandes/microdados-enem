@@ -1,34 +1,34 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:microdados_enem_app/core/enem/exam_area.dart';
-import 'package:microdados_enem_app/core/enem/foreign_language.dart';
 import 'package:microdados_enem_app/difficulty_analysis/data/difficulty_analysis_repository.dart';
-import 'package:microdados_enem_app/difficulty_analysis/logic/answer_score_relation_state.dart';
+import 'package:microdados_enem_app/difficulty_analysis/logic/participant_pedagogical_coherence_state.dart';
 
-class DifficultyDistributionCubit extends Cubit<DifficultyDistributionState> {
+class ParticipantPedagogicalCoherenceCubit
+    extends Cubit<ParticipantPedagogicalCoherenceState> {
   final DifficultyAnalysisRepository _repository =
       DifficultyAnalysisRepository();
   int _currentRequestId = 0;
 
-  DifficultyDistributionCubit()
-    : super(const DifficultyDistributionState.idle());
+  ParticipantPedagogicalCoherenceCubit()
+    : super(const ParticipantPedagogicalCoherenceState.idle());
 
-  Future<void> getDifficultyDistributionData(
+  Future<void> getParticipantPedagogicalCoherenceData(
     BuildContext context,
+    String id,
     ExamArea area,
-    ForeignLanguage? language,
   ) async {
     final requestId = ++_currentRequestId;
-    emit(const DifficultyDistributionState.loading());
+    emit(const ParticipantPedagogicalCoherenceState.loading());
 
     await _repository
-        .getDifficultyDistribution(context, area, language)
+        .getParticipantPedagogicalCoherence(context, area, id)
         .then(
           (value) {
             if (requestId == _currentRequestId) {
               emit(
-                DifficultyDistributionState.success(
-                  DifficultyDistributionStateData.fromModel(value),
+                ParticipantPedagogicalCoherenceState.success(
+                  ParticipantPedagogicalCoherenceStateData.fromModel(value),
                 ),
               );
             }
@@ -36,8 +36,8 @@ class DifficultyDistributionCubit extends Cubit<DifficultyDistributionState> {
           onError: (error) {
             if (requestId == _currentRequestId) {
               emit(
-                DifficultyDistributionState.error(
-                  'Não foi possível encontrar os dados da análise de dificuldade. Tente novamente mais tarde!',
+                ParticipantPedagogicalCoherenceState.error(
+                  'Não foi possível encontrar os dados da coerência pedagógica. Tente novamente mais tarde!',
                 ),
               );
             }

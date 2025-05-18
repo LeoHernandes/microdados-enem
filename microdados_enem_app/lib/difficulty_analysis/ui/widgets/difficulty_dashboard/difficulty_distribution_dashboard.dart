@@ -10,8 +10,8 @@ import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/core/enem/exam_area.dart';
 import 'package:microdados_enem_app/core/enem/foreign_language.dart';
-import 'package:microdados_enem_app/difficulty_analysis/logic/answer_score_relation_cubit.dart';
-import 'package:microdados_enem_app/difficulty_analysis/logic/answer_score_relation_state.dart';
+import 'package:microdados_enem_app/difficulty_analysis/logic/difficulty_distribution_cubit.dart';
+import 'package:microdados_enem_app/difficulty_analysis/logic/difficulty_distribution_state.dart';
 import 'package:microdados_enem_app/difficulty_analysis/ui/widgets/difficulty_dashboard/difficulty_line_chart.dart';
 import 'package:microdados_enem_app/difficulty_analysis/ui/widgets/difficulty_dashboard/difficulty_summary.dart';
 
