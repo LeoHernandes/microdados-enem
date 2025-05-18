@@ -137,7 +137,7 @@ namespace Core.Controllers
             IEnumerable<ItemDTO> filteredItems = dto.ExamItems
                 .Where(item => item.Language == null || item.Language == dto.Language);
 
-            Dictionary<double, ItemHit> difficultyRule = GetParticipantDifficultyRule(dto.ExamAnswers, filteredItems);
+            Dictionary<int, bool> difficultyRule = GetParticipantDifficultyRule(dto.ExamAnswers, filteredItems);
 
             return Ok(new GetParticipantPedagogicalCoherenceResponse(
                 ExamColor: dto.ExamColor,
@@ -146,7 +146,7 @@ namespace Core.Controllers
             ));
         }
 
-        private static Dictionary<double, ItemHit> GetParticipantDifficultyRule(string participantAnswers, IEnumerable<ItemDTO> items)
+        private static Dictionary<int, bool> GetParticipantDifficultyRule(string participantAnswers, IEnumerable<ItemDTO> items)
         {
             return items
                 .OrderBy(item => item.Position)
@@ -159,8 +159,8 @@ namespace Core.Controllers
                 .Where(item => item.difficulty != null)
                 .OrderBy(item => item.difficulty)
                 .ToDictionary(
-                    item => item.difficulty!.Value, // null check in `Where`statement above
-                    item => new ItemHit(Position: item.position, Hit: item.rightAnswer)
+                    item => item.position, // null check in `Where`statement above
+                    item => item.rightAnswer
                 );
         }
 
