@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:microdados_enem_app/core/design_system/app_bottomsheet/app_bottomsheet.dart';
 import 'package:microdados_enem_app/core/design_system/app_card/app_card.dart';
 import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
+import 'package:microdados_enem_app/core/design_system/button/app_icon_button.dart';
 import 'package:microdados_enem_app/core/design_system/dotted_line/dotted_line.dart';
 import 'package:microdados_enem_app/core/design_system/nothing/nothing.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
@@ -54,9 +56,31 @@ class ParticipantDifficultyRule extends HookWidget {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Row(
+                            children: [
+                              AppText(
+                                text:
+                                    'Régua de dificuldade de ${area.displayName}',
+                                typography: AppTypography.subtitle1,
+                                color: AppColors.blackPrimary,
+                              ),
+                              AppIconButton(
+                                iconSize: 20,
+                                icon: Icons.info_outline_rounded,
+                                border: false,
+                                onTap:
+                                    () => AppBottomsheet(
+                                      builder: explanationBuilder,
+                                      onPrimaryButtonTap:
+                                          () => Navigator.pop(context),
+                                    ).show(context),
+                              ),
+                            ],
+                          ),
                           AppText(
-                            text: '${data.examColor} - ${data.rightAnswers}',
-                            typography: AppTypography.subtitle2,
+                            text:
+                                'Considerando seu desempenho na prova cor ${data.examColor}',
+                            typography: AppTypography.caption,
                             color: AppColors.blackPrimary,
                           ),
                           SizedBox(height: 10),
@@ -68,6 +92,29 @@ class ParticipantDifficultyRule extends HookWidget {
                 ),
             defaultValue: Nothing(),
           ),
+    );
+  }
+
+  Widget explanationBuilder(BuildContext context) {
+    return Column(
+      children: [
+        BottomsheetTitle(text: 'Para que serve a régua?'),
+        SizedBox(height: 8),
+        BottomsheetBodyText(
+          text:
+              'Uma forma comum de visualizar o seu desempenho numa área do conhecimiento é colocar as questões ordenadas pela sua dificuldade - da esquerda para a direita - numa espécie de régua.',
+        ),
+        SizedBox(height: 8),
+        BottomsheetBodyText(
+          text:
+              'Com ela, é possível avaliar sua coerência pedagógica como participante na prova, isto é, se você acertou questões difíceis somente se também acertou as mais fáceis naquele exame.',
+        ),
+        SizedBox(height: 8),
+        BottomsheetBodyText(
+          text:
+              'Essa coerência tem impacto direto na sua nota calculada pela TRI e pode dar pistas sobre o motivo da sua pontuação ser maior ou menor de outras pessoas com o mesmo número de acertos.',
+        ),
+      ],
     );
   }
 }
