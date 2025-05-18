@@ -81,5 +81,96 @@ namespace Core.Controllers
         }
 
         record UserTestDTO(int RightAnswersCount, float Score);
+
+        [HttpGet]
+        [Route("participant/{id}/pedagogical-coherence/{areaId}")]
+        public async Task<IActionResult> GetParticipantPedagogicalCoherence(string id, string areaId)
+        {
+            if (!Enum.TryParse<Area>(areaId, ignoreCase: true, out Area parsedAreaId))
+            {
+                return BadRequest("INVALID_AREA");
+            }
+
+            Dictionary<Area, Expression<Func<Participante, ParticipantPedagogicalCoherenceDTO>>> areaSelector = new()
+            {
+                [Area.CH] = p => new ParticipantPedagogicalCoherenceDTO(
+                    p.LinguaEstrangeira,
+                    p.ProvaCH.Cor ?? "",
+                    p.RespostasCH,
+                    p.AcertosCH,
+                    p.ProvaCH.ItensPorProva
+                        .Select(ip => new ItemDTO(ip.Posicao, ip.Item.ParamDificuldade, ip.Item.Gabarito, ip.Item.LinguaEstrangeira)
+                        )),
+                [Area.CN] = p => new ParticipantPedagogicalCoherenceDTO(
+                    p.LinguaEstrangeira,
+                    p.ProvaCN.Cor ?? "",
+                    p.RespostasCN,
+                    p.AcertosCN,
+                    p.ProvaCN.ItensPorProva
+                        .Select(ip => new ItemDTO(ip.Posicao, ip.Item.ParamDificuldade, ip.Item.Gabarito, ip.Item.LinguaEstrangeira)
+                        )),
+                [Area.LC] = p => new ParticipantPedagogicalCoherenceDTO(
+                    p.LinguaEstrangeira,
+                    p.ProvaLC.Cor ?? "",
+                    p.RespostasLC,
+                    p.AcertosLC,
+                    p.ProvaLC.ItensPorProva
+                        .Select(ip => new ItemDTO(ip.Posicao, ip.Item.ParamDificuldade, ip.Item.Gabarito, ip.Item.LinguaEstrangeira)
+                        )),
+                [Area.MT] = p => new ParticipantPedagogicalCoherenceDTO(
+                    p.LinguaEstrangeira,
+                    p.ProvaMT.Cor ?? "",
+                    p.RespostasMT,
+                    p.AcertosMT,
+                    p.ProvaMT.ItensPorProva
+                        .Select(ip => new ItemDTO(ip.Posicao, ip.Item.ParamDificuldade, ip.Item.Gabarito, ip.Item.LinguaEstrangeira)
+                        )),
+            };
+
+            ParticipantPedagogicalCoherenceDTO? dto = await DbContext.Participantes
+                .Where(p => p.ParticipanteId == id)
+                .Select(areaSelector[parsedAreaId])
+                .FirstOrDefaultAsync();
+
+            if (dto == null) return BadRequest();
+
+            IEnumerable<ItemDTO> filteredItems = dto.ExamItems
+                .Where(item => item.Language == null || item.Language == dto.Language);
+
+            Dictionary<double, ItemHit> difficultyRule = GetParticipantDifficultyRule(dto.ExamAnswers, filteredItems);
+
+            return Ok(new GetParticipantPedagogicalCoherenceResponse(
+                ExamColor: dto.ExamColor,
+                RightAnswers: dto.RightAnswers,
+                DifficultyRule: difficultyRule
+            ));
+        }
+
+        private static Dictionary<double, ItemHit> GetParticipantDifficultyRule(string participantAnswers, IEnumerable<ItemDTO> items)
+        {
+            return items
+                .OrderBy(item => item.Position)
+                .Select((item, index) => new
+                {
+                    position = item.Position,
+                    difficulty = item.Difficulty,
+                    rightAnswer = char.ToLower(item.RightAnswer) != 'x' && participantAnswers[index] == item.RightAnswer,
+                })
+                .Where(item => item.difficulty != null)
+                .OrderBy(item => item.difficulty)
+                .ToDictionary(
+                    item => item.difficulty!.Value, // null check in `Where`statement above
+                    item => new ItemHit(Position: item.position, Hit: item.rightAnswer)
+                );
+        }
+
+        record ParticipantPedagogicalCoherenceDTO(
+            ForeignLanguage? Language,
+            string ExamColor, string ExamAnswers,
+            int RightAnswers,
+            IEnumerable<ItemDTO> ExamItems
+        );
+
+        record ItemDTO(int Position, double? Difficulty, char RightAnswer, ForeignLanguage? Language);
     }
 }
