@@ -12,7 +12,6 @@ import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/core/enem/exam_area.dart';
 import 'package:microdados_enem_app/core/local_storage.dart';
-import 'package:microdados_enem_app/difficulty_analysis/data/models.dart';
 import 'package:microdados_enem_app/difficulty_analysis/logic/participant_pedagogical_coherence_cubit.dart';
 import 'package:microdados_enem_app/difficulty_analysis/logic/participant_pedagogical_coherence_state.dart';
 import 'package:provider/provider.dart';
@@ -124,16 +123,16 @@ class ParticipantDifficultyRule extends HookWidget {
 }
 
 class DifficultyRule extends StatelessWidget {
-  final Map<double, QuestionHit> data;
+  final Map<int, bool> data;
 
   const DifficultyRule({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100,
-      child: LineChart(
-        LineChartData(
+      height: 60,
+      child: ScatterChart(
+        ScatterChartData(
           maxY: 1,
           minY: -1,
           titlesData: FlTitlesData(
@@ -154,14 +153,29 @@ class DifficultyRule extends StatelessWidget {
             show: true,
             border: Border.all(color: AppColors.blackLighter),
           ),
-          lineBarsData: [
-            LineChartBarData(
-              spots: data.entries.map((entry) => FlSpot(entry.key, 0)).toList(),
-              color: AppColors.bluePrimary,
-            ),
-          ],
+          scatterSpots: spots,
         ),
       ),
     );
+  }
+
+  List<ScatterSpot> get spots {
+    var index = 0;
+    final List<ScatterSpot> list = [];
+
+    data.forEach((key, value) {
+      list.add(
+        ScatterSpot(
+          index.toDouble(),
+          0,
+          dotPainter: FlDotCirclePainter(
+            color: value ? AppColors.greenPrimary : AppColors.redPrimary,
+          ),
+        ),
+      );
+      index++;
+    });
+
+    return list;
   }
 }

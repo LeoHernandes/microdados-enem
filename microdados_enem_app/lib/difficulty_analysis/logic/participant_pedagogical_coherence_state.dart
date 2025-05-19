@@ -7,7 +7,7 @@ typedef ParticipantPedagogicalCoherenceState =
 class ParticipantPedagogicalCoherenceStateData {
   final String examColor;
   final String rightAnswers;
-  final Map<double, QuestionHit> difficultyRule;
+  final Map<int, bool> difficultyRule;
 
   const ParticipantPedagogicalCoherenceStateData({
     required this.examColor,

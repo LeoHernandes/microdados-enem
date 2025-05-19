@@ -57,7 +57,7 @@ class QuestionDifficulty {
 class ParticipantPedagogicalCoherenceResponse {
   final String examColor;
   final int rightAnswers;
-  final Map<double, QuestionHit> difficultyRule;
+  final Map<int, bool> difficultyRule;
 
   ParticipantPedagogicalCoherenceResponse({
     required this.examColor,
@@ -78,30 +78,9 @@ class ParticipantPedagogicalCoherenceResponse {
           examColor: examColor,
           rightAnswers: rightAnswers.toInt(),
           difficultyRule: difficultyRule.map(
-            (key, value) =>
-                MapEntry(double.parse(key), QuestionHit.fromJson(value)),
+            (key, value) => MapEntry(int.parse(key), value as bool),
           ),
         ),
-      _ =>
-        throw FormatException(
-          'Failed to parse question difficulty ${json.toString()}',
-        ),
-    };
-  }
-}
-
-class QuestionHit {
-  final int position;
-  final bool hit;
-
-  const QuestionHit({required this.position, required this.hit});
-
-  factory QuestionHit.fromJson(Map<String, dynamic> json) {
-    return switch (json) {
-      {'position': final position, 'hit': final bool hit} => QuestionHit(
-        position: position.toInt(),
-        hit: hit,
-      ),
       _ =>
         throw FormatException(
           'Failed to parse question difficulty ${json.toString()}',
