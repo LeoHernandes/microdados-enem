@@ -87,6 +87,52 @@ class ParticipantDifficultyRule extends HookWidget {
                             color: AppColors.blackPrimary,
                           ),
                           SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 10,
+                                    height: 10,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppColors.bluePrimary,
+                                    ),
+                                  ),
+                                  SizedBox(width: 2),
+                                  AppText(
+                                    color: AppColors.blackPrimary,
+                                    text: 'Acerto',
+                                    typography: AppTypography.caption,
+                                  ),
+                                  SizedBox(width: 16),
+                                  Container(
+                                    width: 10,
+                                    height: 10,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: AppColors.bluePrimary,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 2),
+                                  AppText(
+                                    color: AppColors.blackPrimary,
+                                    text: 'Erro',
+                                    typography: AppTypography.caption,
+                                  ),
+                                ],
+                              ),
+                              AppText(
+                                color: AppColors.blackPrimary,
+                                text: 'Acertos totais: ${data.rightAnswers}',
+                                typography: AppTypography.caption,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
                           DifficultyRule(data: data.difficultyRule),
                         ],
                       ),
@@ -137,12 +183,31 @@ class DifficultyRule extends StatelessWidget {
           minY: -1,
           titlesData: FlTitlesData(
             bottomTitles: AxisTitles(
-              axisNameWidget: AppText(
-                text: 'Dificuldade das questões',
-                typography: AppTypography.subtitle2,
-                color: AppColors.blackPrimary,
+              axisNameWidget: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AppText(
+                        text: 'Fácil',
+                        typography: AppTypography.caption,
+                        color: AppColors.blackLight,
+                      ),
+                      AppText(
+                        text: 'Difícil',
+                        typography: AppTypography.caption,
+                        color: AppColors.blackLight,
+                      ),
+                    ],
+                  ),
+                  AppText(
+                    text: 'Dificuldade das questões',
+                    typography: AppTypography.subtitle2,
+                    color: AppColors.blackPrimary,
+                  ),
+                ],
               ),
-              axisNameSize: 20,
+              axisNameSize: 35,
             ),
             leftTitles: const AxisTitles(axisNameSize: 20),
             rightTitles: const AxisTitles(),
@@ -154,6 +219,23 @@ class DifficultyRule extends StatelessWidget {
             border: Border.all(color: AppColors.blackLighter),
           ),
           scatterSpots: spots,
+          scatterTouchData: ScatterTouchData(
+            enabled: true,
+            touchTooltipData: ScatterTouchTooltipData(
+              tooltipHorizontalOffset: 64,
+              tooltipBorderRadius: BorderRadius.circular(8),
+              fitInsideHorizontally: true,
+              tooltipPadding: EdgeInsets.all(8),
+              getTooltipColor: (_) => AppColors.blueDarker,
+              getTooltipItems:
+                  (spot) => ScatterTooltipItem(
+                    'Questão ${data.keys.elementAt(spot.x.round())}',
+                    textStyle: AppTypography.caption.copyWith(
+                      color: AppColors.whitePrimary,
+                    ),
+                  ),
+            ),
+          ),
         ),
       ),
     );
@@ -168,9 +250,18 @@ class DifficultyRule extends StatelessWidget {
         ScatterSpot(
           index.toDouble(),
           0,
-          dotPainter: FlDotCirclePainter(
-            color: value ? AppColors.greenPrimary : AppColors.redPrimary,
-          ),
+          dotPainter:
+              value
+                  ? FlDotCirclePainter(
+                    color: AppColors.bluePrimary,
+                    strokeColor: AppColors.bluePrimary,
+                    strokeWidth: 1,
+                  )
+                  : FlDotCirclePainter(
+                    color: AppColors.whitePrimary,
+                    strokeColor: AppColors.bluePrimary,
+                    strokeWidth: 1,
+                  ),
         ),
       );
       index++;
