@@ -157,11 +157,11 @@ namespace Core.Controllers
         public async Task<IActionResult> GetSchoolTypeDistribution()
         {
             var counts = await DbContext.Participantes
-                .GroupBy(u => u.TipoEscola)
-                .Select(g => new
+                .GroupBy(p => p.TipoEscola)
+                .Select(group => new
                 {
-                    SchoolType = g.Key,
-                    Count = g.Count()
+                    SchoolType = group.Key,
+                    Count = group.Count()
                 })
                 .ToListAsync();
 
@@ -170,6 +170,43 @@ namespace Core.Controllers
                 UnknownCount: counts.Find(c => c.SchoolType == SchoolType.Uknown)!.Count,
                 PublicCount: counts.Find(c => c.SchoolType == SchoolType.Public)!.Count,
                 PrivateCount: counts.Find(c => c.SchoolType == SchoolType.Private)!.Count
+            ));
+        }
+
+        [HttpGet]
+        [Route("analysis/score-average-by-school-type")]
+        public async Task<IActionResult> GetScoreAverageBySchoolType()
+        {
+            var scores = await DbContext.Participantes
+                .Where(p => p.TipoEscola != SchoolType.Uknown)
+                .GroupBy(p => p.TipoEscola)
+                .Select(group => new
+                {
+                    SchoolType = group.Key,
+                    AverageCH = group.Average(p => p.NotaCH),
+                    AverageCN = group.Average(p => p.NotaCN),
+                    AverageLC = group.Average(p => p.NotaLC),
+                    AverageMT = group.Average(p => p.NotaMT),
+                })
+                .ToListAsync();
+
+            var publicScores = scores.Find(c => c.SchoolType == SchoolType.Public)!;
+            var privateScores = scores.Find(c => c.SchoolType == SchoolType.Private)!;
+
+            return Ok(new GetAverageScoreBySchoolType
+            (
+                PublicSchoolScores: new Scores(
+                    AverageCH: publicScores.AverageCH,
+                    AverageCN: publicScores.AverageCN,
+                    AverageLC: publicScores.AverageLC,
+                    AverageMT: publicScores.AverageMT
+                ),
+                PrivateSchoolScores: new Scores(
+                    AverageCH: privateScores.AverageCH,
+                    AverageCN: privateScores.AverageCN,
+                    AverageLC: privateScores.AverageLC,
+                    AverageMT: privateScores.AverageMT
+                )
             ));
         }
     }
