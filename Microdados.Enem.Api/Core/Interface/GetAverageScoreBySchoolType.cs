@@ -9,6 +9,7 @@ namespace Core.Interface
         float AverageCH,
         float AverageCN,
         float AverageLC,
-        float AverageMT
+        float AverageMT,
+        float AverageEssay
     );
 }

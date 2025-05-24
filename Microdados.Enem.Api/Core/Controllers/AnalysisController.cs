@@ -187,6 +187,7 @@ namespace Core.Controllers
                     AverageCN = group.Average(p => p.NotaCN),
                     AverageLC = group.Average(p => p.NotaLC),
                     AverageMT = group.Average(p => p.NotaMT),
+                    AverageEssay = group.Average(p => p.NotaRE),
                 })
                 .ToListAsync();
 
@@ -199,13 +200,15 @@ namespace Core.Controllers
                     AverageCH: publicScores.AverageCH,
                     AverageCN: publicScores.AverageCN,
                     AverageLC: publicScores.AverageLC,
-                    AverageMT: publicScores.AverageMT
+                    AverageMT: publicScores.AverageMT,
+                    AverageEssay: publicScores.AverageEssay
                 ),
                 PrivateSchoolScores: new Scores(
                     AverageCH: privateScores.AverageCH,
                     AverageCN: privateScores.AverageCN,
                     AverageLC: privateScores.AverageLC,
-                    AverageMT: privateScores.AverageMT
+                    AverageMT: privateScores.AverageMT,
+                    AverageEssay: privateScores.AverageEssay
                 )
             ));
         }
