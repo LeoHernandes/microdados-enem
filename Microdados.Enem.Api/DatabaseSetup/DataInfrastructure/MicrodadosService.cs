@@ -120,6 +120,7 @@ public class MicrodadosService(AppDbContext dbContext)
                 {
                     ParticipanteId = participante.NU_INSCRICAO,
                     Treineiro = participante.IN_TREINEIRO == 1,
+                    TipoEscola = (SchoolType)(participante.TP_ESCOLA ?? 1),
                     Municipio = participante.NO_MUNICIPIO_ESC ?? "",
                     ProvaIdCH = provaIdCH,
                     ProvaIdCN = provaIdCN,

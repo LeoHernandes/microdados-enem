@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS Participantes
 (
         ParticipanteId TEXT NOT NULL PRIMARY KEY,
         Treineiro INTEGER NOT NULL,
+        TipoEscola INTEGER NOT NULL,
         Municipio TEXT NOT NULL,
         ProvaIdCH INTEGER NOT NULL,
         ProvaIdCN INTEGER NOT NULL,

@@ -4,6 +4,7 @@ public class ParticipanteDTO
 {
     public string NU_INSCRICAO { get; set; } = default!;
     public int IN_TREINEIRO { get; set; }
+    public int? TP_ESCOLA { get; set; }
     public string? NO_MUNICIPIO_ESC { get; set; } = default!;
     public int? CO_PROVA_CN { get; set; }
     public int? CO_PROVA_CH { get; set; }

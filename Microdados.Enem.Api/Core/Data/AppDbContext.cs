@@ -46,6 +46,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.Property(p => p.LinguaEstrangeira)
                 .HasConversion<int>();
 
+            entity.Property(p => p.TipoEscola)
+                .HasConversion<int>();
+
             entity.HasOne(part => part.ProvaCH)
                 .WithMany(prova => prova.ParticipantesCH)
                 .HasForeignKey(part => part.ProvaIdCH);

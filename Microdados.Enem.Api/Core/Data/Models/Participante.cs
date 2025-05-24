@@ -4,6 +4,7 @@ public class Participante
 {
     public string ParticipanteId { get; set; } = default!;
     public bool Treineiro { get; set; }
+    public SchoolType TipoEscola { get; set; }
     public string Municipio { get; set; } = default!;
     public int ProvaIdCH { get; set; }
     public int ProvaIdCN { get; set; }
