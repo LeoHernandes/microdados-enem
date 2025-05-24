@@ -151,5 +151,26 @@ namespace Core.Controllers
         }
 
         record ItemsByExamDTO(string? Color, IEnumerable<QuestionDifficulty> Items);
+
+        [HttpGet]
+        [Route("analysis/school-type-distribution")]
+        public async Task<IActionResult> GetSchoolTypeDistribution()
+        {
+            var counts = await DbContext.Participantes
+                .GroupBy(u => u.TipoEscola)
+                .Select(g => new
+                {
+                    SchoolType = g.Key,
+                    Count = g.Count()
+                })
+                .ToListAsync();
+
+            return Ok(new GetSchoolTypeDistribution
+            (
+                UnknownCount: counts.Find(c => c.SchoolType == SchoolType.Uknown)!.Count,
+                PublicCount: counts.Find(c => c.SchoolType == SchoolType.Public)!.Count,
+                PrivateCount: counts.Find(c => c.SchoolType == SchoolType.Private)!.Count
+            ));
+        }
     }
 }

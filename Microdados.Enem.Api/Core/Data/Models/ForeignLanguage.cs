@@ -8,7 +8,7 @@ public enum ForeignLanguage
 
 public enum SchoolType
 {
-    Uknown,
+    Uknown = 1,
     Public,
     Private,
 }
