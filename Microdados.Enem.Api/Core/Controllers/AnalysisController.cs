@@ -214,8 +214,40 @@ namespace Core.Controllers
         }
 
         [HttpGet]
+        [Route("analysis/score-distribution-by-school-type/essay")]
+        public async Task<IActionResult> GetEssayScoreDistributionBySchoolType()
+        {
+            var publicScores = await DbContext.Participantes
+                .Where(p => p.TipoEscola == SchoolType.Public)
+                .GroupBy(p => (int)Math.Floor(p.NotaRE / 100) * 100)
+                .Select(scoreGroup => new
+                {
+                    Score = scoreGroup.Key,
+                    Count = scoreGroup.Count(),
+                })
+                .ToListAsync();
+
+            var privateScores = await DbContext.Participantes
+                .Where(p => p.TipoEscola == SchoolType.Private)
+                .GroupBy(p => (int)Math.Floor(p.NotaRE / 100) * 100)
+                .Select(scoreGroup => new
+                {
+                    Score = scoreGroup.Key,
+                    Count = scoreGroup.Count(),
+                })
+                .ToListAsync();
+
+            return Ok(new GetScoreDistributionBySchoolTypeResponse(
+                PublicSchoolDistribution: publicScores
+                    .ToDictionary(s => s.Score, s => s.Count),
+                PrivateSchoolDistribution: privateScores
+                    .ToDictionary(s => s.Score, s => s.Count)
+            ));
+        }
+
+        [HttpGet]
         [Route("analysis/score-distribution-by-school-type/{areaId}")]
-        public async Task<IActionResult> GetScoreDistributionBySchoolType(string areaId, [FromQuery] bool? reapplication)
+        public async Task<IActionResult> GetScoreDistributionBySchoolType(string areaId)
         {
             if (!Enum.TryParse(areaId, ignoreCase: false, out Area parsedAreaId))
             {
