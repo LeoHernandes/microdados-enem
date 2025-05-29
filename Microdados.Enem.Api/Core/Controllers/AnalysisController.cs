@@ -17,7 +17,7 @@ namespace Core.Controllers
         [Route("analysis/answer-score-relation")]
         public async Task<IActionResult> GetAnswerScoreRelation([FromQuery] int rightAnswers, [FromQuery] string areaId, [FromQuery] bool? reapplication)
         {
-            if (!Enum.TryParse<Area>(areaId, ignoreCase: true, out Area parsedAreaId))
+            if (!Enum.TryParse(areaId, ignoreCase: true, out Area parsedAreaId))
             {
                 return BadRequest("INVALID_AREA");
             }
@@ -89,7 +89,7 @@ namespace Core.Controllers
         [Route("analysis/difficulty-distribution/{areaId}")]
         public async Task<IActionResult> GetExamDifficulryDistribution(string areaId, [FromQuery] ForeignLanguage? language, [FromQuery] bool? reapplication)
         {
-            if (!Enum.TryParse<Area>(areaId, ignoreCase: false, out Area parsedAreaId))
+            if (!Enum.TryParse(areaId, ignoreCase: false, out Area parsedAreaId))
             {
                 return NotFound();
             }
@@ -165,7 +165,7 @@ namespace Core.Controllers
                 })
                 .ToListAsync();
 
-            return Ok(new GetSchoolTypeDistribution
+            return Ok(new GetSchoolTypeDistributionResponse
             (
                 UnknownCount: counts.Find(c => c.SchoolType == SchoolType.Uknown)!.Count,
                 PublicCount: counts.Find(c => c.SchoolType == SchoolType.Public)!.Count,
@@ -194,7 +194,7 @@ namespace Core.Controllers
             var publicScores = scores.Find(c => c.SchoolType == SchoolType.Public)!;
             var privateScores = scores.Find(c => c.SchoolType == SchoolType.Private)!;
 
-            return Ok(new GetAverageScoreBySchoolType
+            return Ok(new GetAverageScoreBySchoolTypeResponse
             (
                 PublicSchoolScores: new Scores(
                     AverageCH: publicScores.AverageCH,
@@ -210,6 +210,51 @@ namespace Core.Controllers
                     AverageMT: privateScores.AverageMT,
                     AverageEssay: privateScores.AverageEssay
                 )
+            ));
+        }
+
+        [HttpGet]
+        [Route("analysis/score-distribution-by-school-type/{areaId}")]
+        public async Task<IActionResult> GetScoreDistributionBySchoolType(string areaId, [FromQuery] bool? reapplication)
+        {
+            if (!Enum.TryParse(areaId, ignoreCase: false, out Area parsedAreaId))
+            {
+                return NotFound();
+            }
+
+            Dictionary<Area, Expression<Func<Participante, int>>> groupingPolicy = new()
+            {
+                [Area.CH] = p => (int)Math.Floor(p.NotaCH / 100) * 100,
+                [Area.CN] = p => (int)Math.Floor(p.NotaCN / 100) * 100,
+                [Area.LC] = p => (int)Math.Floor(p.NotaLC / 100) * 100,
+                [Area.MT] = p => (int)Math.Floor(p.NotaMT / 100) * 100,
+            };
+
+            var publicScores = await DbContext.Participantes
+                .Where(p => p.TipoEscola == SchoolType.Public)
+                .GroupBy(groupingPolicy[parsedAreaId])
+                .Select(scoreGroup => new
+                {
+                    Score = scoreGroup.Key,
+                    Count = scoreGroup.Count(),
+                })
+                .ToListAsync();
+
+            var privateScores = await DbContext.Participantes
+                .Where(p => p.TipoEscola == SchoolType.Private)
+                .GroupBy(groupingPolicy[parsedAreaId])
+                .Select(scoreGroup => new
+                {
+                    Score = scoreGroup.Key,
+                    Count = scoreGroup.Count(),
+                })
+                .ToListAsync();
+
+            return Ok(new GetScoreDistributionBySchoolTypeResponse(
+                PublicSchoolDistribution: publicScores
+                    .ToDictionary(s => s.Score, s => s.Count),
+                PrivateSchoolDistribution: privateScores
+                    .ToDictionary(s => s.Score, s => s.Count)
             ));
         }
     }

@@ -1,6 +1,6 @@
 namespace Core.Interface
 {
-    public record GetSchoolTypeDistribution(
+    public record GetSchoolTypeDistributionResponse(
         int UnknownCount,
         int PublicCount,
         int PrivateCount

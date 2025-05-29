@@ -1,6 +1,6 @@
 namespace Core.Interface
 {
-    public record GetAverageScoreBySchoolType(
+    public record GetAverageScoreBySchoolTypeResponse(
         Scores PublicSchoolScores,
         Scores PrivateSchoolScores
      );
