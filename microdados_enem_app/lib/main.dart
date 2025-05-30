@@ -9,6 +9,7 @@ import 'package:microdados_enem_app/difficulty_analysis/ui/screen/difficulty_ana
 import 'package:microdados_enem_app/home/ui/screen/home_page.dart';
 import 'package:microdados_enem_app/onboarding/ui/screen/onboarding_page.dart';
 import 'package:microdados_enem_app/core/routes.dart';
+import 'package:microdados_enem_app/school_type_analysis/ui/screen/school_type_analysis.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -70,6 +71,11 @@ class MyApp extends StatelessWidget {
                     appBarText: 'Análises',
                     body: DifficultyAnalysis(),
                     selectedTab: NavTab.difficultyAnalysis,
+                  ),
+                  Routes.schoolTypeAnalysis => AppScaffold(
+                    appBarText: 'Análises',
+                    body: SchoolTypeAnalysis(),
+                    selectedTab: NavTab.schoolTypeAnalysis,
                   ),
                   _ => Nothing(),
                 },

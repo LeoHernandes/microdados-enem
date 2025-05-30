@@ -61,6 +61,16 @@ class BottomNav extends StatelessWidget {
                     Navigator.pushNamed(context, Routes.difficultyAnalysis),
                 },
           ),
+          _NavButton(
+            icon: Icons.school,
+            label: 'Escolas',
+            isSelected: this.selectedTab == NavTab.schoolTypeAnalysis,
+            onTap:
+                () => {
+                  if (this.selectedTab != NavTab.schoolTypeAnalysis)
+                    Navigator.pushNamed(context, Routes.schoolTypeAnalysis),
+                },
+          ),
         ],
       ),
     );

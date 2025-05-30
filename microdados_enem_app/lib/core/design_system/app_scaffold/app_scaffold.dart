@@ -4,7 +4,12 @@ import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 
-enum NavTab { home, answerScoreAnalysis, difficultyAnalysis }
+enum NavTab {
+  home,
+  answerScoreAnalysis,
+  difficultyAnalysis,
+  schoolTypeAnalysis,
+}
 
 class AppScaffold extends StatelessWidget {
   final String appBarText;

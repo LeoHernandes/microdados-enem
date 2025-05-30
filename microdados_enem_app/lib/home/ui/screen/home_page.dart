@@ -51,6 +51,14 @@ class HomePage extends StatelessWidget {
             onTap:
                 () => Navigator.pushNamed(context, Routes.difficultyAnalysis),
           ),
+          SizedBox(height: 8),
+          CardButton(
+            title: '3. Escolas públicas e privadas',
+            description:
+                'Avalie e compare múltiplas métricas entre provas realizadas por alunos que estudaram ou estão estudando em escolas públicas e privadas.',
+            onTap:
+                () => Navigator.pushNamed(context, Routes.schoolTypeAnalysis),
+          ),
         ],
       ),
     );
