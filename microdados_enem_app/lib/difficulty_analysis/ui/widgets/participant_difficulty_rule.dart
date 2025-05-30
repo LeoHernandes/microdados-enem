@@ -58,7 +58,7 @@ class ParticipantDifficultyRule extends HookWidget {
                         children: [
                           Row(
                             children: [
-                              Flexible(
+                              Expanded(
                                 child: AppText(
                                   text:
                                       'Régua de dificuldade de ${area.displayName}',

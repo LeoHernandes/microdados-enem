@@ -75,6 +75,8 @@ class StudentVerificationStep extends HookWidget {
                     ),
                     SizedBox(width: 20),
                     AppIconButton(
+                      size: 22,
+                      iconSize: 12,
                       onTap:
                           () => AppBottomsheet(
                             builder: _explanationBuilder,

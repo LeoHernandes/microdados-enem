@@ -51,14 +51,19 @@ class NumericStepButton extends HookWidget {
         ),
         SizedBox(width: 10),
         AppIconButton(
+          size: 45,
+          iconSize: 30,
           icon: Icons.remove,
+
           onTap:
               currentValue == minValue
                   ? null
                   : () => handleValueChange(currentValue - 1),
         ),
-        SizedBox(width: 2),
+        SizedBox(width: 10),
         AppIconButton(
+          size: 45,
+          iconSize: 30,
           icon: Icons.add,
           onTap:
               currentValue == maxValue

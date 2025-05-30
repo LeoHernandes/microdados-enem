@@ -111,7 +111,7 @@ class _NavButton extends StatelessWidget {
                           ? AppColors.whitePrimary
                           : AppColors.blackLighter,
                   text: label,
-                  typography: AppTypography.subtitle1,
+                  typography: AppTypography.caption,
                 ),
               ],
             ),
