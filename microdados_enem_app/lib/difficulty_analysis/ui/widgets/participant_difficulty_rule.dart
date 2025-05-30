@@ -80,13 +80,14 @@ class ParticipantDifficultyRule extends HookWidget {
                               ),
                             ],
                           ),
+                          SizedBox(height: 4),
                           AppText(
                             text:
                                 'Considerando seu desempenho na prova cor ${data.examColor}',
                             typography: AppTypography.caption,
                             color: AppColors.blackPrimary,
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: 30),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -134,6 +135,13 @@ class ParticipantDifficultyRule extends HookWidget {
                           ),
                           SizedBox(height: 10),
                           DifficultyRule(data: data.difficultyRule),
+                          Center(
+                            child: AppText(
+                              text: 'Dificuldade das questões',
+                              typography: AppTypography.subtitle2,
+                              color: AppColors.blackPrimary,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -176,64 +184,69 @@ class DifficultyRule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
-      child: ScatterChart(
-        ScatterChartData(
-          maxY: 1,
-          minY: -1,
-          titlesData: FlTitlesData(
-            bottomTitles: AxisTitles(
-              axisNameWidget: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      height: 100,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: SizedBox(
+          width: 1500,
+          child: ScatterChart(
+            ScatterChartData(
+              maxY: 1,
+              minY: -1,
+              minX: -1,
+              maxX: 45,
+              titlesData: FlTitlesData(
+                bottomTitles: AxisTitles(
+                  axisNameWidget: Column(
                     children: [
-                      AppText(
-                        text: 'Fácil',
-                        typography: AppTypography.caption,
-                        color: AppColors.blackLight,
-                      ),
-                      AppText(
-                        text: 'Difícil',
-                        typography: AppTypography.caption,
-                        color: AppColors.blackLight,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AppText(
+                            text: 'Fácil',
+                            typography: AppTypography.caption,
+                            color: AppColors.blackLight,
+                          ),
+                          AppText(
+                            text: 'Difícil',
+                            typography: AppTypography.caption,
+                            color: AppColors.blackLight,
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  AppText(
-                    text: 'Dificuldade das questões',
-                    typography: AppTypography.subtitle2,
-                    color: AppColors.blackPrimary,
-                  ),
-                ],
+                  axisNameSize: 25,
+                ),
+                leftTitles: const AxisTitles(axisNameSize: 20),
+                rightTitles: const AxisTitles(),
+                topTitles: const AxisTitles(),
               ),
-              axisNameSize: 35,
-            ),
-            leftTitles: const AxisTitles(axisNameSize: 20),
-            rightTitles: const AxisTitles(),
-            topTitles: const AxisTitles(),
-          ),
-          gridData: FlGridData(drawHorizontalLine: false),
-          borderData: FlBorderData(
-            show: true,
-            border: Border.all(color: AppColors.blackLighter),
-          ),
-          scatterSpots: spots,
-          scatterTouchData: ScatterTouchData(
-            enabled: true,
-            touchTooltipData: ScatterTouchTooltipData(
-              tooltipHorizontalOffset: 64,
-              tooltipBorderRadius: BorderRadius.circular(8),
-              fitInsideHorizontally: true,
-              tooltipPadding: EdgeInsets.all(8),
-              getTooltipColor: (_) => AppColors.blueDarker,
-              getTooltipItems:
-                  (spot) => ScatterTooltipItem(
-                    'Questão ${data.keys.elementAt(spot.x.round())}',
-                    textStyle: AppTypography.caption.copyWith(
-                      color: AppColors.whitePrimary,
-                    ),
-                  ),
+              gridData: FlGridData(drawHorizontalLine: false),
+              borderData: FlBorderData(
+                show: true,
+                border: Border.all(color: AppColors.blackLighter),
+              ),
+              scatterSpots: spots,
+              scatterTouchData: ScatterTouchData(
+                enabled: true,
+                touchSpotThreshold: 5,
+                touchTooltipData: ScatterTouchTooltipData(
+                  tooltipHorizontalOffset: -80,
+                  tooltipBorderRadius: BorderRadius.circular(8),
+                  fitInsideHorizontally: true,
+                  fitInsideVertically: true,
+                  tooltipPadding: EdgeInsets.all(8),
+                  getTooltipColor: (_) => AppColors.blueDarker,
+                  getTooltipItems:
+                      (spot) => ScatterTooltipItem(
+                        'Questão ${data.keys.elementAt(spot.x.round())}',
+                        textStyle: AppTypography.caption.copyWith(
+                          color: AppColors.whitePrimary,
+                        ),
+                      ),
+                ),
+              ),
             ),
           ),
         ),
@@ -255,12 +268,14 @@ class DifficultyRule extends StatelessWidget {
                   ? FlDotCirclePainter(
                     color: AppColors.bluePrimary,
                     strokeColor: AppColors.bluePrimary,
+                    radius: 15,
                     strokeWidth: 1,
                   )
                   : FlDotCirclePainter(
                     color: AppColors.whitePrimary,
                     strokeColor: AppColors.bluePrimary,
-                    strokeWidth: 1,
+                    radius: 15,
+                    strokeWidth: 2,
                   ),
         ),
       );

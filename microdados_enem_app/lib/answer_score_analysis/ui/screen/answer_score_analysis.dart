@@ -33,10 +33,12 @@ class AnswerScoreAnalysis extends HookWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              AppText(
-                text: 'Número de acertos e pontuação',
-                typography: AppTypography.headline6,
-                color: AppColors.blackPrimary,
+              Expanded(
+                child: AppText(
+                  text: 'Número de acertos e pontuação',
+                  typography: AppTypography.headline6,
+                  color: AppColors.blackPrimary,
+                ),
               ),
               AppIconButton(
                 size: 22,

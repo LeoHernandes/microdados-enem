@@ -31,10 +31,12 @@ class DifficultyAnalysis extends HookWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              AppText(
-                text: 'Distribuição de dificuldade',
-                typography: AppTypography.headline6,
-                color: AppColors.blackPrimary,
+              Expanded(
+                child: AppText(
+                  text: 'Distribuição de dificuldade',
+                  typography: AppTypography.headline6,
+                  color: AppColors.blackPrimary,
+                ),
               ),
               AppIconButton(
                 size: 22,
