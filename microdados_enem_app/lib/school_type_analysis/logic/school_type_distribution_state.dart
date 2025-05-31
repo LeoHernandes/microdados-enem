@@ -1,5 +1,5 @@
 import 'package:microdados_enem_app/core/api/endpoint_state.dart';
-import 'package:microdados_enem_app/school_type_analysis/data/school_type_analysis_repository.dart';
+import 'package:microdados_enem_app/school_type_analysis/data/models.dart';
 
 typedef SchoolTypeDistributionState =
     EndpointState<String, SchoolTypeDistributionStateData>;

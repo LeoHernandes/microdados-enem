@@ -3,10 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:microdados_enem_app/core/design_system/app_bottomsheet/app_bottomsheet.dart';
 import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
 import 'package:microdados_enem_app/core/design_system/button/app_icon_button.dart';
+import 'package:microdados_enem_app/core/design_system/dotted_line/dotted_line.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/school_type_analysis/logic/school_type_distribution_cubit.dart';
+import 'package:microdados_enem_app/school_type_analysis/logic/score_average_by_school_type_cubit.dart';
 import 'package:microdados_enem_app/school_type_analysis/ui/widgets/school_type_distribution_card.dart';
+import 'package:microdados_enem_app/school_type_analysis/ui/widgets/score_average_by_school_type_card.dart';
 
 class SchoolTypeAnalysis extends StatelessWidget {
   const SchoolTypeAnalysis({super.key});
@@ -48,6 +51,14 @@ class SchoolTypeAnalysis extends StatelessWidget {
               BlocProvider(
                 create: (_) => SchoolTypeDistributionCubit(),
                 child: SchoolTypeDistributionCard(),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: DottedDivider(),
+              ),
+              BlocProvider(
+                create: (_) => ScoreAverageBySchoolTypeCubit(),
+                child: ScoreAverageBySchoolTypeCard(),
               ),
             ],
           ),

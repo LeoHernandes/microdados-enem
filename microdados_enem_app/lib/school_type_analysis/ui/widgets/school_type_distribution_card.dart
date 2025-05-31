@@ -32,7 +32,7 @@ class SchoolTypeDistributionCard extends HookWidget {
       builder:
           (context, state) => state.when(
             isIdle: Nothing.new,
-            isLoading: () => Skeleton(height: 200),
+            isLoading: () => Skeleton(height: 220),
             isError:
                 (_) => GenericError(
                   text:
