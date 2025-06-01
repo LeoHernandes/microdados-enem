@@ -78,7 +78,7 @@ class AnswerScoreBarChart extends StatelessWidget {
                     axisNameSize: 20,
                     sideTitles: SideTitles(
                       showTitles: true,
-                      reservedSize: 40,
+                      reservedSize: 50,
                       getTitlesWidget:
                           (value, meta) => SideTitleWidget(
                             child: SizedBox(

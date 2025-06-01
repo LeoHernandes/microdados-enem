@@ -49,16 +49,15 @@ class SchoolTypeDistributionCard extends HookWidget {
               return AppCard(
                 shadow: true,
                 body: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Row(
-                      children: [
-                        AppText(
-                          text: 'Quantidade de alunos por tipo de escola',
-                          typography: AppTypography.subtitle1,
-                          color: AppColors.blackPrimary,
-                        ),
-                      ],
+                    Flexible(
+                      child: AppText(
+                        text: 'Quantidade de alunos por tipo de escola',
+                        typography: AppTypography.subtitle1,
+                        color: AppColors.blackPrimary,
+                      ),
                     ),
                     SizedBox(height: 30),
                     Row(
@@ -77,8 +76,8 @@ class SchoolTypeDistributionCard extends HookWidget {
                                   color: AppColors.blackLight,
                                   radius: 75,
                                   badgeWidget: Container(
-                                    width: 40,
-                                    height: 40,
+                                    width: 50,
+                                    height: 50,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: AppColors.whitePrimary,
@@ -99,7 +98,7 @@ class SchoolTypeDistributionCard extends HookWidget {
                                       ),
                                     ),
                                   ),
-                                  badgePositionPercentageOffset: 1,
+                                  badgePositionPercentageOffset: 0.9,
                                   showTitle: false,
                                 ),
                                 PieChartSectionData(
@@ -107,8 +106,8 @@ class SchoolTypeDistributionCard extends HookWidget {
                                   color: AppColors.blackLightest,
                                   radius: 75,
                                   badgeWidget: Container(
-                                    width: 40,
-                                    height: 40,
+                                    width: 50,
+                                    height: 50,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: AppColors.whitePrimary,
@@ -129,7 +128,7 @@ class SchoolTypeDistributionCard extends HookWidget {
                                       ),
                                     ),
                                   ),
-                                  badgePositionPercentageOffset: 1,
+                                  badgePositionPercentageOffset: 0.85,
                                   showTitle: false,
                                 ),
                                 PieChartSectionData(
@@ -137,8 +136,8 @@ class SchoolTypeDistributionCard extends HookWidget {
                                   color: AppColors.bluePrimary,
                                   radius: 75,
                                   badgeWidget: Container(
-                                    width: 40,
-                                    height: 40,
+                                    width: 50,
+                                    height: 50,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: AppColors.whitePrimary,
