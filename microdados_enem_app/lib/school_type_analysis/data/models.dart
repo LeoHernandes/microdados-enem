@@ -94,3 +94,38 @@ class Scores {
     };
   }
 }
+
+class ScoreDistributionBySchoolTypeResponse {
+  final Map<int, int> publicSchoolDistribution;
+  final Map<int, int> privateSchoolDistribution;
+
+  const ScoreDistributionBySchoolTypeResponse({
+    required this.publicSchoolDistribution,
+    required this.privateSchoolDistribution,
+  });
+
+  factory ScoreDistributionBySchoolTypeResponse.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    return switch (json) {
+      {
+        'publicSchoolDistribution':
+            final Map<String, dynamic> publicSchoolDistribution,
+        'privateSchoolDistribution':
+            final Map<String, dynamic> privateSchoolDistribution,
+      } =>
+        ScoreDistributionBySchoolTypeResponse(
+          publicSchoolDistribution: publicSchoolDistribution.map(
+            (key, value) => MapEntry(int.parse(key), value as int),
+          ),
+          privateSchoolDistribution: privateSchoolDistribution.map(
+            (key, value) => MapEntry(int.parse(key), value as int),
+          ),
+        ),
+      _ =>
+        throw const FormatException(
+          'Failed to parse score distribution by school type.',
+        ),
+    };
+  }
+}

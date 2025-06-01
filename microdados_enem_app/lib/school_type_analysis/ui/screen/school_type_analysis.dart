@@ -8,8 +8,10 @@ import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/school_type_analysis/logic/school_type_distribution_cubit.dart';
 import 'package:microdados_enem_app/school_type_analysis/logic/score_average_by_school_type_cubit.dart';
+import 'package:microdados_enem_app/school_type_analysis/logic/score_distribution_by_school_type_cubit.dart';
 import 'package:microdados_enem_app/school_type_analysis/ui/widgets/school_type_distribution_card.dart';
 import 'package:microdados_enem_app/school_type_analysis/ui/widgets/score_average_by_school_type_card.dart';
+import 'package:microdados_enem_app/school_type_analysis/ui/widgets/score_distribution_by_school_type_card.dart';
 
 class SchoolTypeAnalysis extends StatelessWidget {
   const SchoolTypeAnalysis({super.key});
@@ -59,6 +61,14 @@ class SchoolTypeAnalysis extends StatelessWidget {
               BlocProvider(
                 create: (_) => ScoreAverageBySchoolTypeCubit(),
                 child: ScoreAverageBySchoolTypeCard(),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: DottedDivider(),
+              ),
+              BlocProvider(
+                create: (_) => ScoreDistributionBySchoolTypeCubit(),
+                child: ScoreDistributionBySchoolTypeCard(),
               ),
             ],
           ),

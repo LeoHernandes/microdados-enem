@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:microdados_enem_app/core/api/app_cache.dart';
 import 'package:microdados_enem_app/core/api/microdados_api.dart';
+import 'package:microdados_enem_app/core/enem/exam_area.dart';
 import 'package:microdados_enem_app/school_type_analysis/data/models.dart';
 
 class SchoolTypeAnalysisRepository {
@@ -32,5 +33,17 @@ class SchoolTypeAnalysisRepository {
       cache: AppCache(context: context, key: route),
     );
     return ScoreAverageBySchoolTypeResponse.fromJson(response);
+  }
+
+  Future<ScoreDistributionBySchoolTypeResponse>
+  getScoreDistributionBySchoolType(BuildContext context, ExamArea area) async {
+    final route = 'analysis/score-distribution-by-school-type/${area.name}';
+
+    final response = await _httpClient.get(
+      route,
+      timeout: Duration(seconds: 10),
+      cache: AppCache(context: context, key: route),
+    );
+    return ScoreDistributionBySchoolTypeResponse.fromJson(response);
   }
 }
