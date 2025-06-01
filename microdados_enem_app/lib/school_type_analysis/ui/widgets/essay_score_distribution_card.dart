@@ -4,42 +4,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:microdados_enem_app/core/design_system/app_card/app_card.dart';
 import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
-import 'package:microdados_enem_app/core/design_system/exam_area_picker/exam_area_picker.dart';
 import 'package:microdados_enem_app/core/design_system/generic_error/generic_error.dart';
 import 'package:microdados_enem_app/core/design_system/nothing/nothing.dart';
 import 'package:microdados_enem_app/core/design_system/skeleton/skeleton.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
-import 'package:microdados_enem_app/core/enem/exam_area.dart';
-import 'package:microdados_enem_app/school_type_analysis/logic/score_distribution_by_school_type_cubit.dart';
-import 'package:microdados_enem_app/school_type_analysis/logic/score_distribution_by_school_type_state.dart';
+import 'package:microdados_enem_app/school_type_analysis/logic/essay_score_distribution_cubit.dart';
+import 'package:microdados_enem_app/school_type_analysis/logic/essay_score_distribution_state.dart';
 
-class ScoreDistributionBySchoolTypeCard extends HookWidget {
-  const ScoreDistributionBySchoolTypeCard({super.key});
+class EssayScoreDistributionCard extends HookWidget {
+  const EssayScoreDistributionCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final selectedArea = useState<ExamArea>(ExamArea.LC);
-
     useEffect(() {
-      context
-          .read<ScoreDistributionBySchoolTypeCubit>()
-          .getScoreDistributionBySchoolTypeData(context, selectedArea.value);
+      context.read<EssayScoreDistributionCubit>().getEssayScoreDistributionData(
+        context,
+      );
 
       return null;
-    }, [selectedArea.value]);
+    });
 
     return Column(
       children: [
-        ExamAreaPicker(
-          onChange: (area, _) => selectedArea.value = area,
-          area: selectedArea.value,
-        ),
-        SizedBox(height: 20),
-        BlocBuilder<
-          ScoreDistributionBySchoolTypeCubit,
-          ScoreDistributionBySchoolTypeState
-        >(
+        BlocBuilder<EssayScoreDistributionCubit, EssayScoreDistributionState>(
           builder:
               (context, state) => state.when(
                 isIdle: Nothing.new,
@@ -49,11 +37,8 @@ class ScoreDistributionBySchoolTypeCard extends HookWidget {
                           'Não foi possível encontrar os dados das médias de pontuações',
                       refetch:
                           () => context
-                              .read<ScoreDistributionBySchoolTypeCubit>()
-                              .getScoreDistributionBySchoolTypeData(
-                                context,
-                                selectedArea.value,
-                              ),
+                              .read<EssayScoreDistributionCubit>()
+                              .getEssayScoreDistributionData(context),
                     ),
                 isLoading: () => Skeleton(height: 250),
                 isSuccess: (data) => _CardContent(data: data),
@@ -67,7 +52,7 @@ class ScoreDistributionBySchoolTypeCard extends HookWidget {
 enum VisualizationMode { all, public, private }
 
 class _CardContent extends HookWidget {
-  final ScoreDistributionBySchoolTypeStateData data;
+  final EssayScoreDistributionStateData data;
 
   const _CardContent({required this.data});
 
@@ -91,16 +76,10 @@ class _CardContent extends HookWidget {
         children: [
           Flexible(
             child: AppText(
-              text: 'Distribuição de pontuação por tipo de escola',
+              text: 'Distribuição de pontuação na redação por tipo de escola',
               typography: AppTypography.subtitle1,
               color: AppColors.blackPrimary,
             ),
-          ),
-          SizedBox(height: 4),
-          AppText(
-            text: 'Clique nas legendas para mudar a visualização',
-            typography: AppTypography.caption,
-            color: AppColors.blackPrimary,
           ),
           SizedBox(height: 20),
           Row(
@@ -188,92 +167,99 @@ class _CardContent extends HookWidget {
           SizedBox(height: 20),
           SizedBox(
             height: 200,
-            child: BarChart(
-              BarChartData(
-                alignment: BarChartAlignment.spaceAround,
-                maxY: 60,
-                barTouchData: BarTouchData(
-                  enabled: true,
-                  touchTooltipData: BarTouchTooltipData(
-                    fitInsideVertically: true,
-                    getTooltipColor: (group) => AppColors.whitePrimary,
-                    tooltipPadding: EdgeInsets.all(2),
-                    tooltipMargin: 4,
-                    getTooltipItem: (_, _, rod, rodIndex) {
-                      return BarTooltipItem(
-                        rod.toY.toStringAsFixed(2) + '%',
-                        AppTypography.subtitle2.copyWith(
-                          color:
-                              rodIndex == 0
-                                  ? AppColors.bluePrimary
-                                  : AppColors.blackLighter,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: SizedBox(
+                width: 450,
+                child: BarChart(
+                  BarChartData(
+                    alignment: BarChartAlignment.spaceAround,
+                    maxY: 40,
+                    barTouchData: BarTouchData(
+                      enabled: true,
+                      touchTooltipData: BarTouchTooltipData(
+                        fitInsideVertically: true,
+                        getTooltipColor: (group) => AppColors.whitePrimary,
+                        tooltipPadding: EdgeInsets.all(2),
+                        tooltipMargin: 4,
+                        getTooltipItem: (_, _, rod, rodIndex) {
+                          return BarTooltipItem(
+                            rod.toY.toStringAsFixed(2) + '%',
+                            AppTypography.subtitle2.copyWith(
+                              color:
+                                  rodIndex == 0
+                                      ? AppColors.bluePrimary
+                                      : AppColors.blackLighter,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    titlesData: FlTitlesData(
+                      bottomTitles: AxisTitles(
+                        axisNameSize: 20,
+                        axisNameWidget: AppText(
+                          text: 'Pontuações agregadas',
+                          typography: AppTypography.subtitle2,
+                          color: AppColors.blackPrimary,
                         ),
-                      );
-                    },
-                  ),
-                ),
-                titlesData: FlTitlesData(
-                  bottomTitles: AxisTitles(
-                    axisNameSize: 20,
-                    axisNameWidget: AppText(
-                      text: 'Pontuações agregadas',
-                      typography: AppTypography.subtitle2,
-                      color: AppColors.blackPrimary,
-                    ),
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      reservedSize: 30,
-                      getTitlesWidget:
-                          (value, meta) => SideTitleWidget(
-                            child: SizedBox(
-                              width: 80,
-                              child: AppText(
-                                align: TextAlign.center,
-                                text: value.round().toString(),
-                                typography: AppTypography.caption,
-                                color: AppColors.blackPrimary,
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 30,
+                          getTitlesWidget:
+                              (value, meta) => SideTitleWidget(
+                                child: SizedBox(
+                                  width: 80,
+                                  child: AppText(
+                                    align: TextAlign.center,
+                                    text: value.round().toString(),
+                                    typography: AppTypography.caption,
+                                    color: AppColors.blackPrimary,
+                                  ),
+                                ),
+                                meta: meta,
                               ),
-                            ),
-                            meta: meta,
-                          ),
+                        ),
+                      ),
+                      leftTitles: AxisTitles(
+                        axisNameWidget: AppText(
+                          text: 'Quantidade de alunos (%)',
+                          typography: AppTypography.subtitle2,
+                          color: AppColors.blackPrimary,
+                        ),
+                        axisNameSize: 20,
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          getTitlesWidget:
+                              (value, meta) => SideTitleWidget(
+                                meta: meta,
+                                space: 4,
+                                child: Text(
+                                  value.round().toString(),
+                                  style: AppTypography.caption,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                          interval: 10,
+                          reservedSize: 30,
+                        ),
+                      ),
+                      topTitles: const AxisTitles(),
+                      rightTitles: const AxisTitles(),
                     ),
+                    barGroups: _getBarChartGroupsData(
+                      data.privateSchoolDistribution,
+                      data.publicSchoolDistribution,
+                      visualizationMode.value,
+                    ),
+                    gridData: FlGridData(
+                      drawVerticalLine: false,
+                      horizontalInterval: 10,
+                    ),
+                    borderData: FlBorderData(show: false),
                   ),
-                  leftTitles: AxisTitles(
-                    axisNameWidget: AppText(
-                      text: 'Quantidade de alunos (%)',
-                      typography: AppTypography.subtitle2,
-                      color: AppColors.blackPrimary,
-                    ),
-                    axisNameSize: 20,
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      getTitlesWidget:
-                          (value, meta) => SideTitleWidget(
-                            meta: meta,
-                            space: 4,
-                            child: Text(
-                              value.round().toString(),
-                              style: AppTypography.caption,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                      interval: 10,
-                      reservedSize: 30,
-                    ),
-                  ),
-                  topTitles: const AxisTitles(),
-                  rightTitles: const AxisTitles(),
                 ),
-                barGroups: _getBarChartGroupsData(
-                  data.privateSchoolDistribution,
-                  data.publicSchoolDistribution,
-                  visualizationMode.value,
-                ),
-                gridData: FlGridData(
-                  drawVerticalLine: false,
-                  horizontalInterval: 10,
-                ),
-                borderData: FlBorderData(show: false),
               ),
             ),
           ),

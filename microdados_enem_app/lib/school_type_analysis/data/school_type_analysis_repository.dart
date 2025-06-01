@@ -46,4 +46,16 @@ class SchoolTypeAnalysisRepository {
     );
     return ScoreDistributionBySchoolTypeResponse.fromJson(response);
   }
+
+  Future<ScoreDistributionBySchoolTypeResponse>
+  getScoreDistributionBySchoolTypeForEssay(BuildContext context) async {
+    final route = 'analysis/score-distribution-by-school-type/essay';
+
+    final response = await _httpClient.get(
+      route,
+      timeout: Duration(seconds: 10),
+      cache: AppCache(context: context, key: route),
+    );
+    return ScoreDistributionBySchoolTypeResponse.fromJson(response);
+  }
 }
