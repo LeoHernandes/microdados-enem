@@ -180,7 +180,7 @@ class _CardContent extends StatelessWidget {
                                 ),
                               ),
                           interval: 200,
-                          reservedSize: 42,
+                          reservedSize: 35,
                         ),
                       ),
                       topTitles: const AxisTitles(),
