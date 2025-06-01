@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
 import 'package:microdados_enem_app/core/design_system/button/card_button.dart';
-import 'package:microdados_enem_app/core/design_system/dotted_line/dotted_line.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
 import 'package:microdados_enem_app/core/routes.dart';
@@ -21,14 +20,9 @@ class HomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SubscriptionNumber(),
-          SizedBox(height: 20),
           BlocProvider(
             create: (_) => ParticipantScoreCubit(),
             child: UserScoreCard(),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
-            child: DottedDivider(),
           ),
           AppText(
             text: 'Análises',

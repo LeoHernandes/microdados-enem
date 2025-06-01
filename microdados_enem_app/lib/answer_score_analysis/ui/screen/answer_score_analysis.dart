@@ -92,10 +92,7 @@ class AnswerScoreAnalysis extends HookWidget {
               area: selectedArea.value,
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
-            child: DottedDivider(),
-          ),
+
           BlocProvider(
             create: (_) => ParticipantScoreOnAreaCubit(),
             child: UserScoreOnArea(area: selectedArea.value),

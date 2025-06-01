@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:microdados_enem_app/core/design_system/app_card/app_card.dart';
 import 'package:microdados_enem_app/core/design_system/app_text/app_text.dart';
+import 'package:microdados_enem_app/core/design_system/dotted_line/dotted_line.dart';
 import 'package:microdados_enem_app/core/design_system/nothing/nothing.dart';
 import 'package:microdados_enem_app/core/design_system/styles/colors.dart';
 import 'package:microdados_enem_app/core/design_system/styles/typography.dart';
@@ -40,92 +41,101 @@ class UserScoreOnArea extends HookWidget {
       builder:
           (context, state) => state.whenOrDefault(
             isSuccess:
-                (data) => AppCard(
-                  shadow: true,
-                  body: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
+                (data) => Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      child: DottedDivider(),
+                    ),
+                    AppCard(
+                      shadow: true,
+                      body: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          AppText(
-                            text: 'Seu desempenho em ${area.displayName}',
-                            typography: AppTypography.subtitle1,
-                            color: AppColors.blackPrimary,
+                          Row(
+                            children: [
+                              AppText(
+                                text: 'Seu desempenho em ${area.displayName}',
+                                typography: AppTypography.subtitle1,
+                                color: AppColors.blackPrimary,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          SizedBox(
-                            width: 150,
-                            height: 150,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                PieChart(
-                                  PieChartData(
-                                    startDegreeOffset: 270,
-                                    sectionsSpace: 0,
-                                    centerSpaceRadius: 45,
-                                    sections: [
-                                      PieChartSectionData(
-                                        value:
-                                            data.rightAnswersCount.toDouble(),
-                                        color: AppColors.bluePrimary,
-                                        radius: 25,
-                                        title: '',
-                                      ),
-                                      PieChartSectionData(
-                                        value:
-                                            (45 - data.rightAnswersCount)
-                                                .toDouble(),
-                                        color: AppColors.blackLightest,
-                                        radius: 25,
-                                        title: '',
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              SizedBox(
+                                width: 150,
+                                height: 150,
+                                child: Stack(
+                                  alignment: Alignment.center,
                                   children: [
-                                    AppText(
-                                      text: '${data.rightAnswersCount}/45',
-                                      typography: AppTypography.headline6,
-                                      color: AppColors.blackPrimary,
+                                    PieChart(
+                                      PieChartData(
+                                        startDegreeOffset: 270,
+                                        sectionsSpace: 0,
+                                        centerSpaceRadius: 45,
+                                        sections: [
+                                          PieChartSectionData(
+                                            value:
+                                                data.rightAnswersCount
+                                                    .toDouble(),
+                                            color: AppColors.bluePrimary,
+                                            radius: 25,
+                                            title: '',
+                                          ),
+                                          PieChartSectionData(
+                                            value:
+                                                (45 - data.rightAnswersCount)
+                                                    .toDouble(),
+                                            color: AppColors.blackLightest,
+                                            radius: 25,
+                                            title: '',
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    AppText(
-                                      text:
-                                          '${(data.rightAnswersCount * 100 / 45).toStringAsFixed(1)}%',
-                                      typography: AppTypography.caption,
-                                      color: AppColors.blackLighter,
+                                    Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        AppText(
+                                          text: '${data.rightAnswersCount}/45',
+                                          typography: AppTypography.headline6,
+                                          color: AppColors.blackPrimary,
+                                        ),
+                                        AppText(
+                                          text:
+                                              '${(data.rightAnswersCount * 100 / 45).toStringAsFixed(1)}%',
+                                          typography: AppTypography.caption,
+                                          color: AppColors.blackLighter,
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
-                          ),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              AppText(
-                                text: 'Nota final',
-                                typography: AppTypography.headline6,
-                                color: AppColors.blackLighter,
                               ),
-                              AppText(
-                                text: data.score,
-                                typography: AppTypography.headline6,
-                                color: AppColors.blackPrimary,
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  AppText(
+                                    text: 'Nota final',
+                                    typography: AppTypography.headline6,
+                                    color: AppColors.blackLighter,
+                                  ),
+                                  AppText(
+                                    text: data.score,
+                                    typography: AppTypography.headline6,
+                                    color: AppColors.blackPrimary,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
             defaultValue: Nothing(),
           ),
