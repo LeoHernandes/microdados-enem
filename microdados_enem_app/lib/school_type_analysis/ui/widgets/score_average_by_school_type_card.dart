@@ -118,6 +118,7 @@ class _CardContent extends StatelessWidget {
                     barTouchData: BarTouchData(
                       enabled: true,
                       touchTooltipData: BarTouchTooltipData(
+                        fitInsideVertically: true,
                         getTooltipColor: (group) => AppColors.whitePrimary,
                         tooltipPadding: EdgeInsets.all(2),
                         tooltipMargin: 4,
@@ -147,7 +148,10 @@ class _CardContent extends StatelessWidget {
                                   child: AppText(
                                     align: TextAlign.center,
                                     text:
-                                        _axisToArea[value.toInt()]!.displayName,
+                                        value.toInt() < 5
+                                            ? _axisToArea[value.toInt()]!
+                                                .displayName
+                                            : 'Redação',
                                     typography: AppTypography.caption,
                                     color: AppColors.blackPrimary,
                                   ),
@@ -202,6 +206,11 @@ class _CardContent extends StatelessWidget {
                         4,
                         data.privateSchoolScores.averageMT,
                         data.publicSchoolScores.averageMT,
+                      ),
+                      _makeGroupData(
+                        5,
+                        data.privateSchoolScores.averageEssay,
+                        data.publicSchoolScores.averageEssay,
                       ),
                     ],
                     gridData: FlGridData(
