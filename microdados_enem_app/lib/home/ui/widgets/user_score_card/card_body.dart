@@ -23,23 +23,29 @@ class CardBody extends StatelessWidget {
 
         _ScoreRow(
           label: 'Linguagens, Códigos e suas Tecnologias',
-          value: '663',
+          value: participantScore.scoreLC,
         ),
         _TableDivider(),
 
-        _ScoreRow(label: 'Ciências Humanas e suas Tecnologias', value: '648'),
+        _ScoreRow(
+          label: 'Ciências Humanas e suas Tecnologias',
+          value: participantScore.scoreCH,
+        ),
         _TableDivider(),
 
         _ScoreRow(
           label: 'Ciências da Natureza e suas Tecnologias',
-          value: '634,3',
+          value: participantScore.scoreCN,
         ),
         _TableDivider(),
 
-        _ScoreRow(label: 'Matemática e suas Tecnologias', value: '869,7'),
+        _ScoreRow(
+          label: 'Matemática e suas Tecnologias',
+          value: participantScore.scoreMT,
+        ),
         _TableDivider(),
 
-        _ScoreRow(label: 'Redação', value: '920'),
+        _ScoreRow(label: 'Redação', value: participantScore.scoreRE),
         _TableDivider(),
 
         Row(
@@ -50,7 +56,7 @@ class CardBody extends StatelessWidget {
               typography: AppTypography.subtitle2,
             ),
             AppText(
-              text: '869,7',
+              text: participantScore.scoreMean,
               color: AppColors.blackPrimary,
               typography: AppTypography.subtitle2,
             ),
