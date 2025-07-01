@@ -36,54 +36,56 @@ class OnboardingPage extends HookWidget {
           (_, _) => {step.value = _previousStep(step.value)},
       child: Scaffold(
         backgroundColor: AppColors.whitePrimary,
-        body: Padding(
-          padding: EdgeInsetsDirectional.symmetric(
-            horizontal: 16,
-            vertical: 56,
-          ),
-          child: switch (step.value) {
-            OnboardingStep.Welcome => WelcomeStep(
-              onNextStep: () => step.value = OnboardingStep.Warning,
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsetsDirectional.symmetric(
+              horizontal: 16,
+              vertical: 56,
             ),
-            OnboardingStep.Warning => WarningStep(
-              onNextStep: () => step.value = OnboardingStep.SelectProfile,
-            ),
-            OnboardingStep.SelectProfile => SelectProfileStep(
-              onNextStep:
-                  (profile) => switch (profile) {
-                    ProfileType.student =>
-                      step.value = OnboardingStep.StudentVerification,
-                    ProfileType.teacher =>
-                      step.value = OnboardingStep.TeacherSuccess,
+            child: switch (step.value) {
+              OnboardingStep.Welcome => WelcomeStep(
+                onNextStep: () => step.value = OnboardingStep.Warning,
+              ),
+              OnboardingStep.Warning => WarningStep(
+                onNextStep: () => step.value = OnboardingStep.SelectProfile,
+              ),
+              OnboardingStep.SelectProfile => SelectProfileStep(
+                onNextStep:
+                    (profile) => switch (profile) {
+                      ProfileType.student =>
+                        step.value = OnboardingStep.StudentVerification,
+                      ProfileType.teacher =>
+                        step.value = OnboardingStep.TeacherSuccess,
+                    },
+              ),
+              OnboardingStep.StudentVerification => BlocProvider(
+                create: (_) => OnboardingStateCubit(),
+                child: StudentVerificationStep(
+                  onNextStep: () {
+                    step.value = OnboardingStep.StudentSuccess;
                   },
-            ),
-            OnboardingStep.StudentVerification => BlocProvider(
-              create: (_) => OnboardingStateCubit(),
-              child: StudentVerificationStep(
-                onNextStep: () {
-                  step.value = OnboardingStep.StudentSuccess;
+                ),
+              ),
+              OnboardingStep.StudentSuccess => StudentSuccessStep(
+                onNextStep: () async {
+                  await localStorage.setBool(
+                    StorageKeys.isOnboardingComplete,
+                    true,
+                  );
+                  Navigator.pushNamed(context, Routes.home);
                 },
               ),
-            ),
-            OnboardingStep.StudentSuccess => StudentSuccessStep(
-              onNextStep: () async {
-                await localStorage.setBool(
-                  StorageKeys.isOnboardingComplete,
-                  true,
-                );
-                Navigator.pushNamed(context, Routes.home);
-              },
-            ),
-            OnboardingStep.TeacherSuccess => TeacherSuccessStep(
-              onNextStep: () async {
-                await localStorage.setBool(
-                  StorageKeys.isOnboardingComplete,
-                  true,
-                );
-                Navigator.pushNamed(context, Routes.home);
-              },
-            ),
-          },
+              OnboardingStep.TeacherSuccess => TeacherSuccessStep(
+                onNextStep: () async {
+                  await localStorage.setBool(
+                    StorageKeys.isOnboardingComplete,
+                    true,
+                  );
+                  Navigator.pushNamed(context, Routes.home);
+                },
+              ),
+            },
+          ),
         ),
       ),
     );

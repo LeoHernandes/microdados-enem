@@ -19,33 +19,35 @@ class AppBottomsheet {
     showModalBottomSheet<void>(
       context: context,
       builder: (context) {
-        return Container(
-          decoration: BoxDecoration(
-            color: AppColors.whitePrimary,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
-            ),
-          ),
-          padding: EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              builder(context),
-              Visibility(
-                visible: onPrimaryButtonTap != null,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Button.terciary(
-                      size: Size(80, 36),
-                      text: primaryButtonLabel ?? 'ENTENDI',
-                      onPressed: onPrimaryButtonTap,
-                    ),
-                  ],
-                ),
+        return SafeArea(
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.whitePrimary,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
               ),
-            ],
+            ),
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                builder(context),
+                Visibility(
+                  visible: onPrimaryButtonTap != null,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Button.terciary(
+                        size: Size(80, 36),
+                        text: primaryButtonLabel ?? 'ENTENDI',
+                        onPressed: onPrimaryButtonTap,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

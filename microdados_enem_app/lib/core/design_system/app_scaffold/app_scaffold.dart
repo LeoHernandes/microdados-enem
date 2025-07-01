@@ -39,11 +39,13 @@ class AppScaffold extends StatelessWidget {
         ),
       ),
 
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        child: body,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          child: body,
+        ),
       ),
-      bottomNavigationBar: BottomNav(selectedTab: selectedTab),
+      bottomNavigationBar: SafeArea(child: BottomNav(selectedTab: selectedTab)),
     );
   }
 }
